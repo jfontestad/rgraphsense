@@ -1,0 +1,22 @@
+Package: graphsense
+Title: Client for the GraphSense API
+Version: 0.1.0
+Date: 2019-08-05
+Authors@R: 
+    person(given = "Rainer",
+           family = "Stuetz",
+           role = c("aut", "cre"),
+           email = "rainer.stuetz@gmail.com",
+           comment = c(ORCID = "0000-0001-9244-1441"))
+Description: Provides function to access to GraphSense REST API (https://graphsense.info) for cryptocurrency analytics.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.1)
+Imports:
+    httr,
+    purrr,
+    tibble
+Suggests:
+    testthat
+RoxygenNote: 6.1.1
