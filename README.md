@@ -5,16 +5,27 @@ This R package provides functions to access to REST API of the
 
 ## Installation
 
-- Install the `devtools` package
+- Install the `devtools` or `remotes` package
 
 ```
 install.packages("devtools")
 ```
+or
+```
+install.packages("remotes")
+```
 
-- Install the `graphsense` package from GitHub
+- Install the `graphsense` package from GitHub:
 
+Using `devtools`:
 ```
 library("devtools")
+install_github("graphsense/rgraphsense")
+```
+
+or using `remotes`:
+```
+library("remotes")
 install_github("graphsense/rgraphsense")
 ```
 
