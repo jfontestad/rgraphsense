@@ -19,14 +19,14 @@ tx <- function(tx_hash, currency = supported_currencies(),
   stopifnot(length(tx_hash) == 1)
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/tx/%s", currency, tx_hash))
+                    path = sprintf("%s/txs/%s", currency, tx_hash))
   tmp <- get_request(url, token)
   tmp_io <- append(tmp$inputs, tmp$outputs)
   tmp_common <- as_tibble(discard(tmp, ~ is.list(.)))
   tibble(address = map_chr(tmp_io, ~ .$address),
          value = map_df(tmp_io, ~.$value),
-         txHash = tmp_common$txHash,
-         coinbase = tmp_common$txHash,
+         txHash = tmp_common$tx_hash,
+         coinbase = tmp_common$coinbase,
          height = tmp_common$height,
          timestamp = tmp_common$timestamp,
          type = c(rep("in", length(tmp$inputs)),

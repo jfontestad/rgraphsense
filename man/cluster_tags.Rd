@@ -22,6 +22,6 @@ Get tag information of an cluster
 \examples{
 \dontrun{
 set_token("GRAPHSENSE_API_TOKEN")
-cluster_tags(17642139)
+cluster_tags(17642138)
 }
 }

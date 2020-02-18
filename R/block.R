@@ -12,19 +12,18 @@
 #' set_token("GRAPHSENSE_API_TOKEN")
 #' block(100000)
 #' }
-
 block <- function(block, currency = supported_currencies(),
                   api = get_api(), token = get_token()) {
 
   stopifnot(length(block) == 1)
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/block/%d", currency, block))
+                    path = sprintf("%s/blocks/%d", currency, block))
   as_tibble(get_request(url, token))
 }
 
 
-#' Check if a block is known by GraphSense
+#' Check if a block is included in GraphSense
 #'
 #' @param block An integer scalar to specify a cryptocurrency address.
 #' @param currency A character scalar to specify the currency ticker symbol.
@@ -61,12 +60,12 @@ block_txs <- function(block, currency = supported_currencies(),
 
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/block/%d/transactions", currency, block))
+                    path = sprintf("%s/blocks/%d/txs", currency, block))
   tmp <- get_request(url, token)
   tibble(height = tmp$height,
-         txHash = map_chr(tmp$txs, ~ .$txHash),
-         noInputs = map_int(tmp$txs, ~ .$noInputs),
-         noOutputs = map_int(tmp$txs, ~ .$noOutputs),
-         totalInput = map_df(tmp$txs, ~ .$totalInput),
-         totalOutput = map_df(tmp$txs, ~ .$totalOutput))
+         txHash = map_chr(tmp$txs, ~ .$tx_hash),
+         noInputs = map_int(tmp$txs, ~ .$no_inputs),
+         noOutputs = map_int(tmp$txs, ~ .$no_outputs),
+         totalInput = map_df(tmp$txs, ~ .$total_input),
+         totalOutput = map_df(tmp$txs, ~ .$total_output))
 }

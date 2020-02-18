@@ -1,5 +1,24 @@
 supported_currencies <- function() c("btc", "bch", "ltc", "zec")
 
+#' Authentication function for GraphSense API
+#'
+#' Log into GraphSense API and retrieve authorization token
+#'
+#' @param username A character scalar to specify the username.
+#' @param password A character scalar to specify the password.
+#' @param api GraphSense API URL.
+#' @export
+authenticate <- function(username, password, api = get_api()) {
+  url <- modify_url(api, path = "login")
+  response <- POST(url,
+                   body = list("username" = username, "password" = password),
+                   encode = "json")
+  if (status_code(response) != 200) stop(content(response))
+  else set_token(content(response)$Authorization)
+  invisible(NULL)
+}
+
+
 #' Set GraphSense API token
 #'
 #' Sets an API token to make available for all API calls. See details
@@ -27,7 +46,7 @@ get_token <- function() {
     stop(paste("No API token provided. Use either set_token() to set a token,",
                "or provide it as a function argument in the 'token' parameter"))
   }
-  paste0("Bearer ", key)
+  key
 }
 
 

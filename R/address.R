@@ -19,8 +19,10 @@ address <- function(address, currency = supported_currencies(),
   stopifnot(length(address) == 1)
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/address/%s", currency, address))
-  as_tibble(map_if(get_request(url, token), is.list, as_tibble))
+                    path = sprintf("%s/addresses/%s", currency, address))
+  tmp <<- get_request(url, token)
+  tmp[["tags"]] <- NULL
+  as_tibble(map_if(tmp, is.list, as_tibble))
 }
 
 
@@ -61,41 +63,13 @@ address_cluster <- function(address, currency = supported_currencies(),
 
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/address/%s/cluster",
+                    path = sprintf("%s/addresses/%s/entity",
                                    currency, address))
-  as_tibble(map_if(get_request(url, token), is.list, as_tibble))
+  tmp <<- get_request(url, token)
+  tmp[["tags"]] <- NULL
+  as_tibble(tmp, is.list, as_tibble)
 }
 
-
-#' Get tag information for the associated cluster of an address
-#'
-#' @param address A character scalar to specify a cryptocurrency address.
-#' @param currency A character scalar to specify the currency ticker symbol.
-#' @param api GraphSense API URL.
-#' @param token GraphSense API token.
-#' @importFrom httr modify_url
-#' @export
-#' @examples
-#' \dontrun{
-#' set_token("GRAPHSENSE_API_TOKEN")
-#' address_implicit_tags("16SLJL6RCqHjySsKEdaEnNRWTrMhv6S8Z5")
-#' }
-address_implicit_tags <- function(address, currency = supported_currencies(),
-                                  api = get_api(), token = get_token()) {
-
-  stopifnot(length(address) == 1)
-  if (!is_known_address(address)) {
-    stop(sprintf("Unknown address: %s", address))
-  }
-
-  currency <- match.arg(currency)
-  url <- modify_url(api,
-                    path = sprintf("%s/address/%s/implicitTags",
-                                   currency, address))
-  tmp <- get_request(url, token)
-  tmp <- modify_depth(tmp, 2, function(x) if (is.null(x)) NA else x)
-  map_df(tmp, ~ as_tibble(.))
-}
 
 
 #' Get directly connected addresses of an address
@@ -128,16 +102,16 @@ address_neighbors <- function(address, direction = c("in", "out"),
 
   currency <- match.arg(currency)
   direction <- match.arg(direction)
-  path = sprintf("%s/address/%s/neighbors", currency, address)
+  path <- sprintf("%s/addresses/%s/neighbors", currency, address)
   url <- modify_url(api, path = path,
                     query = list("direction" = direction,
                                  "pagesize" = pagesize))
   tmp <- get_request(url, token)
   res <- tmp$neighbors
-  while (!is.null(tmp$nextPage)) {
+  while (!is.null(tmp$next_page)) {
     url <- modify_url(api, path = path,
                       query = list("direction" = direction,
-                                   "page" = tmp$nextPage, 
+                                   "page" = tmp$next_page, 
                                    "pagesize" = pagesize))
     tmp <- get_request(url, token)
     res <- append(res, tmp$neighbors)
@@ -145,7 +119,7 @@ address_neighbors <- function(address, direction = c("in", "out"),
   add_column(map_df(res, function(v) discard(v, ~is.list(.))),
              balance = map_df(res, ~ .$balance),
              received = map_df(res, ~ .$received),
-             estimatedValue = map_df(res, ~ .$estimatedValue),
+             estimated_value = map_df(res, ~ .$estimated_value),
              direction = direction)
 }
 
@@ -175,7 +149,7 @@ address_tags <- function(address, currency = supported_currencies(),
 
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/address/%s/tags",
+                    path = sprintf("%s/addresses/%s/tags",
                                    currency, address))
   tmp <- get_request(url, token)
   tmp <- modify_depth(tmp, 2, function(x) if (is.null(x)) NA else x)
@@ -210,17 +184,17 @@ address_txs <- function(address, currency = supported_currencies(),
   }
 
   currency <- match.arg(currency)
-  path <- sprintf("%s/address/%s/transactions", currency, address)
+  path <- sprintf("%s/addresses/%s/txs", currency, address)
   url <- modify_url(api, path = path,
                     query = list("pagesize" = pagesize))
   tmp <- get_request(url, token)
-  res <- tmp$transactions
-  while (!is.null(tmp$nextPage)) {
+  res <- tmp$address_txs
+  while (!is.null(tmp$next_page)) {
     url <- modify_url(api, path = path,
-                      query = list("page" = tmp$nextPage, 
+                      query = list("page" = tmp$next_page, 
                                    "pagesize" = pagesize))
     tmp <- get_request(url, token)
-    res <- append(res, tmp$transactions)
+    res <- append(res, tmp$address_txs)
   }
   add_column(map_df(res, function(v) discard(v, ~is.list(.))),
              value = map_df(res, ~.$value))

@@ -11,7 +11,7 @@
 #' @examples
 #' \dontrun{
 #' set_token("GRAPHSENSE_API_TOKEN")
-#' cluster(17642139)
+#' cluster(17642138)
 #' }
 cluster <- function(cluster, currency = supported_currencies(),
                     api = get_api(), token = get_token()) {
@@ -19,8 +19,10 @@ cluster <- function(cluster, currency = supported_currencies(),
   stopifnot(length(cluster) == 1)
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/cluster/%d", currency, cluster))
-  as_tibble(map_if(get_request(url, token), is.list, as_tibble))
+                    path = sprintf("%s/entities/%d", currency, cluster))
+  tmp <<- get_request(url, token)
+  tmp[["tags"]] <- NULL
+  as_tibble(map_if(tmp, is.list, as_tibble))
 }
 
 
@@ -50,7 +52,7 @@ is_known_cluster <- function(cluster, currency = supported_currencies(),
 #' @examples
 #' \dontrun{
 #' set_token("GRAPHSENSE_API_TOKEN")
-#' cluster(17642139)
+#' cluster(17642138)
 #' }
 cluster_addresses <- function(cluster, currency = supported_currencies(),
                               pagesize = 1000L, api = get_api(),
@@ -62,14 +64,14 @@ cluster_addresses <- function(cluster, currency = supported_currencies(),
   }
 
   currency <- match.arg(currency)
-  path <- sprintf("%s/cluster/%d/addresses", currency, cluster)
+  path <- sprintf("%s/entities/%d/addresses", currency, cluster)
   url <- modify_url(api, path=path,
                     query = list("pagesize" = pagesize))
   tmp <- get_request(url, token)
   res <- modify_depth(tmp$addresses, 2, function(x) if (is.null(x)) NA else x)
-  while (!is.null(tmp$nextPage)) {
+  while (!is.null(tmp$next_page)) {
     url <- modify_url(api, path = path,
-                      query = list("page" = tmp$nextPage, 
+                      query = list("page" = tmp$next_page, 
                                    "pagesize" = pagesize))
     tmp <- get_request(url, token)
     res <- append(res,
@@ -78,10 +80,10 @@ cluster_addresses <- function(cluster, currency = supported_currencies(),
   }
   res <- add_column(map_df(res, function(v) discard(v, ~is.list(.))),
                     balance = map_df(res, ~ .$balance),
-                    firstTx = map_df(res, ~ .$firstTx),
-                    lastTx = map_df(res, ~ .$lastTx),
-                    totalReceived = map_df(res, ~ .$totalReceived),
-                    totalSpent = map_df(res, ~ .$totalSpent))
+                    first_tx = map_df(res, ~ .$first_tx),
+                    last_tx = map_df(res, ~ .$last_tx),
+                    total_received = map_df(res, ~ .$total_received),
+                    total_spent = map_df(res, ~ .$total_spent))
   res$address_prefix <- substr(res$address, 1, 5)
   res
 }
@@ -102,7 +104,7 @@ cluster_addresses <- function(cluster, currency = supported_currencies(),
 #' @examples
 #' \dontrun{
 #' set_token("GRAPHSENSE_API_TOKEN")
-#' cluster_neighbors(17642139)
+#' cluster_neighbors(17642138)
 #' }
 cluster_neighbors <- function(cluster, direction = c("in", "out"),
                               currency = supported_currencies(),
@@ -117,16 +119,16 @@ cluster_neighbors <- function(cluster, direction = c("in", "out"),
 
   currency <- match.arg(currency)
   direction <- match.arg(direction)
-  path <- sprintf("%s/cluster/%d/neighbors", currency, cluster)
+  path <- sprintf("%s/entities/%d/neighbors", currency, cluster)
   url <- modify_url(api, path = path,
                     query = list("direction" = direction,
                                  "pagesize" = pagesize))
   tmp <- get_request(url, token)
   res <- tmp$neighbors
-  while (!is.null(tmp$nextPage)) {
+  while (!is.null(tmp$next_page)) {
     url <- modify_url(api, path = path,
                       query = list("direction" = direction,
-                                   "page" = tmp$nextPage, 
+                                   "page" = tmp$next_page, 
                                    "pagesize" = pagesize))
     tmp <- get_request(url, token)
     res <- append(res, tmp$neighbors)
@@ -134,7 +136,7 @@ cluster_neighbors <- function(cluster, direction = c("in", "out"),
   add_column(map_df(res, function(v) discard(v, ~is.list(.))),
              balance = map_df(res, ~ .$balance),
              received = map_df(res, ~ .$received),
-             estimatedValue = map_df(res, ~ .$estimatedValue))
+             estimated_value = map_df(res, ~ .$estimated_value))
 }
 
 
@@ -151,7 +153,7 @@ cluster_neighbors <- function(cluster, direction = c("in", "out"),
 #' @examples
 #' \dontrun{
 #' set_token("GRAPHSENSE_API_TOKEN")
-#' cluster_tags(17642139)
+#' cluster_tags(17642138)
 #' }
 cluster_tags <- function(cluster, currency = supported_currencies(),
                          api = get_api(), token = get_token()) {
@@ -163,7 +165,7 @@ cluster_tags <- function(cluster, currency = supported_currencies(),
 
   currency <- match.arg(currency)
   url <- modify_url(api,
-                    path = sprintf("%s/cluster/%d/tags",
+                    path = sprintf("%s/entities/%d/tags",
                                    currency, cluster))
   tmp <- get_request(url, token)
   tmp <- modify_depth(tmp, 2, function(x) if (is.null(x)) NA else x)

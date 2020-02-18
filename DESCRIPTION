@@ -1,7 +1,7 @@
 Package: graphsense
 Title: Client for the GraphSense API
-Version: 0.1.0
-Date: 2019-08-05
+Version: 0.2.0
+Date: 2020-02-18
 Authors@R: 
     person(given = "Rainer",
            family = "Stuetz",

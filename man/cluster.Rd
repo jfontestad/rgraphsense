@@ -22,6 +22,6 @@ Get basic cluster information
 \examples{
 \dontrun{
 set_token("GRAPHSENSE_API_TOKEN")
-cluster(17642139)
+cluster(17642138)
 }
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/block.R
 \name{is_known_block}
 \alias{is_known_block}
-\title{Check if a block is known by GraphSense}
+\title{Check if a block is included in GraphSense}
 \usage{
 is_known_block(block, currency = supported_currencies(),
   api = get_api(), token = get_token())
@@ -17,5 +17,5 @@ is_known_block(block, currency = supported_currencies(),
 \item{token}{GraphSense API token.}
 }
 \description{
-Check if a block is known by GraphSense
+Check if a block is included in GraphSense
 }

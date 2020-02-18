@@ -27,6 +27,6 @@ Get directly connected clusters of a cluster
 \examples{
 \dontrun{
 set_token("GRAPHSENSE_API_TOKEN")
-cluster_neighbors(17642139)
+cluster_neighbors(17642138)
 }
 }

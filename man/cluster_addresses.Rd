@@ -24,6 +24,6 @@ Get basic information of all addresses in a cluster
 \examples{
 \dontrun{
 set_token("GRAPHSENSE_API_TOKEN")
-cluster(17642139)
+cluster(17642138)
 }
 }
