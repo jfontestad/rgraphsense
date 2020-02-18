@@ -1,6 +1,6 @@
 # R client for the GraphSense REST API
 
-This R package provides functions to access to REST API of the
+This R package provides functions to access to [REST API][rest-api] of the
 [GraphSense][graphsense] cryptocurrency analytics platform.
 
 ## Installation
@@ -33,11 +33,11 @@ install_github("graphsense/rgraphsense")
 
 An access token is required to use the provided functions in the
 `graphsense` package. After loading the package execute the
-`set_token()` function
+`authenticate()` or `set_token()` function:
 
 ```
 library("graphsense")
-set_token("YOUR_API_TOKEN")
+authenticate("%USERNAME%", "%PASSWORD%")
 
 block(1)
 # # A tibble: 1 x 4
@@ -47,3 +47,4 @@ block(1)
 ```
 
 [graphsense]: https://graphsense.info
+[rest-api]: https://api.graphsense.info
