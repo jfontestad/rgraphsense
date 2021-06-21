@@ -13,9 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field next_page  character [optional]
-#'
 #' @field address_txs  list( \link{AddressTx} ) [optional]
+#'
+#' @field next_page  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,60 +23,60 @@
 AddressTxs <- R6::R6Class(
   'AddressTxs',
   public = list(
-    `next_page` = NULL,
     `address_txs` = NULL,
+    `next_page` = NULL,
     initialize = function(
-        `next_page`=NULL, `address_txs`=NULL, ...
+        `address_txs`=NULL, `next_page`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`next_page`)) {
-        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
-        self$`next_page` <- `next_page`
-      }
       if (!is.null(`address_txs`)) {
         stopifnot(is.vector(`address_txs`), length(`address_txs`) != 0)
         sapply(`address_txs`, function(x) stopifnot(R6::is.R6(x)))
         self$`address_txs` <- `address_txs`
       }
+      if (!is.null(`next_page`)) {
+        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
+        self$`next_page` <- `next_page`
+      }
     },
     toJSON = function() {
       AddressTxsObject <- list()
-      if (!is.null(self$`next_page`)) {
-        AddressTxsObject[['next_page']] <-
-          self$`next_page`
-      }
       if (!is.null(self$`address_txs`)) {
         AddressTxsObject[['address_txs']] <-
           lapply(self$`address_txs`, function(x) x$toJSON())
+      }
+      if (!is.null(self$`next_page`)) {
+        AddressTxsObject[['next_page']] <-
+          self$`next_page`
       }
 
       AddressTxsObject
     },
     fromJSON = function(AddressTxsJson) {
       AddressTxsObject <- jsonlite::fromJSON(AddressTxsJson)
-      if (!is.null(AddressTxsObject$`next_page`)) {
-        self$`next_page` <- AddressTxsObject$`next_page`
-      }
       if (!is.null(AddressTxsObject$`address_txs`)) {
         self$`address_txs` <- ApiClient$new()$deserializeObj(AddressTxsObject$`address_txs`, "array[AddressTx]", loadNamespace("openapi"))
+      }
+      if (!is.null(AddressTxsObject$`next_page`)) {
+        self$`next_page` <- AddressTxsObject$`next_page`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`next_page`)) {
-        sprintf(
-        '"next_page":
-          "%s"
-                ',
-        self$`next_page`
-        )},
         if (!is.null(self$`address_txs`)) {
         sprintf(
         '"address_txs":
         [%s]
 ',
         paste(sapply(self$`address_txs`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
+        if (!is.null(self$`next_page`)) {
+        sprintf(
+        '"next_page":
+          "%s"
+                ',
+        self$`next_page`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -84,8 +84,8 @@ AddressTxs <- R6::R6Class(
     },
     fromJSONString = function(AddressTxsJson) {
       AddressTxsObject <- jsonlite::fromJSON(AddressTxsJson)
-      self$`next_page` <- AddressTxsObject$`next_page`
       self$`address_txs` <- ApiClient$new()$deserializeObj(AddressTxsObject$`address_txs`, "array[AddressTx]", loadNamespace("openapi"))
+      self$`next_page` <- AddressTxsObject$`next_page`
       self
     }
   )

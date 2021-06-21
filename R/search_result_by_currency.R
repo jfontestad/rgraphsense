@@ -13,9 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field currency  character [optional]
-#'
 #' @field addresses  list( character ) [optional]
+#'
+#' @field currency  character [optional]
 #'
 #' @field txs  list( character ) [optional]
 #'
@@ -25,21 +25,21 @@
 SearchResultByCurrency <- R6::R6Class(
   'SearchResultByCurrency',
   public = list(
-    `currency` = NULL,
     `addresses` = NULL,
+    `currency` = NULL,
     `txs` = NULL,
     initialize = function(
-        `currency`=NULL, `addresses`=NULL, `txs`=NULL, ...
+        `addresses`=NULL, `currency`=NULL, `txs`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`currency`)) {
-        stopifnot(is.character(`currency`), length(`currency`) == 1)
-        self$`currency` <- `currency`
-      }
       if (!is.null(`addresses`)) {
         stopifnot(is.vector(`addresses`), length(`addresses`) != 0)
         sapply(`addresses`, function(x) stopifnot(is.character(x)))
         self$`addresses` <- `addresses`
+      }
+      if (!is.null(`currency`)) {
+        stopifnot(is.character(`currency`), length(`currency`) == 1)
+        self$`currency` <- `currency`
       }
       if (!is.null(`txs`)) {
         stopifnot(is.vector(`txs`), length(`txs`) != 0)
@@ -49,13 +49,13 @@ SearchResultByCurrency <- R6::R6Class(
     },
     toJSON = function() {
       SearchResultByCurrencyObject <- list()
-      if (!is.null(self$`currency`)) {
-        SearchResultByCurrencyObject[['currency']] <-
-          self$`currency`
-      }
       if (!is.null(self$`addresses`)) {
         SearchResultByCurrencyObject[['addresses']] <-
           self$`addresses`
+      }
+      if (!is.null(self$`currency`)) {
+        SearchResultByCurrencyObject[['currency']] <-
+          self$`currency`
       }
       if (!is.null(self$`txs`)) {
         SearchResultByCurrencyObject[['txs']] <-
@@ -66,11 +66,11 @@ SearchResultByCurrency <- R6::R6Class(
     },
     fromJSON = function(SearchResultByCurrencyJson) {
       SearchResultByCurrencyObject <- jsonlite::fromJSON(SearchResultByCurrencyJson)
-      if (!is.null(SearchResultByCurrencyObject$`currency`)) {
-        self$`currency` <- SearchResultByCurrencyObject$`currency`
-      }
       if (!is.null(SearchResultByCurrencyObject$`addresses`)) {
         self$`addresses` <- ApiClient$new()$deserializeObj(SearchResultByCurrencyObject$`addresses`, "array[character]", loadNamespace("openapi"))
+      }
+      if (!is.null(SearchResultByCurrencyObject$`currency`)) {
+        self$`currency` <- SearchResultByCurrencyObject$`currency`
       }
       if (!is.null(SearchResultByCurrencyObject$`txs`)) {
         self$`txs` <- ApiClient$new()$deserializeObj(SearchResultByCurrencyObject$`txs`, "array[character]", loadNamespace("openapi"))
@@ -79,19 +79,19 @@ SearchResultByCurrency <- R6::R6Class(
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`currency`)) {
-        sprintf(
-        '"currency":
-          "%s"
-                ',
-        self$`currency`
-        )},
         if (!is.null(self$`addresses`)) {
         sprintf(
         '"addresses":
            [%s]
         ',
         paste(unlist(lapply(self$`addresses`, function(x) paste0('"', x, '"'))), collapse=",")
+        )},
+        if (!is.null(self$`currency`)) {
+        sprintf(
+        '"currency":
+          "%s"
+                ',
+        self$`currency`
         )},
         if (!is.null(self$`txs`)) {
         sprintf(
@@ -106,8 +106,8 @@ SearchResultByCurrency <- R6::R6Class(
     },
     fromJSONString = function(SearchResultByCurrencyJson) {
       SearchResultByCurrencyObject <- jsonlite::fromJSON(SearchResultByCurrencyJson)
-      self$`currency` <- SearchResultByCurrencyObject$`currency`
       self$`addresses` <- ApiClient$new()$deserializeObj(SearchResultByCurrencyObject$`addresses`, "array[character]", loadNamespace("openapi"))
+      self$`currency` <- SearchResultByCurrencyObject$`currency`
       self$`txs` <- ApiClient$new()$deserializeObj(SearchResultByCurrencyObject$`txs`, "array[character]", loadNamespace("openapi"))
       self
     }

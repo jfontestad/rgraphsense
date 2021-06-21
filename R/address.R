@@ -19,21 +19,21 @@
 #'
 #' @field first_tx  \link{TxSummary} 
 #'
-#' @field last_tx  \link{TxSummary} 
-#'
 #' @field in_degree  integer 
 #'
-#' @field out_degree  integer 
+#' @field last_tx  \link{TxSummary} 
 #'
 #' @field no_incoming_txs  integer 
 #'
 #' @field no_outgoing_txs  integer 
 #'
+#' @field out_degree  integer 
+#'
+#' @field tags  list( \link{AddressTag} ) [optional]
+#'
 #' @field total_received  \link{Values} 
 #'
 #' @field total_spent  \link{Values} 
-#'
-#' @field tags  list( \link{AddressTag} ) [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -44,16 +44,16 @@ Address <- R6::R6Class(
     `address` = NULL,
     `balance` = NULL,
     `first_tx` = NULL,
-    `last_tx` = NULL,
     `in_degree` = NULL,
-    `out_degree` = NULL,
+    `last_tx` = NULL,
     `no_incoming_txs` = NULL,
     `no_outgoing_txs` = NULL,
+    `out_degree` = NULL,
+    `tags` = NULL,
     `total_received` = NULL,
     `total_spent` = NULL,
-    `tags` = NULL,
     initialize = function(
-        `address`, `balance`, `first_tx`, `last_tx`, `in_degree`, `out_degree`, `no_incoming_txs`, `no_outgoing_txs`, `total_received`, `total_spent`, `tags`=NULL, ...
+        `address`, `balance`, `first_tx`, `in_degree`, `last_tx`, `no_incoming_txs`, `no_outgoing_txs`, `out_degree`, `total_received`, `total_spent`, `tags`=NULL, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`address`)) {
@@ -68,17 +68,13 @@ Address <- R6::R6Class(
         stopifnot(R6::is.R6(`first_tx`))
         self$`first_tx` <- `first_tx`
       }
-      if (!missing(`last_tx`)) {
-        stopifnot(R6::is.R6(`last_tx`))
-        self$`last_tx` <- `last_tx`
-      }
       if (!missing(`in_degree`)) {
         stopifnot(is.numeric(`in_degree`), length(`in_degree`) == 1)
         self$`in_degree` <- `in_degree`
       }
-      if (!missing(`out_degree`)) {
-        stopifnot(is.numeric(`out_degree`), length(`out_degree`) == 1)
-        self$`out_degree` <- `out_degree`
+      if (!missing(`last_tx`)) {
+        stopifnot(R6::is.R6(`last_tx`))
+        self$`last_tx` <- `last_tx`
       }
       if (!missing(`no_incoming_txs`)) {
         stopifnot(is.numeric(`no_incoming_txs`), length(`no_incoming_txs`) == 1)
@@ -87,6 +83,10 @@ Address <- R6::R6Class(
       if (!missing(`no_outgoing_txs`)) {
         stopifnot(is.numeric(`no_outgoing_txs`), length(`no_outgoing_txs`) == 1)
         self$`no_outgoing_txs` <- `no_outgoing_txs`
+      }
+      if (!missing(`out_degree`)) {
+        stopifnot(is.numeric(`out_degree`), length(`out_degree`) == 1)
+        self$`out_degree` <- `out_degree`
       }
       if (!missing(`total_received`)) {
         stopifnot(R6::is.R6(`total_received`))
@@ -116,17 +116,13 @@ Address <- R6::R6Class(
         AddressObject[['first_tx']] <-
           self$`first_tx`$toJSON()
       }
-      if (!is.null(self$`last_tx`)) {
-        AddressObject[['last_tx']] <-
-          self$`last_tx`$toJSON()
-      }
       if (!is.null(self$`in_degree`)) {
         AddressObject[['in_degree']] <-
           self$`in_degree`
       }
-      if (!is.null(self$`out_degree`)) {
-        AddressObject[['out_degree']] <-
-          self$`out_degree`
+      if (!is.null(self$`last_tx`)) {
+        AddressObject[['last_tx']] <-
+          self$`last_tx`$toJSON()
       }
       if (!is.null(self$`no_incoming_txs`)) {
         AddressObject[['no_incoming_txs']] <-
@@ -136,6 +132,14 @@ Address <- R6::R6Class(
         AddressObject[['no_outgoing_txs']] <-
           self$`no_outgoing_txs`
       }
+      if (!is.null(self$`out_degree`)) {
+        AddressObject[['out_degree']] <-
+          self$`out_degree`
+      }
+      if (!is.null(self$`tags`)) {
+        AddressObject[['tags']] <-
+          lapply(self$`tags`, function(x) x$toJSON())
+      }
       if (!is.null(self$`total_received`)) {
         AddressObject[['total_received']] <-
           self$`total_received`$toJSON()
@@ -143,10 +147,6 @@ Address <- R6::R6Class(
       if (!is.null(self$`total_spent`)) {
         AddressObject[['total_spent']] <-
           self$`total_spent`$toJSON()
-      }
-      if (!is.null(self$`tags`)) {
-        AddressObject[['tags']] <-
-          lapply(self$`tags`, function(x) x$toJSON())
       }
 
       AddressObject
@@ -166,22 +166,25 @@ Address <- R6::R6Class(
         first_txObject$fromJSON(jsonlite::toJSON(AddressObject$first_tx, auto_unbox = TRUE, digits = NA))
         self$`first_tx` <- first_txObject
       }
+      if (!is.null(AddressObject$`in_degree`)) {
+        self$`in_degree` <- AddressObject$`in_degree`
+      }
       if (!is.null(AddressObject$`last_tx`)) {
         last_txObject <- TxSummary$new()
         last_txObject$fromJSON(jsonlite::toJSON(AddressObject$last_tx, auto_unbox = TRUE, digits = NA))
         self$`last_tx` <- last_txObject
-      }
-      if (!is.null(AddressObject$`in_degree`)) {
-        self$`in_degree` <- AddressObject$`in_degree`
-      }
-      if (!is.null(AddressObject$`out_degree`)) {
-        self$`out_degree` <- AddressObject$`out_degree`
       }
       if (!is.null(AddressObject$`no_incoming_txs`)) {
         self$`no_incoming_txs` <- AddressObject$`no_incoming_txs`
       }
       if (!is.null(AddressObject$`no_outgoing_txs`)) {
         self$`no_outgoing_txs` <- AddressObject$`no_outgoing_txs`
+      }
+      if (!is.null(AddressObject$`out_degree`)) {
+        self$`out_degree` <- AddressObject$`out_degree`
+      }
+      if (!is.null(AddressObject$`tags`)) {
+        self$`tags` <- ApiClient$new()$deserializeObj(AddressObject$`tags`, "array[AddressTag]", loadNamespace("openapi"))
       }
       if (!is.null(AddressObject$`total_received`)) {
         total_receivedObject <- Values$new()
@@ -192,9 +195,6 @@ Address <- R6::R6Class(
         total_spentObject <- Values$new()
         total_spentObject$fromJSON(jsonlite::toJSON(AddressObject$total_spent, auto_unbox = TRUE, digits = NA))
         self$`total_spent` <- total_spentObject
-      }
-      if (!is.null(AddressObject$`tags`)) {
-        self$`tags` <- ApiClient$new()$deserializeObj(AddressObject$`tags`, "array[AddressTag]", loadNamespace("openapi"))
       }
       self
     },
@@ -221,13 +221,6 @@ Address <- R6::R6Class(
         ',
         jsonlite::toJSON(self$`first_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
-        if (!is.null(self$`last_tx`)) {
-        sprintf(
-        '"last_tx":
-        %s
-        ',
-        jsonlite::toJSON(self$`last_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
         if (!is.null(self$`in_degree`)) {
         sprintf(
         '"in_degree":
@@ -235,12 +228,12 @@ Address <- R6::R6Class(
                 ',
         self$`in_degree`
         )},
-        if (!is.null(self$`out_degree`)) {
+        if (!is.null(self$`last_tx`)) {
         sprintf(
-        '"out_degree":
-          %d
-                ',
-        self$`out_degree`
+        '"last_tx":
+        %s
+        ',
+        jsonlite::toJSON(self$`last_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
         if (!is.null(self$`no_incoming_txs`)) {
         sprintf(
@@ -256,6 +249,20 @@ Address <- R6::R6Class(
                 ',
         self$`no_outgoing_txs`
         )},
+        if (!is.null(self$`out_degree`)) {
+        sprintf(
+        '"out_degree":
+          %d
+                ',
+        self$`out_degree`
+        )},
+        if (!is.null(self$`tags`)) {
+        sprintf(
+        '"tags":
+        [%s]
+',
+        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
         if (!is.null(self$`total_received`)) {
         sprintf(
         '"total_received":
@@ -269,13 +276,6 @@ Address <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`total_spent`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`tags`)) {
-        sprintf(
-        '"tags":
-        [%s]
-',
-        paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -286,14 +286,14 @@ Address <- R6::R6Class(
       self$`address` <- AddressObject$`address`
       self$`balance` <- Values$new()$fromJSON(jsonlite::toJSON(AddressObject$balance, auto_unbox = TRUE, digits = NA))
       self$`first_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(AddressObject$first_tx, auto_unbox = TRUE, digits = NA))
-      self$`last_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(AddressObject$last_tx, auto_unbox = TRUE, digits = NA))
       self$`in_degree` <- AddressObject$`in_degree`
-      self$`out_degree` <- AddressObject$`out_degree`
+      self$`last_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(AddressObject$last_tx, auto_unbox = TRUE, digits = NA))
       self$`no_incoming_txs` <- AddressObject$`no_incoming_txs`
       self$`no_outgoing_txs` <- AddressObject$`no_outgoing_txs`
+      self$`out_degree` <- AddressObject$`out_degree`
+      self$`tags` <- ApiClient$new()$deserializeObj(AddressObject$`tags`, "array[AddressTag]", loadNamespace("openapi"))
       self$`total_received` <- Values$new()$fromJSON(jsonlite::toJSON(AddressObject$total_received, auto_unbox = TRUE, digits = NA))
       self$`total_spent` <- Values$new()$fromJSON(jsonlite::toJSON(AddressObject$total_spent, auto_unbox = TRUE, digits = NA))
-      self$`tags` <- ApiClient$new()$deserializeObj(AddressObject$`tags`, "array[AddressTag]", loadNamespace("openapi"))
       self
     }
   )

@@ -13,21 +13,21 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field label  character 
-#'
-#' @field category  character [optional]
-#'
 #' @field abuse  character [optional]
-#'
-#' @field tagpack_uri  character [optional]
-#'
-#' @field source  character [optional]
-#'
-#' @field lastmod  integer [optional]
 #'
 #' @field active  character 
 #'
+#' @field category  character [optional]
+#'
 #' @field currency  character 
+#'
+#' @field label  character 
+#'
+#' @field lastmod  integer [optional]
+#'
+#' @field source  character [optional]
+#'
+#' @field tagpack_uri  character [optional]
 #'
 #' @field entity  integer 
 #'
@@ -37,23 +37,19 @@
 EntityTag <- R6::R6Class(
   'EntityTag',
   public = list(
-    `label` = NULL,
-    `category` = NULL,
     `abuse` = NULL,
-    `tagpack_uri` = NULL,
-    `source` = NULL,
-    `lastmod` = NULL,
     `active` = NULL,
+    `category` = NULL,
     `currency` = NULL,
+    `label` = NULL,
+    `lastmod` = NULL,
+    `source` = NULL,
+    `tagpack_uri` = NULL,
     `entity` = NULL,
     initialize = function(
-        `label`, `active`, `currency`, `entity`, `category`=NULL, `abuse`=NULL, `tagpack_uri`=NULL, `source`=NULL, `lastmod`=NULL, ...
+        `active`, `currency`, `label`, `entity`, `abuse`=NULL, `category`=NULL, `lastmod`=NULL, `source`=NULL, `tagpack_uri`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`label`)) {
-        stopifnot(is.character(`label`), length(`label`) == 1)
-        self$`label` <- `label`
-      }
       if (!missing(`active`)) {
         self$`active` <- `active`
       }
@@ -61,64 +57,68 @@ EntityTag <- R6::R6Class(
         stopifnot(is.character(`currency`), length(`currency`) == 1)
         self$`currency` <- `currency`
       }
+      if (!missing(`label`)) {
+        stopifnot(is.character(`label`), length(`label`) == 1)
+        self$`label` <- `label`
+      }
       if (!missing(`entity`)) {
         stopifnot(is.numeric(`entity`), length(`entity`) == 1)
         self$`entity` <- `entity`
-      }
-      if (!is.null(`category`)) {
-        stopifnot(is.character(`category`), length(`category`) == 1)
-        self$`category` <- `category`
       }
       if (!is.null(`abuse`)) {
         stopifnot(is.character(`abuse`), length(`abuse`) == 1)
         self$`abuse` <- `abuse`
       }
-      if (!is.null(`tagpack_uri`)) {
-        stopifnot(is.character(`tagpack_uri`), length(`tagpack_uri`) == 1)
-        self$`tagpack_uri` <- `tagpack_uri`
-      }
-      if (!is.null(`source`)) {
-        stopifnot(is.character(`source`), length(`source`) == 1)
-        self$`source` <- `source`
+      if (!is.null(`category`)) {
+        stopifnot(is.character(`category`), length(`category`) == 1)
+        self$`category` <- `category`
       }
       if (!is.null(`lastmod`)) {
         stopifnot(is.numeric(`lastmod`), length(`lastmod`) == 1)
         self$`lastmod` <- `lastmod`
       }
+      if (!is.null(`source`)) {
+        stopifnot(is.character(`source`), length(`source`) == 1)
+        self$`source` <- `source`
+      }
+      if (!is.null(`tagpack_uri`)) {
+        stopifnot(is.character(`tagpack_uri`), length(`tagpack_uri`) == 1)
+        self$`tagpack_uri` <- `tagpack_uri`
+      }
     },
     toJSON = function() {
       EntityTagObject <- list()
-      if (!is.null(self$`label`)) {
-        EntityTagObject[['label']] <-
-          self$`label`
-      }
-      if (!is.null(self$`category`)) {
-        EntityTagObject[['category']] <-
-          self$`category`
-      }
       if (!is.null(self$`abuse`)) {
         EntityTagObject[['abuse']] <-
           self$`abuse`
-      }
-      if (!is.null(self$`tagpack_uri`)) {
-        EntityTagObject[['tagpack_uri']] <-
-          self$`tagpack_uri`
-      }
-      if (!is.null(self$`source`)) {
-        EntityTagObject[['source']] <-
-          self$`source`
-      }
-      if (!is.null(self$`lastmod`)) {
-        EntityTagObject[['lastmod']] <-
-          self$`lastmod`
       }
       if (!is.null(self$`active`)) {
         EntityTagObject[['active']] <-
           self$`active`
       }
+      if (!is.null(self$`category`)) {
+        EntityTagObject[['category']] <-
+          self$`category`
+      }
       if (!is.null(self$`currency`)) {
         EntityTagObject[['currency']] <-
           self$`currency`
+      }
+      if (!is.null(self$`label`)) {
+        EntityTagObject[['label']] <-
+          self$`label`
+      }
+      if (!is.null(self$`lastmod`)) {
+        EntityTagObject[['lastmod']] <-
+          self$`lastmod`
+      }
+      if (!is.null(self$`source`)) {
+        EntityTagObject[['source']] <-
+          self$`source`
+      }
+      if (!is.null(self$`tagpack_uri`)) {
+        EntityTagObject[['tagpack_uri']] <-
+          self$`tagpack_uri`
       }
       if (!is.null(self$`entity`)) {
         EntityTagObject[['entity']] <-
@@ -129,29 +129,29 @@ EntityTag <- R6::R6Class(
     },
     fromJSON = function(EntityTagJson) {
       EntityTagObject <- jsonlite::fromJSON(EntityTagJson)
-      if (!is.null(EntityTagObject$`label`)) {
-        self$`label` <- EntityTagObject$`label`
-      }
-      if (!is.null(EntityTagObject$`category`)) {
-        self$`category` <- EntityTagObject$`category`
-      }
       if (!is.null(EntityTagObject$`abuse`)) {
         self$`abuse` <- EntityTagObject$`abuse`
-      }
-      if (!is.null(EntityTagObject$`tagpack_uri`)) {
-        self$`tagpack_uri` <- EntityTagObject$`tagpack_uri`
-      }
-      if (!is.null(EntityTagObject$`source`)) {
-        self$`source` <- EntityTagObject$`source`
-      }
-      if (!is.null(EntityTagObject$`lastmod`)) {
-        self$`lastmod` <- EntityTagObject$`lastmod`
       }
       if (!is.null(EntityTagObject$`active`)) {
         self$`active` <- EntityTagObject$`active`
       }
+      if (!is.null(EntityTagObject$`category`)) {
+        self$`category` <- EntityTagObject$`category`
+      }
       if (!is.null(EntityTagObject$`currency`)) {
         self$`currency` <- EntityTagObject$`currency`
+      }
+      if (!is.null(EntityTagObject$`label`)) {
+        self$`label` <- EntityTagObject$`label`
+      }
+      if (!is.null(EntityTagObject$`lastmod`)) {
+        self$`lastmod` <- EntityTagObject$`lastmod`
+      }
+      if (!is.null(EntityTagObject$`source`)) {
+        self$`source` <- EntityTagObject$`source`
+      }
+      if (!is.null(EntityTagObject$`tagpack_uri`)) {
+        self$`tagpack_uri` <- EntityTagObject$`tagpack_uri`
       }
       if (!is.null(EntityTagObject$`entity`)) {
         self$`entity` <- EntityTagObject$`entity`
@@ -160,47 +160,12 @@ EntityTag <- R6::R6Class(
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`label`)) {
-        sprintf(
-        '"label":
-          "%s"
-                ',
-        self$`label`
-        )},
-        if (!is.null(self$`category`)) {
-        sprintf(
-        '"category":
-          "%s"
-                ',
-        self$`category`
-        )},
         if (!is.null(self$`abuse`)) {
         sprintf(
         '"abuse":
           "%s"
                 ',
         self$`abuse`
-        )},
-        if (!is.null(self$`tagpack_uri`)) {
-        sprintf(
-        '"tagpack_uri":
-          "%s"
-                ',
-        self$`tagpack_uri`
-        )},
-        if (!is.null(self$`source`)) {
-        sprintf(
-        '"source":
-          "%s"
-                ',
-        self$`source`
-        )},
-        if (!is.null(self$`lastmod`)) {
-        sprintf(
-        '"lastmod":
-          %d
-                ',
-        self$`lastmod`
         )},
         if (!is.null(self$`active`)) {
         sprintf(
@@ -209,12 +174,47 @@ EntityTag <- R6::R6Class(
                 ',
         self$`active`
         )},
+        if (!is.null(self$`category`)) {
+        sprintf(
+        '"category":
+          "%s"
+                ',
+        self$`category`
+        )},
         if (!is.null(self$`currency`)) {
         sprintf(
         '"currency":
           "%s"
                 ',
         self$`currency`
+        )},
+        if (!is.null(self$`label`)) {
+        sprintf(
+        '"label":
+          "%s"
+                ',
+        self$`label`
+        )},
+        if (!is.null(self$`lastmod`)) {
+        sprintf(
+        '"lastmod":
+          %d
+                ',
+        self$`lastmod`
+        )},
+        if (!is.null(self$`source`)) {
+        sprintf(
+        '"source":
+          "%s"
+                ',
+        self$`source`
+        )},
+        if (!is.null(self$`tagpack_uri`)) {
+        sprintf(
+        '"tagpack_uri":
+          "%s"
+                ',
+        self$`tagpack_uri`
         )},
         if (!is.null(self$`entity`)) {
         sprintf(
@@ -229,14 +229,14 @@ EntityTag <- R6::R6Class(
     },
     fromJSONString = function(EntityTagJson) {
       EntityTagObject <- jsonlite::fromJSON(EntityTagJson)
-      self$`label` <- EntityTagObject$`label`
-      self$`category` <- EntityTagObject$`category`
       self$`abuse` <- EntityTagObject$`abuse`
-      self$`tagpack_uri` <- EntityTagObject$`tagpack_uri`
-      self$`source` <- EntityTagObject$`source`
-      self$`lastmod` <- EntityTagObject$`lastmod`
       self$`active` <- EntityTagObject$`active`
+      self$`category` <- EntityTagObject$`category`
       self$`currency` <- EntityTagObject$`currency`
+      self$`label` <- EntityTagObject$`label`
+      self$`lastmod` <- EntityTagObject$`lastmod`
+      self$`source` <- EntityTagObject$`source`
+      self$`tagpack_uri` <- EntityTagObject$`tagpack_uri`
       self$`entity` <- EntityTagObject$`entity`
       self
     }

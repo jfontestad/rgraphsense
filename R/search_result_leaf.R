@@ -13,11 +13,11 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
+#' @field matching_addresses  list( \link{Address} ) [optional]
+#'
 #' @field node  \link{Entity} [optional]
 #'
 #' @field relation  \link{Neighbor} [optional]
-#'
-#' @field matching_addresses  list( \link{Address} ) [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -25,13 +25,18 @@
 SearchResultLeaf <- R6::R6Class(
   'SearchResultLeaf',
   public = list(
+    `matching_addresses` = NULL,
     `node` = NULL,
     `relation` = NULL,
-    `matching_addresses` = NULL,
     initialize = function(
-        `node`=NULL, `relation`=NULL, `matching_addresses`=NULL, ...
+        `matching_addresses`=NULL, `node`=NULL, `relation`=NULL, ...
     ) {
       local.optional.var <- list(...)
+      if (!is.null(`matching_addresses`)) {
+        stopifnot(is.vector(`matching_addresses`), length(`matching_addresses`) != 0)
+        sapply(`matching_addresses`, function(x) stopifnot(R6::is.R6(x)))
+        self$`matching_addresses` <- `matching_addresses`
+      }
       if (!is.null(`node`)) {
         stopifnot(R6::is.R6(`node`))
         self$`node` <- `node`
@@ -40,14 +45,13 @@ SearchResultLeaf <- R6::R6Class(
         stopifnot(R6::is.R6(`relation`))
         self$`relation` <- `relation`
       }
-      if (!is.null(`matching_addresses`)) {
-        stopifnot(is.vector(`matching_addresses`), length(`matching_addresses`) != 0)
-        sapply(`matching_addresses`, function(x) stopifnot(R6::is.R6(x)))
-        self$`matching_addresses` <- `matching_addresses`
-      }
     },
     toJSON = function() {
       SearchResultLeafObject <- list()
+      if (!is.null(self$`matching_addresses`)) {
+        SearchResultLeafObject[['matching_addresses']] <-
+          lapply(self$`matching_addresses`, function(x) x$toJSON())
+      }
       if (!is.null(self$`node`)) {
         SearchResultLeafObject[['node']] <-
           self$`node`$toJSON()
@@ -56,15 +60,14 @@ SearchResultLeaf <- R6::R6Class(
         SearchResultLeafObject[['relation']] <-
           self$`relation`$toJSON()
       }
-      if (!is.null(self$`matching_addresses`)) {
-        SearchResultLeafObject[['matching_addresses']] <-
-          lapply(self$`matching_addresses`, function(x) x$toJSON())
-      }
 
       SearchResultLeafObject
     },
     fromJSON = function(SearchResultLeafJson) {
       SearchResultLeafObject <- jsonlite::fromJSON(SearchResultLeafJson)
+      if (!is.null(SearchResultLeafObject$`matching_addresses`)) {
+        self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLeafObject$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
+      }
       if (!is.null(SearchResultLeafObject$`node`)) {
         nodeObject <- Entity$new()
         nodeObject$fromJSON(jsonlite::toJSON(SearchResultLeafObject$node, auto_unbox = TRUE, digits = NA))
@@ -75,13 +78,17 @@ SearchResultLeaf <- R6::R6Class(
         relationObject$fromJSON(jsonlite::toJSON(SearchResultLeafObject$relation, auto_unbox = TRUE, digits = NA))
         self$`relation` <- relationObject
       }
-      if (!is.null(SearchResultLeafObject$`matching_addresses`)) {
-        self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLeafObject$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
-      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`matching_addresses`)) {
+        sprintf(
+        '"matching_addresses":
+        [%s]
+',
+        paste(sapply(self$`matching_addresses`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
         if (!is.null(self$`node`)) {
         sprintf(
         '"node":
@@ -95,13 +102,6 @@ SearchResultLeaf <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`relation`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`matching_addresses`)) {
-        sprintf(
-        '"matching_addresses":
-        [%s]
-',
-        paste(sapply(self$`matching_addresses`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -109,9 +109,9 @@ SearchResultLeaf <- R6::R6Class(
     },
     fromJSONString = function(SearchResultLeafJson) {
       SearchResultLeafObject <- jsonlite::fromJSON(SearchResultLeafJson)
+      self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLeafObject$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
       self$`node` <- Entity$new()$fromJSON(jsonlite::toJSON(SearchResultLeafObject$node, auto_unbox = TRUE, digits = NA))
       self$`relation` <- Neighbor$new()$fromJSON(jsonlite::toJSON(SearchResultLeafObject$relation, auto_unbox = TRUE, digits = NA))
-      self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLeafObject$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
       self
     }
   )

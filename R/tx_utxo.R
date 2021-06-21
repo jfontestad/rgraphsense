@@ -13,11 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field currency_type  character 
-#'
-#' @field tx_hash  character 
-#'
 #' @field coinbase  character 
+#'
+#' @field currency_type  character 
 #'
 #' @field height  integer 
 #'
@@ -31,35 +29,33 @@
 #'
 #' @field total_output  \link{Values} 
 #'
+#' @field tx_hash  character 
+#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 TxUtxo <- R6::R6Class(
   'TxUtxo',
   public = list(
-    `currency_type` = NULL,
-    `tx_hash` = NULL,
     `coinbase` = NULL,
+    `currency_type` = NULL,
     `height` = NULL,
     `inputs` = NULL,
     `outputs` = NULL,
     `timestamp` = NULL,
     `total_input` = NULL,
     `total_output` = NULL,
+    `tx_hash` = NULL,
     initialize = function(
-        `currency_type`, `tx_hash`, `coinbase`, `height`, `inputs`, `outputs`, `timestamp`, `total_input`, `total_output`, ...
+        `coinbase`, `currency_type`, `height`, `inputs`, `outputs`, `timestamp`, `total_input`, `total_output`, `tx_hash`, ...
     ) {
       local.optional.var <- list(...)
+      if (!missing(`coinbase`)) {
+        self$`coinbase` <- `coinbase`
+      }
       if (!missing(`currency_type`)) {
         stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
         self$`currency_type` <- `currency_type`
-      }
-      if (!missing(`tx_hash`)) {
-        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
-        self$`tx_hash` <- `tx_hash`
-      }
-      if (!missing(`coinbase`)) {
-        self$`coinbase` <- `coinbase`
       }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
@@ -87,20 +83,20 @@ TxUtxo <- R6::R6Class(
         stopifnot(R6::is.R6(`total_output`))
         self$`total_output` <- `total_output`
       }
+      if (!missing(`tx_hash`)) {
+        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
+        self$`tx_hash` <- `tx_hash`
+      }
     },
     toJSON = function() {
       TxUtxoObject <- list()
-      if (!is.null(self$`currency_type`)) {
-        TxUtxoObject[['currency_type']] <-
-          self$`currency_type`
-      }
-      if (!is.null(self$`tx_hash`)) {
-        TxUtxoObject[['tx_hash']] <-
-          self$`tx_hash`
-      }
       if (!is.null(self$`coinbase`)) {
         TxUtxoObject[['coinbase']] <-
           self$`coinbase`
+      }
+      if (!is.null(self$`currency_type`)) {
+        TxUtxoObject[['currency_type']] <-
+          self$`currency_type`
       }
       if (!is.null(self$`height`)) {
         TxUtxoObject[['height']] <-
@@ -126,19 +122,20 @@ TxUtxo <- R6::R6Class(
         TxUtxoObject[['total_output']] <-
           self$`total_output`$toJSON()
       }
+      if (!is.null(self$`tx_hash`)) {
+        TxUtxoObject[['tx_hash']] <-
+          self$`tx_hash`
+      }
 
       TxUtxoObject
     },
     fromJSON = function(TxUtxoJson) {
       TxUtxoObject <- jsonlite::fromJSON(TxUtxoJson)
-      if (!is.null(TxUtxoObject$`currency_type`)) {
-        self$`currency_type` <- TxUtxoObject$`currency_type`
-      }
-      if (!is.null(TxUtxoObject$`tx_hash`)) {
-        self$`tx_hash` <- TxUtxoObject$`tx_hash`
-      }
       if (!is.null(TxUtxoObject$`coinbase`)) {
         self$`coinbase` <- TxUtxoObject$`coinbase`
+      }
+      if (!is.null(TxUtxoObject$`currency_type`)) {
+        self$`currency_type` <- TxUtxoObject$`currency_type`
       }
       if (!is.null(TxUtxoObject$`height`)) {
         self$`height` <- TxUtxoObject$`height`
@@ -162,30 +159,26 @@ TxUtxo <- R6::R6Class(
         total_outputObject$fromJSON(jsonlite::toJSON(TxUtxoObject$total_output, auto_unbox = TRUE, digits = NA))
         self$`total_output` <- total_outputObject
       }
+      if (!is.null(TxUtxoObject$`tx_hash`)) {
+        self$`tx_hash` <- TxUtxoObject$`tx_hash`
+      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`currency_type`)) {
-        sprintf(
-        '"currency_type":
-          "%s"
-                ',
-        self$`currency_type`
-        )},
-        if (!is.null(self$`tx_hash`)) {
-        sprintf(
-        '"tx_hash":
-          "%s"
-                ',
-        self$`tx_hash`
-        )},
         if (!is.null(self$`coinbase`)) {
         sprintf(
         '"coinbase":
           "%s"
                 ',
         self$`coinbase`
+        )},
+        if (!is.null(self$`currency_type`)) {
+        sprintf(
+        '"currency_type":
+          "%s"
+                ',
+        self$`currency_type`
         )},
         if (!is.null(self$`height`)) {
         sprintf(
@@ -228,6 +221,13 @@ TxUtxo <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`total_output`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`tx_hash`)) {
+        sprintf(
+        '"tx_hash":
+          "%s"
+                ',
+        self$`tx_hash`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -235,15 +235,15 @@ TxUtxo <- R6::R6Class(
     },
     fromJSONString = function(TxUtxoJson) {
       TxUtxoObject <- jsonlite::fromJSON(TxUtxoJson)
-      self$`currency_type` <- TxUtxoObject$`currency_type`
-      self$`tx_hash` <- TxUtxoObject$`tx_hash`
       self$`coinbase` <- TxUtxoObject$`coinbase`
+      self$`currency_type` <- TxUtxoObject$`currency_type`
       self$`height` <- TxUtxoObject$`height`
       self$`inputs` <- ApiClient$new()$deserializeObj(TxUtxoObject$`inputs`, "array[TxValue]", loadNamespace("openapi"))
       self$`outputs` <- ApiClient$new()$deserializeObj(TxUtxoObject$`outputs`, "array[TxValue]", loadNamespace("openapi"))
       self$`timestamp` <- TxUtxoObject$`timestamp`
       self$`total_input` <- Values$new()$fromJSON(jsonlite::toJSON(TxUtxoObject$total_input, auto_unbox = TRUE, digits = NA))
       self$`total_output` <- Values$new()$fromJSON(jsonlite::toJSON(TxUtxoObject$total_output, auto_unbox = TRUE, digits = NA))
+      self$`tx_hash` <- TxUtxoObject$`tx_hash`
       self
     }
   )

@@ -74,6 +74,9 @@
 #' #Returns matching addresses, transactions and labels
 #' api.instance <- GeneralApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$Search(var.q, currency=var.currency, limit=var.limit)
 #'
 #'
@@ -169,6 +172,10 @@ GeneralApi <- R6::R6Class(
 
       body <- NULL
       urlPath <- "/search"
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

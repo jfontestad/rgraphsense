@@ -13,27 +13,27 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field name  character [optional]
+#' @field data_sources  list( \link{StatsLedger} ) [optional]
 #'
-#' @field no_blocks  integer [optional]
+#' @field name  character [optional]
 #'
 #' @field no_address_relations  integer [optional]
 #'
 #' @field no_addresses  integer [optional]
 #'
+#' @field no_blocks  integer [optional]
+#'
 #' @field no_entities  integer [optional]
+#'
+#' @field no_labels  integer [optional]
 #'
 #' @field no_txs  integer [optional]
 #'
-#' @field no_labels  integer [optional]
+#' @field notes  list( character ) [optional]
 #'
 #' @field timestamp  integer [optional]
 #'
 #' @field tools  list( character ) [optional]
-#'
-#' @field notes  list( character ) [optional]
-#'
-#' @field data_sources  list( \link{StatsLedger} ) [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -41,28 +41,29 @@
 CurrencyStats <- R6::R6Class(
   'CurrencyStats',
   public = list(
+    `data_sources` = NULL,
     `name` = NULL,
-    `no_blocks` = NULL,
     `no_address_relations` = NULL,
     `no_addresses` = NULL,
+    `no_blocks` = NULL,
     `no_entities` = NULL,
-    `no_txs` = NULL,
     `no_labels` = NULL,
+    `no_txs` = NULL,
+    `notes` = NULL,
     `timestamp` = NULL,
     `tools` = NULL,
-    `notes` = NULL,
-    `data_sources` = NULL,
     initialize = function(
-        `name`=NULL, `no_blocks`=NULL, `no_address_relations`=NULL, `no_addresses`=NULL, `no_entities`=NULL, `no_txs`=NULL, `no_labels`=NULL, `timestamp`=NULL, `tools`=NULL, `notes`=NULL, `data_sources`=NULL, ...
+        `data_sources`=NULL, `name`=NULL, `no_address_relations`=NULL, `no_addresses`=NULL, `no_blocks`=NULL, `no_entities`=NULL, `no_labels`=NULL, `no_txs`=NULL, `notes`=NULL, `timestamp`=NULL, `tools`=NULL, ...
     ) {
       local.optional.var <- list(...)
+      if (!is.null(`data_sources`)) {
+        stopifnot(is.vector(`data_sources`), length(`data_sources`) != 0)
+        sapply(`data_sources`, function(x) stopifnot(R6::is.R6(x)))
+        self$`data_sources` <- `data_sources`
+      }
       if (!is.null(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
-      }
-      if (!is.null(`no_blocks`)) {
-        stopifnot(is.numeric(`no_blocks`), length(`no_blocks`) == 1)
-        self$`no_blocks` <- `no_blocks`
       }
       if (!is.null(`no_address_relations`)) {
         stopifnot(is.numeric(`no_address_relations`), length(`no_address_relations`) == 1)
@@ -72,17 +73,26 @@ CurrencyStats <- R6::R6Class(
         stopifnot(is.numeric(`no_addresses`), length(`no_addresses`) == 1)
         self$`no_addresses` <- `no_addresses`
       }
+      if (!is.null(`no_blocks`)) {
+        stopifnot(is.numeric(`no_blocks`), length(`no_blocks`) == 1)
+        self$`no_blocks` <- `no_blocks`
+      }
       if (!is.null(`no_entities`)) {
         stopifnot(is.numeric(`no_entities`), length(`no_entities`) == 1)
         self$`no_entities` <- `no_entities`
+      }
+      if (!is.null(`no_labels`)) {
+        stopifnot(is.numeric(`no_labels`), length(`no_labels`) == 1)
+        self$`no_labels` <- `no_labels`
       }
       if (!is.null(`no_txs`)) {
         stopifnot(is.numeric(`no_txs`), length(`no_txs`) == 1)
         self$`no_txs` <- `no_txs`
       }
-      if (!is.null(`no_labels`)) {
-        stopifnot(is.numeric(`no_labels`), length(`no_labels`) == 1)
-        self$`no_labels` <- `no_labels`
+      if (!is.null(`notes`)) {
+        stopifnot(is.vector(`notes`), length(`notes`) != 0)
+        sapply(`notes`, function(x) stopifnot(is.character(x)))
+        self$`notes` <- `notes`
       }
       if (!is.null(`timestamp`)) {
         stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
@@ -93,26 +103,16 @@ CurrencyStats <- R6::R6Class(
         sapply(`tools`, function(x) stopifnot(is.character(x)))
         self$`tools` <- `tools`
       }
-      if (!is.null(`notes`)) {
-        stopifnot(is.vector(`notes`), length(`notes`) != 0)
-        sapply(`notes`, function(x) stopifnot(is.character(x)))
-        self$`notes` <- `notes`
-      }
-      if (!is.null(`data_sources`)) {
-        stopifnot(is.vector(`data_sources`), length(`data_sources`) != 0)
-        sapply(`data_sources`, function(x) stopifnot(R6::is.R6(x)))
-        self$`data_sources` <- `data_sources`
-      }
     },
     toJSON = function() {
       CurrencyStatsObject <- list()
+      if (!is.null(self$`data_sources`)) {
+        CurrencyStatsObject[['data_sources']] <-
+          lapply(self$`data_sources`, function(x) x$toJSON())
+      }
       if (!is.null(self$`name`)) {
         CurrencyStatsObject[['name']] <-
           self$`name`
-      }
-      if (!is.null(self$`no_blocks`)) {
-        CurrencyStatsObject[['no_blocks']] <-
-          self$`no_blocks`
       }
       if (!is.null(self$`no_address_relations`)) {
         CurrencyStatsObject[['no_address_relations']] <-
@@ -122,17 +122,25 @@ CurrencyStats <- R6::R6Class(
         CurrencyStatsObject[['no_addresses']] <-
           self$`no_addresses`
       }
+      if (!is.null(self$`no_blocks`)) {
+        CurrencyStatsObject[['no_blocks']] <-
+          self$`no_blocks`
+      }
       if (!is.null(self$`no_entities`)) {
         CurrencyStatsObject[['no_entities']] <-
           self$`no_entities`
+      }
+      if (!is.null(self$`no_labels`)) {
+        CurrencyStatsObject[['no_labels']] <-
+          self$`no_labels`
       }
       if (!is.null(self$`no_txs`)) {
         CurrencyStatsObject[['no_txs']] <-
           self$`no_txs`
       }
-      if (!is.null(self$`no_labels`)) {
-        CurrencyStatsObject[['no_labels']] <-
-          self$`no_labels`
+      if (!is.null(self$`notes`)) {
+        CurrencyStatsObject[['notes']] <-
+          self$`notes`
       }
       if (!is.null(self$`timestamp`)) {
         CurrencyStatsObject[['timestamp']] <-
@@ -142,24 +150,16 @@ CurrencyStats <- R6::R6Class(
         CurrencyStatsObject[['tools']] <-
           self$`tools`
       }
-      if (!is.null(self$`notes`)) {
-        CurrencyStatsObject[['notes']] <-
-          self$`notes`
-      }
-      if (!is.null(self$`data_sources`)) {
-        CurrencyStatsObject[['data_sources']] <-
-          lapply(self$`data_sources`, function(x) x$toJSON())
-      }
 
       CurrencyStatsObject
     },
     fromJSON = function(CurrencyStatsJson) {
       CurrencyStatsObject <- jsonlite::fromJSON(CurrencyStatsJson)
+      if (!is.null(CurrencyStatsObject$`data_sources`)) {
+        self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
+      }
       if (!is.null(CurrencyStatsObject$`name`)) {
         self$`name` <- CurrencyStatsObject$`name`
-      }
-      if (!is.null(CurrencyStatsObject$`no_blocks`)) {
-        self$`no_blocks` <- CurrencyStatsObject$`no_blocks`
       }
       if (!is.null(CurrencyStatsObject$`no_address_relations`)) {
         self$`no_address_relations` <- CurrencyStatsObject$`no_address_relations`
@@ -167,14 +167,20 @@ CurrencyStats <- R6::R6Class(
       if (!is.null(CurrencyStatsObject$`no_addresses`)) {
         self$`no_addresses` <- CurrencyStatsObject$`no_addresses`
       }
+      if (!is.null(CurrencyStatsObject$`no_blocks`)) {
+        self$`no_blocks` <- CurrencyStatsObject$`no_blocks`
+      }
       if (!is.null(CurrencyStatsObject$`no_entities`)) {
         self$`no_entities` <- CurrencyStatsObject$`no_entities`
+      }
+      if (!is.null(CurrencyStatsObject$`no_labels`)) {
+        self$`no_labels` <- CurrencyStatsObject$`no_labels`
       }
       if (!is.null(CurrencyStatsObject$`no_txs`)) {
         self$`no_txs` <- CurrencyStatsObject$`no_txs`
       }
-      if (!is.null(CurrencyStatsObject$`no_labels`)) {
-        self$`no_labels` <- CurrencyStatsObject$`no_labels`
+      if (!is.null(CurrencyStatsObject$`notes`)) {
+        self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
       }
       if (!is.null(CurrencyStatsObject$`timestamp`)) {
         self$`timestamp` <- CurrencyStatsObject$`timestamp`
@@ -182,29 +188,23 @@ CurrencyStats <- R6::R6Class(
       if (!is.null(CurrencyStatsObject$`tools`)) {
         self$`tools` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`tools`, "array[character]", loadNamespace("openapi"))
       }
-      if (!is.null(CurrencyStatsObject$`notes`)) {
-        self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
-      }
-      if (!is.null(CurrencyStatsObject$`data_sources`)) {
-        self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
-      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`data_sources`)) {
+        sprintf(
+        '"data_sources":
+        [%s]
+',
+        paste(sapply(self$`data_sources`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
         if (!is.null(self$`name`)) {
         sprintf(
         '"name":
           "%s"
                 ',
         self$`name`
-        )},
-        if (!is.null(self$`no_blocks`)) {
-        sprintf(
-        '"no_blocks":
-          %d
-                ',
-        self$`no_blocks`
         )},
         if (!is.null(self$`no_address_relations`)) {
         sprintf(
@@ -220,12 +220,26 @@ CurrencyStats <- R6::R6Class(
                 ',
         self$`no_addresses`
         )},
+        if (!is.null(self$`no_blocks`)) {
+        sprintf(
+        '"no_blocks":
+          %d
+                ',
+        self$`no_blocks`
+        )},
         if (!is.null(self$`no_entities`)) {
         sprintf(
         '"no_entities":
           %d
                 ',
         self$`no_entities`
+        )},
+        if (!is.null(self$`no_labels`)) {
+        sprintf(
+        '"no_labels":
+          %d
+                ',
+        self$`no_labels`
         )},
         if (!is.null(self$`no_txs`)) {
         sprintf(
@@ -234,12 +248,12 @@ CurrencyStats <- R6::R6Class(
                 ',
         self$`no_txs`
         )},
-        if (!is.null(self$`no_labels`)) {
+        if (!is.null(self$`notes`)) {
         sprintf(
-        '"no_labels":
-          %d
-                ',
-        self$`no_labels`
+        '"notes":
+           [%s]
+        ',
+        paste(unlist(lapply(self$`notes`, function(x) paste0('"', x, '"'))), collapse=",")
         )},
         if (!is.null(self$`timestamp`)) {
         sprintf(
@@ -254,20 +268,6 @@ CurrencyStats <- R6::R6Class(
            [%s]
         ',
         paste(unlist(lapply(self$`tools`, function(x) paste0('"', x, '"'))), collapse=",")
-        )},
-        if (!is.null(self$`notes`)) {
-        sprintf(
-        '"notes":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`notes`, function(x) paste0('"', x, '"'))), collapse=",")
-        )},
-        if (!is.null(self$`data_sources`)) {
-        sprintf(
-        '"data_sources":
-        [%s]
-',
-        paste(sapply(self$`data_sources`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -275,17 +275,17 @@ CurrencyStats <- R6::R6Class(
     },
     fromJSONString = function(CurrencyStatsJson) {
       CurrencyStatsObject <- jsonlite::fromJSON(CurrencyStatsJson)
+      self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
       self$`name` <- CurrencyStatsObject$`name`
-      self$`no_blocks` <- CurrencyStatsObject$`no_blocks`
       self$`no_address_relations` <- CurrencyStatsObject$`no_address_relations`
       self$`no_addresses` <- CurrencyStatsObject$`no_addresses`
+      self$`no_blocks` <- CurrencyStatsObject$`no_blocks`
       self$`no_entities` <- CurrencyStatsObject$`no_entities`
-      self$`no_txs` <- CurrencyStatsObject$`no_txs`
       self$`no_labels` <- CurrencyStatsObject$`no_labels`
+      self$`no_txs` <- CurrencyStatsObject$`no_txs`
+      self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
       self$`timestamp` <- CurrencyStatsObject$`timestamp`
       self$`tools` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`tools`, "array[character]", loadNamespace("openapi"))
-      self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
-      self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
       self
     }
   )

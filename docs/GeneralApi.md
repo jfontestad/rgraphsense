@@ -1,6 +1,6 @@
 # GeneralApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://openapi_server:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -60,6 +60,8 @@ var.limit <- 10 # integer | Maximum number of search results
 
 #Returns matching addresses, transactions and labels
 api.instance <- GeneralApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$Search(var.q, currency=var.currency, limit=var.limit)
 dput(result)
 ```
@@ -78,7 +80,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

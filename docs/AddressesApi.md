@@ -1,6 +1,6 @@
 # AddressesApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://openapi_server:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -33,6 +33,8 @@ var.include.tags <- FALSE # character | Whether tags should be included
 
 #Get an address, optionally with tags
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
 dput(result)
 ```
@@ -51,7 +53,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -79,6 +81,8 @@ var.tag.coherence <- FALSE # character | Whether to calculate coherence of addre
 
 #Get the entity of an address
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 dput(result)
 ```
@@ -98,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -125,6 +129,8 @@ var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor addr
 
 #Get transactions between two addresses
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor)
 dput(result)
 ```
@@ -143,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -170,6 +176,8 @@ var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor addr
 
 #Get transactions between two addresses as CSV
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressLinksCsv(var.currency, var.address, var.neighbor)
 dput(result)
 ```
@@ -188,7 +196,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -218,6 +226,8 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an addresses' neighbors in the address graph
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -239,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -267,6 +277,8 @@ var.include.labels <- FALSE # character | Whether labels of tags should be inclu
 
 #Get an addresses' neighbors in the address graph as CSV
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressNeighborsCsv(var.currency, var.address, var.direction, include.labels=var.include.labels)
 dput(result)
 ```
@@ -286,7 +298,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -314,6 +326,8 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an address has been involved in
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -333,7 +347,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -359,6 +373,8 @@ var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurr
 
 #Get all transactions an address has been involved in as CSV
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressTxsCsv(var.currency, var.address)
 dput(result)
 ```
@@ -376,7 +392,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -404,6 +420,8 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get addresses
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddresses(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -423,7 +441,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -449,6 +467,8 @@ var.ids <- list("inner_example") # array[character] | Set of comma separated IDs
 
 #Get addresses as CSV
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListAddressesCsv(var.currency, var.ids)
 dput(result)
 ```
@@ -466,7 +486,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -492,6 +512,8 @@ var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurr
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTagsByAddress(var.currency, var.address)
 dput(result)
 ```
@@ -509,7 +531,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -535,6 +557,8 @@ var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurr
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTagsByAddressCsv(var.currency, var.address)
 dput(result)
 ```
@@ -552,7 +576,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

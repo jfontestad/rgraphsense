@@ -78,6 +78,9 @@
 #' #Returns the supported concepts of a taxonomy
 #' api.instance <- TagsApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListConcepts(var.taxonomy)
 #'
 #'
@@ -90,6 +93,9 @@
 #' #Returns address and entity tags associated with a given label
 #' api.instance <- TagsApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListTags(var.label, currency=var.currency)
 #'
 #'
@@ -99,6 +105,9 @@
 #'
 #' #Returns the supported taxonomies
 #' api.instance <- TagsApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTaxonomies()
 #'
@@ -148,6 +157,10 @@ TagsApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "taxonomy", "\\}"), URLencode(as.character(`taxonomy`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -201,6 +214,10 @@ TagsApi <- R6::R6Class(
 
       body <- NULL
       urlPath <- "/tags"
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -246,6 +263,10 @@ TagsApi <- R6::R6Class(
 
       body <- NULL
       urlPath <- "/tags/taxonomies"
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

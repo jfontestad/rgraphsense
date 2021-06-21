@@ -13,13 +13,13 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field nr  character [optional]
+#' @field file  character [optional]
 #'
 #' @field hash  character [optional]
 #'
-#' @field timestamp  character [optional]
+#' @field nr  character [optional]
 #'
-#' @field file  character [optional]
+#' @field timestamp  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -27,76 +27,76 @@
 StatsVersion <- R6::R6Class(
   'StatsVersion',
   public = list(
-    `nr` = NULL,
-    `hash` = NULL,
-    `timestamp` = NULL,
     `file` = NULL,
+    `hash` = NULL,
+    `nr` = NULL,
+    `timestamp` = NULL,
     initialize = function(
-        `nr`=NULL, `hash`=NULL, `timestamp`=NULL, `file`=NULL, ...
+        `file`=NULL, `hash`=NULL, `nr`=NULL, `timestamp`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`nr`)) {
-        stopifnot(is.character(`nr`), length(`nr`) == 1)
-        self$`nr` <- `nr`
+      if (!is.null(`file`)) {
+        stopifnot(is.character(`file`), length(`file`) == 1)
+        self$`file` <- `file`
       }
       if (!is.null(`hash`)) {
         stopifnot(is.character(`hash`), length(`hash`) == 1)
         self$`hash` <- `hash`
       }
+      if (!is.null(`nr`)) {
+        stopifnot(is.character(`nr`), length(`nr`) == 1)
+        self$`nr` <- `nr`
+      }
       if (!is.null(`timestamp`)) {
         stopifnot(is.character(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
       }
-      if (!is.null(`file`)) {
-        stopifnot(is.character(`file`), length(`file`) == 1)
-        self$`file` <- `file`
-      }
     },
     toJSON = function() {
       StatsVersionObject <- list()
-      if (!is.null(self$`nr`)) {
-        StatsVersionObject[['nr']] <-
-          self$`nr`
+      if (!is.null(self$`file`)) {
+        StatsVersionObject[['file']] <-
+          self$`file`
       }
       if (!is.null(self$`hash`)) {
         StatsVersionObject[['hash']] <-
           self$`hash`
       }
+      if (!is.null(self$`nr`)) {
+        StatsVersionObject[['nr']] <-
+          self$`nr`
+      }
       if (!is.null(self$`timestamp`)) {
         StatsVersionObject[['timestamp']] <-
           self$`timestamp`
-      }
-      if (!is.null(self$`file`)) {
-        StatsVersionObject[['file']] <-
-          self$`file`
       }
 
       StatsVersionObject
     },
     fromJSON = function(StatsVersionJson) {
       StatsVersionObject <- jsonlite::fromJSON(StatsVersionJson)
-      if (!is.null(StatsVersionObject$`nr`)) {
-        self$`nr` <- StatsVersionObject$`nr`
+      if (!is.null(StatsVersionObject$`file`)) {
+        self$`file` <- StatsVersionObject$`file`
       }
       if (!is.null(StatsVersionObject$`hash`)) {
         self$`hash` <- StatsVersionObject$`hash`
       }
+      if (!is.null(StatsVersionObject$`nr`)) {
+        self$`nr` <- StatsVersionObject$`nr`
+      }
       if (!is.null(StatsVersionObject$`timestamp`)) {
         self$`timestamp` <- StatsVersionObject$`timestamp`
-      }
-      if (!is.null(StatsVersionObject$`file`)) {
-        self$`file` <- StatsVersionObject$`file`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`nr`)) {
+        if (!is.null(self$`file`)) {
         sprintf(
-        '"nr":
+        '"file":
           "%s"
                 ',
-        self$`nr`
+        self$`file`
         )},
         if (!is.null(self$`hash`)) {
         sprintf(
@@ -105,19 +105,19 @@ StatsVersion <- R6::R6Class(
                 ',
         self$`hash`
         )},
+        if (!is.null(self$`nr`)) {
+        sprintf(
+        '"nr":
+          "%s"
+                ',
+        self$`nr`
+        )},
         if (!is.null(self$`timestamp`)) {
         sprintf(
         '"timestamp":
           "%s"
                 ',
         self$`timestamp`
-        )},
-        if (!is.null(self$`file`)) {
-        sprintf(
-        '"file":
-          "%s"
-                ',
-        self$`file`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -125,10 +125,10 @@ StatsVersion <- R6::R6Class(
     },
     fromJSONString = function(StatsVersionJson) {
       StatsVersionObject <- jsonlite::fromJSON(StatsVersionJson)
-      self$`nr` <- StatsVersionObject$`nr`
-      self$`hash` <- StatsVersionObject$`hash`
-      self$`timestamp` <- StatsVersionObject$`timestamp`
       self$`file` <- StatsVersionObject$`file`
+      self$`hash` <- StatsVersionObject$`hash`
+      self$`nr` <- StatsVersionObject$`nr`
+      self$`timestamp` <- StatsVersionObject$`timestamp`
       self
     }
   )

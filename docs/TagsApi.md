@@ -1,6 +1,6 @@
 # TagsApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://openapi_server:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,6 +22,8 @@ var.taxonomy <- 'foo' # character | The taxonomy
 
 #Returns the supported concepts of a taxonomy
 api.instance <- TagsApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListConcepts(var.taxonomy)
 dput(result)
 ```
@@ -38,7 +40,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -64,6 +66,8 @@ var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 
 #Returns address and entity tags associated with a given label
 api.instance <- TagsApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTags(var.label, currency=var.currency)
 dput(result)
 ```
@@ -81,7 +85,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -105,6 +109,8 @@ library(openapi)
 
 #Returns the supported taxonomies
 api.instance <- TagsApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTaxonomies()
 dput(result)
 ```
@@ -118,7 +124,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

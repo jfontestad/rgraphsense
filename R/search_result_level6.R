@@ -13,11 +13,11 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
+#' @field matching_addresses  list( \link{Address} ) [optional]
+#'
 #' @field node  \link{Entity} [optional]
 #'
 #' @field relation  \link{Neighbor} [optional]
-#'
-#' @field matching_addresses  list( \link{Address} ) [optional]
 #'
 #' @field paths  list( \link{SearchResultLeaf} ) [optional]
 #'
@@ -27,14 +27,19 @@
 SearchResultLevel6 <- R6::R6Class(
   'SearchResultLevel6',
   public = list(
+    `matching_addresses` = NULL,
     `node` = NULL,
     `relation` = NULL,
-    `matching_addresses` = NULL,
     `paths` = NULL,
     initialize = function(
-        `node`=NULL, `relation`=NULL, `matching_addresses`=NULL, `paths`=NULL, ...
+        `matching_addresses`=NULL, `node`=NULL, `relation`=NULL, `paths`=NULL, ...
     ) {
       local.optional.var <- list(...)
+      if (!is.null(`matching_addresses`)) {
+        stopifnot(is.vector(`matching_addresses`), length(`matching_addresses`) != 0)
+        sapply(`matching_addresses`, function(x) stopifnot(R6::is.R6(x)))
+        self$`matching_addresses` <- `matching_addresses`
+      }
       if (!is.null(`node`)) {
         stopifnot(R6::is.R6(`node`))
         self$`node` <- `node`
@@ -42,11 +47,6 @@ SearchResultLevel6 <- R6::R6Class(
       if (!is.null(`relation`)) {
         stopifnot(R6::is.R6(`relation`))
         self$`relation` <- `relation`
-      }
-      if (!is.null(`matching_addresses`)) {
-        stopifnot(is.vector(`matching_addresses`), length(`matching_addresses`) != 0)
-        sapply(`matching_addresses`, function(x) stopifnot(R6::is.R6(x)))
-        self$`matching_addresses` <- `matching_addresses`
       }
       if (!is.null(`paths`)) {
         stopifnot(is.vector(`paths`), length(`paths`) != 0)
@@ -56,6 +56,10 @@ SearchResultLevel6 <- R6::R6Class(
     },
     toJSON = function() {
       SearchResultLevel6Object <- list()
+      if (!is.null(self$`matching_addresses`)) {
+        SearchResultLevel6Object[['matching_addresses']] <-
+          lapply(self$`matching_addresses`, function(x) x$toJSON())
+      }
       if (!is.null(self$`node`)) {
         SearchResultLevel6Object[['node']] <-
           self$`node`$toJSON()
@@ -63,10 +67,6 @@ SearchResultLevel6 <- R6::R6Class(
       if (!is.null(self$`relation`)) {
         SearchResultLevel6Object[['relation']] <-
           self$`relation`$toJSON()
-      }
-      if (!is.null(self$`matching_addresses`)) {
-        SearchResultLevel6Object[['matching_addresses']] <-
-          lapply(self$`matching_addresses`, function(x) x$toJSON())
       }
       if (!is.null(self$`paths`)) {
         SearchResultLevel6Object[['paths']] <-
@@ -77,6 +77,9 @@ SearchResultLevel6 <- R6::R6Class(
     },
     fromJSON = function(SearchResultLevel6Json) {
       SearchResultLevel6Object <- jsonlite::fromJSON(SearchResultLevel6Json)
+      if (!is.null(SearchResultLevel6Object$`matching_addresses`)) {
+        self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
+      }
       if (!is.null(SearchResultLevel6Object$`node`)) {
         nodeObject <- Entity$new()
         nodeObject$fromJSON(jsonlite::toJSON(SearchResultLevel6Object$node, auto_unbox = TRUE, digits = NA))
@@ -87,9 +90,6 @@ SearchResultLevel6 <- R6::R6Class(
         relationObject$fromJSON(jsonlite::toJSON(SearchResultLevel6Object$relation, auto_unbox = TRUE, digits = NA))
         self$`relation` <- relationObject
       }
-      if (!is.null(SearchResultLevel6Object$`matching_addresses`)) {
-        self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
-      }
       if (!is.null(SearchResultLevel6Object$`paths`)) {
         self$`paths` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`paths`, "array[SearchResultLeaf]", loadNamespace("openapi"))
       }
@@ -97,6 +97,13 @@ SearchResultLevel6 <- R6::R6Class(
     },
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`matching_addresses`)) {
+        sprintf(
+        '"matching_addresses":
+        [%s]
+',
+        paste(sapply(self$`matching_addresses`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
         if (!is.null(self$`node`)) {
         sprintf(
         '"node":
@@ -111,13 +118,6 @@ SearchResultLevel6 <- R6::R6Class(
         ',
         jsonlite::toJSON(self$`relation`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
-        if (!is.null(self$`matching_addresses`)) {
-        sprintf(
-        '"matching_addresses":
-        [%s]
-',
-        paste(sapply(self$`matching_addresses`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        )},
         if (!is.null(self$`paths`)) {
         sprintf(
         '"paths":
@@ -131,9 +131,9 @@ SearchResultLevel6 <- R6::R6Class(
     },
     fromJSONString = function(SearchResultLevel6Json) {
       SearchResultLevel6Object <- jsonlite::fromJSON(SearchResultLevel6Json)
+      self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
       self$`node` <- Entity$new()$fromJSON(jsonlite::toJSON(SearchResultLevel6Object$node, auto_unbox = TRUE, digits = NA))
       self$`relation` <- Neighbor$new()$fromJSON(jsonlite::toJSON(SearchResultLevel6Object$relation, auto_unbox = TRUE, digits = NA))
-      self$`matching_addresses` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`matching_addresses`, "array[Address]", loadNamespace("openapi"))
       self$`paths` <- ApiClient$new()$deserializeObj(SearchResultLevel6Object$`paths`, "array[SearchResultLeaf]", loadNamespace("openapi"))
       self
     }

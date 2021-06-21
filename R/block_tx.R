@@ -15,8 +15,6 @@
 #'
 #' @field currency_type  character 
 #'
-#' @field tx_hash  character 
-#'
 #' @field no_inputs  integer 
 #'
 #' @field no_outputs  integer 
@@ -24,6 +22,8 @@
 #' @field total_input  \link{Values} 
 #'
 #' @field total_output  \link{Values} 
+#'
+#' @field tx_hash  character 
 #'
 #' @field height  integer 
 #'
@@ -38,25 +38,21 @@ BlockTx <- R6::R6Class(
   'BlockTx',
   public = list(
     `currency_type` = NULL,
-    `tx_hash` = NULL,
     `no_inputs` = NULL,
     `no_outputs` = NULL,
     `total_input` = NULL,
     `total_output` = NULL,
+    `tx_hash` = NULL,
     `height` = NULL,
     `timestamp` = NULL,
     `values` = NULL,
     initialize = function(
-        `currency_type`, `tx_hash`, `no_inputs`, `no_outputs`, `total_input`, `total_output`, `height`, `timestamp`, `values`, ...
+        `currency_type`, `no_inputs`, `no_outputs`, `total_input`, `total_output`, `tx_hash`, `height`, `timestamp`, `values`, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`currency_type`)) {
         stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
         self$`currency_type` <- `currency_type`
-      }
-      if (!missing(`tx_hash`)) {
-        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
-        self$`tx_hash` <- `tx_hash`
       }
       if (!missing(`no_inputs`)) {
         stopifnot(is.numeric(`no_inputs`), length(`no_inputs`) == 1)
@@ -73,6 +69,10 @@ BlockTx <- R6::R6Class(
       if (!missing(`total_output`)) {
         stopifnot(R6::is.R6(`total_output`))
         self$`total_output` <- `total_output`
+      }
+      if (!missing(`tx_hash`)) {
+        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
+        self$`tx_hash` <- `tx_hash`
       }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
@@ -93,10 +93,6 @@ BlockTx <- R6::R6Class(
         BlockTxObject[['currency_type']] <-
           self$`currency_type`
       }
-      if (!is.null(self$`tx_hash`)) {
-        BlockTxObject[['tx_hash']] <-
-          self$`tx_hash`
-      }
       if (!is.null(self$`no_inputs`)) {
         BlockTxObject[['no_inputs']] <-
           self$`no_inputs`
@@ -112,6 +108,10 @@ BlockTx <- R6::R6Class(
       if (!is.null(self$`total_output`)) {
         BlockTxObject[['total_output']] <-
           self$`total_output`$toJSON()
+      }
+      if (!is.null(self$`tx_hash`)) {
+        BlockTxObject[['tx_hash']] <-
+          self$`tx_hash`
       }
       if (!is.null(self$`height`)) {
         BlockTxObject[['height']] <-
@@ -133,9 +133,6 @@ BlockTx <- R6::R6Class(
       if (!is.null(BlockTxObject$`currency_type`)) {
         self$`currency_type` <- BlockTxObject$`currency_type`
       }
-      if (!is.null(BlockTxObject$`tx_hash`)) {
-        self$`tx_hash` <- BlockTxObject$`tx_hash`
-      }
       if (!is.null(BlockTxObject$`no_inputs`)) {
         self$`no_inputs` <- BlockTxObject$`no_inputs`
       }
@@ -151,6 +148,9 @@ BlockTx <- R6::R6Class(
         total_outputObject <- Values$new()
         total_outputObject$fromJSON(jsonlite::toJSON(BlockTxObject$total_output, auto_unbox = TRUE, digits = NA))
         self$`total_output` <- total_outputObject
+      }
+      if (!is.null(BlockTxObject$`tx_hash`)) {
+        self$`tx_hash` <- BlockTxObject$`tx_hash`
       }
       if (!is.null(BlockTxObject$`height`)) {
         self$`height` <- BlockTxObject$`height`
@@ -173,13 +173,6 @@ BlockTx <- R6::R6Class(
           "%s"
                 ',
         self$`currency_type`
-        )},
-        if (!is.null(self$`tx_hash`)) {
-        sprintf(
-        '"tx_hash":
-          "%s"
-                ',
-        self$`tx_hash`
         )},
         if (!is.null(self$`no_inputs`)) {
         sprintf(
@@ -209,6 +202,13 @@ BlockTx <- R6::R6Class(
         ',
         jsonlite::toJSON(self$`total_output`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
+        if (!is.null(self$`tx_hash`)) {
+        sprintf(
+        '"tx_hash":
+          "%s"
+                ',
+        self$`tx_hash`
+        )},
         if (!is.null(self$`height`)) {
         sprintf(
         '"height":
@@ -237,11 +237,11 @@ BlockTx <- R6::R6Class(
     fromJSONString = function(BlockTxJson) {
       BlockTxObject <- jsonlite::fromJSON(BlockTxJson)
       self$`currency_type` <- BlockTxObject$`currency_type`
-      self$`tx_hash` <- BlockTxObject$`tx_hash`
       self$`no_inputs` <- BlockTxObject$`no_inputs`
       self$`no_outputs` <- BlockTxObject$`no_outputs`
       self$`total_input` <- Values$new()$fromJSON(jsonlite::toJSON(BlockTxObject$total_input, auto_unbox = TRUE, digits = NA))
       self$`total_output` <- Values$new()$fromJSON(jsonlite::toJSON(BlockTxObject$total_output, auto_unbox = TRUE, digits = NA))
+      self$`tx_hash` <- BlockTxObject$`tx_hash`
       self$`height` <- BlockTxObject$`height`
       self$`timestamp` <- BlockTxObject$`timestamp`
       self$`values` <- Values$new()$fromJSON(jsonlite::toJSON(BlockTxObject$values, auto_unbox = TRUE, digits = NA))

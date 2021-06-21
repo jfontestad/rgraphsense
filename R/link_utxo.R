@@ -15,15 +15,15 @@
 #'
 #' @field currency_type  character 
 #'
-#' @field tx_hash  character 
-#'
 #' @field height  integer 
-#'
-#' @field timestamp  integer 
 #'
 #' @field input_value  \link{Values} 
 #'
 #' @field output_value  \link{Values} 
+#'
+#' @field timestamp  integer 
+#'
+#' @field tx_hash  character 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -32,30 +32,22 @@ LinkUtxo <- R6::R6Class(
   'LinkUtxo',
   public = list(
     `currency_type` = NULL,
-    `tx_hash` = NULL,
     `height` = NULL,
-    `timestamp` = NULL,
     `input_value` = NULL,
     `output_value` = NULL,
+    `timestamp` = NULL,
+    `tx_hash` = NULL,
     initialize = function(
-        `currency_type`, `tx_hash`, `height`, `timestamp`, `input_value`, `output_value`, ...
+        `currency_type`, `height`, `input_value`, `output_value`, `timestamp`, `tx_hash`, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`currency_type`)) {
         stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
         self$`currency_type` <- `currency_type`
       }
-      if (!missing(`tx_hash`)) {
-        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
-        self$`tx_hash` <- `tx_hash`
-      }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
         self$`height` <- `height`
-      }
-      if (!missing(`timestamp`)) {
-        stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
-        self$`timestamp` <- `timestamp`
       }
       if (!missing(`input_value`)) {
         stopifnot(R6::is.R6(`input_value`))
@@ -65,6 +57,14 @@ LinkUtxo <- R6::R6Class(
         stopifnot(R6::is.R6(`output_value`))
         self$`output_value` <- `output_value`
       }
+      if (!missing(`timestamp`)) {
+        stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
+        self$`timestamp` <- `timestamp`
+      }
+      if (!missing(`tx_hash`)) {
+        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
+        self$`tx_hash` <- `tx_hash`
+      }
     },
     toJSON = function() {
       LinkUtxoObject <- list()
@@ -72,17 +72,9 @@ LinkUtxo <- R6::R6Class(
         LinkUtxoObject[['currency_type']] <-
           self$`currency_type`
       }
-      if (!is.null(self$`tx_hash`)) {
-        LinkUtxoObject[['tx_hash']] <-
-          self$`tx_hash`
-      }
       if (!is.null(self$`height`)) {
         LinkUtxoObject[['height']] <-
           self$`height`
-      }
-      if (!is.null(self$`timestamp`)) {
-        LinkUtxoObject[['timestamp']] <-
-          self$`timestamp`
       }
       if (!is.null(self$`input_value`)) {
         LinkUtxoObject[['input_value']] <-
@@ -92,6 +84,14 @@ LinkUtxo <- R6::R6Class(
         LinkUtxoObject[['output_value']] <-
           self$`output_value`$toJSON()
       }
+      if (!is.null(self$`timestamp`)) {
+        LinkUtxoObject[['timestamp']] <-
+          self$`timestamp`
+      }
+      if (!is.null(self$`tx_hash`)) {
+        LinkUtxoObject[['tx_hash']] <-
+          self$`tx_hash`
+      }
 
       LinkUtxoObject
     },
@@ -100,14 +100,8 @@ LinkUtxo <- R6::R6Class(
       if (!is.null(LinkUtxoObject$`currency_type`)) {
         self$`currency_type` <- LinkUtxoObject$`currency_type`
       }
-      if (!is.null(LinkUtxoObject$`tx_hash`)) {
-        self$`tx_hash` <- LinkUtxoObject$`tx_hash`
-      }
       if (!is.null(LinkUtxoObject$`height`)) {
         self$`height` <- LinkUtxoObject$`height`
-      }
-      if (!is.null(LinkUtxoObject$`timestamp`)) {
-        self$`timestamp` <- LinkUtxoObject$`timestamp`
       }
       if (!is.null(LinkUtxoObject$`input_value`)) {
         input_valueObject <- Values$new()
@@ -118,6 +112,12 @@ LinkUtxo <- R6::R6Class(
         output_valueObject <- Values$new()
         output_valueObject$fromJSON(jsonlite::toJSON(LinkUtxoObject$output_value, auto_unbox = TRUE, digits = NA))
         self$`output_value` <- output_valueObject
+      }
+      if (!is.null(LinkUtxoObject$`timestamp`)) {
+        self$`timestamp` <- LinkUtxoObject$`timestamp`
+      }
+      if (!is.null(LinkUtxoObject$`tx_hash`)) {
+        self$`tx_hash` <- LinkUtxoObject$`tx_hash`
       }
       self
     },
@@ -130,26 +130,12 @@ LinkUtxo <- R6::R6Class(
                 ',
         self$`currency_type`
         )},
-        if (!is.null(self$`tx_hash`)) {
-        sprintf(
-        '"tx_hash":
-          "%s"
-                ',
-        self$`tx_hash`
-        )},
         if (!is.null(self$`height`)) {
         sprintf(
         '"height":
           %d
                 ',
         self$`height`
-        )},
-        if (!is.null(self$`timestamp`)) {
-        sprintf(
-        '"timestamp":
-          %d
-                ',
-        self$`timestamp`
         )},
         if (!is.null(self$`input_value`)) {
         sprintf(
@@ -164,6 +150,20 @@ LinkUtxo <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`output_value`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`timestamp`)) {
+        sprintf(
+        '"timestamp":
+          %d
+                ',
+        self$`timestamp`
+        )},
+        if (!is.null(self$`tx_hash`)) {
+        sprintf(
+        '"tx_hash":
+          "%s"
+                ',
+        self$`tx_hash`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -172,11 +172,11 @@ LinkUtxo <- R6::R6Class(
     fromJSONString = function(LinkUtxoJson) {
       LinkUtxoObject <- jsonlite::fromJSON(LinkUtxoJson)
       self$`currency_type` <- LinkUtxoObject$`currency_type`
-      self$`tx_hash` <- LinkUtxoObject$`tx_hash`
       self$`height` <- LinkUtxoObject$`height`
-      self$`timestamp` <- LinkUtxoObject$`timestamp`
       self$`input_value` <- Values$new()$fromJSON(jsonlite::toJSON(LinkUtxoObject$input_value, auto_unbox = TRUE, digits = NA))
       self$`output_value` <- Values$new()$fromJSON(jsonlite::toJSON(LinkUtxoObject$output_value, auto_unbox = TRUE, digits = NA))
+      self$`timestamp` <- LinkUtxoObject$`timestamp`
+      self$`tx_hash` <- LinkUtxoObject$`tx_hash`
       self
     }
   )

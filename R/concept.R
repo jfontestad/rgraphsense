@@ -13,15 +13,15 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
+#' @field description  character 
+#'
+#' @field id  character 
+#'
 #' @field label  character 
 #'
 #' @field taxonomy  character 
 #'
 #' @field uri  character 
-#'
-#' @field description  character 
-#'
-#' @field id  character 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -29,15 +29,23 @@
 Concept <- R6::R6Class(
   'Concept',
   public = list(
+    `description` = NULL,
+    `id` = NULL,
     `label` = NULL,
     `taxonomy` = NULL,
     `uri` = NULL,
-    `description` = NULL,
-    `id` = NULL,
     initialize = function(
-        `label`, `taxonomy`, `uri`, `description`, `id`, ...
+        `description`, `id`, `label`, `taxonomy`, `uri`, ...
     ) {
       local.optional.var <- list(...)
+      if (!missing(`description`)) {
+        stopifnot(is.character(`description`), length(`description`) == 1)
+        self$`description` <- `description`
+      }
+      if (!missing(`id`)) {
+        stopifnot(is.character(`id`), length(`id`) == 1)
+        self$`id` <- `id`
+      }
       if (!missing(`label`)) {
         stopifnot(is.character(`label`), length(`label`) == 1)
         self$`label` <- `label`
@@ -50,17 +58,17 @@ Concept <- R6::R6Class(
         stopifnot(is.character(`uri`), length(`uri`) == 1)
         self$`uri` <- `uri`
       }
-      if (!missing(`description`)) {
-        stopifnot(is.character(`description`), length(`description`) == 1)
-        self$`description` <- `description`
-      }
-      if (!missing(`id`)) {
-        stopifnot(is.character(`id`), length(`id`) == 1)
-        self$`id` <- `id`
-      }
     },
     toJSON = function() {
       ConceptObject <- list()
+      if (!is.null(self$`description`)) {
+        ConceptObject[['description']] <-
+          self$`description`
+      }
+      if (!is.null(self$`id`)) {
+        ConceptObject[['id']] <-
+          self$`id`
+      }
       if (!is.null(self$`label`)) {
         ConceptObject[['label']] <-
           self$`label`
@@ -73,19 +81,17 @@ Concept <- R6::R6Class(
         ConceptObject[['uri']] <-
           self$`uri`
       }
-      if (!is.null(self$`description`)) {
-        ConceptObject[['description']] <-
-          self$`description`
-      }
-      if (!is.null(self$`id`)) {
-        ConceptObject[['id']] <-
-          self$`id`
-      }
 
       ConceptObject
     },
     fromJSON = function(ConceptJson) {
       ConceptObject <- jsonlite::fromJSON(ConceptJson)
+      if (!is.null(ConceptObject$`description`)) {
+        self$`description` <- ConceptObject$`description`
+      }
+      if (!is.null(ConceptObject$`id`)) {
+        self$`id` <- ConceptObject$`id`
+      }
       if (!is.null(ConceptObject$`label`)) {
         self$`label` <- ConceptObject$`label`
       }
@@ -95,16 +101,24 @@ Concept <- R6::R6Class(
       if (!is.null(ConceptObject$`uri`)) {
         self$`uri` <- ConceptObject$`uri`
       }
-      if (!is.null(ConceptObject$`description`)) {
-        self$`description` <- ConceptObject$`description`
-      }
-      if (!is.null(ConceptObject$`id`)) {
-        self$`id` <- ConceptObject$`id`
-      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`description`)) {
+        sprintf(
+        '"description":
+          "%s"
+                ',
+        self$`description`
+        )},
+        if (!is.null(self$`id`)) {
+        sprintf(
+        '"id":
+          "%s"
+                ',
+        self$`id`
+        )},
         if (!is.null(self$`label`)) {
         sprintf(
         '"label":
@@ -125,20 +139,6 @@ Concept <- R6::R6Class(
           "%s"
                 ',
         self$`uri`
-        )},
-        if (!is.null(self$`description`)) {
-        sprintf(
-        '"description":
-          "%s"
-                ',
-        self$`description`
-        )},
-        if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          "%s"
-                ',
-        self$`id`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -146,11 +146,11 @@ Concept <- R6::R6Class(
     },
     fromJSONString = function(ConceptJson) {
       ConceptObject <- jsonlite::fromJSON(ConceptJson)
+      self$`description` <- ConceptObject$`description`
+      self$`id` <- ConceptObject$`id`
       self$`label` <- ConceptObject$`label`
       self$`taxonomy` <- ConceptObject$`taxonomy`
       self$`uri` <- ConceptObject$`uri`
-      self$`description` <- ConceptObject$`description`
-      self$`id` <- ConceptObject$`id`
       self
     }
   )

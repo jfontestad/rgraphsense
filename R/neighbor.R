@@ -13,19 +13,19 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field id  character 
-#'
-#' @field node_type  character 
-#'
-#' @field labels  list( character ) [optional]
-#'
 #' @field balance  \link{Values} 
-#'
-#' @field received  \link{Values} 
 #'
 #' @field estimated_value  \link{Values} 
 #'
+#' @field id  character 
+#'
+#' @field labels  list( character ) [optional]
+#'
 #' @field no_txs  integer 
+#'
+#' @field node_type  character 
+#'
+#' @field received  \link{Values} 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -33,40 +33,40 @@
 Neighbor <- R6::R6Class(
   'Neighbor',
   public = list(
-    `id` = NULL,
-    `node_type` = NULL,
-    `labels` = NULL,
     `balance` = NULL,
-    `received` = NULL,
     `estimated_value` = NULL,
+    `id` = NULL,
+    `labels` = NULL,
     `no_txs` = NULL,
+    `node_type` = NULL,
+    `received` = NULL,
     initialize = function(
-        `id`, `node_type`, `balance`, `received`, `estimated_value`, `no_txs`, `labels`=NULL, ...
+        `balance`, `estimated_value`, `id`, `no_txs`, `node_type`, `received`, `labels`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`id`)) {
-        stopifnot(is.character(`id`), length(`id`) == 1)
-        self$`id` <- `id`
-      }
-      if (!missing(`node_type`)) {
-        stopifnot(is.character(`node_type`), length(`node_type`) == 1)
-        self$`node_type` <- `node_type`
-      }
       if (!missing(`balance`)) {
         stopifnot(R6::is.R6(`balance`))
         self$`balance` <- `balance`
-      }
-      if (!missing(`received`)) {
-        stopifnot(R6::is.R6(`received`))
-        self$`received` <- `received`
       }
       if (!missing(`estimated_value`)) {
         stopifnot(R6::is.R6(`estimated_value`))
         self$`estimated_value` <- `estimated_value`
       }
+      if (!missing(`id`)) {
+        stopifnot(is.character(`id`), length(`id`) == 1)
+        self$`id` <- `id`
+      }
       if (!missing(`no_txs`)) {
         stopifnot(is.numeric(`no_txs`), length(`no_txs`) == 1)
         self$`no_txs` <- `no_txs`
+      }
+      if (!missing(`node_type`)) {
+        stopifnot(is.character(`node_type`), length(`node_type`) == 1)
+        self$`node_type` <- `node_type`
+      }
+      if (!missing(`received`)) {
+        stopifnot(R6::is.R6(`received`))
+        self$`received` <- `received`
       }
       if (!is.null(`labels`)) {
         stopifnot(is.vector(`labels`), length(`labels`) != 0)
@@ -76,104 +76,76 @@ Neighbor <- R6::R6Class(
     },
     toJSON = function() {
       NeighborObject <- list()
-      if (!is.null(self$`id`)) {
-        NeighborObject[['id']] <-
-          self$`id`
-      }
-      if (!is.null(self$`node_type`)) {
-        NeighborObject[['node_type']] <-
-          self$`node_type`
-      }
-      if (!is.null(self$`labels`)) {
-        NeighborObject[['labels']] <-
-          self$`labels`
-      }
       if (!is.null(self$`balance`)) {
         NeighborObject[['balance']] <-
           self$`balance`$toJSON()
-      }
-      if (!is.null(self$`received`)) {
-        NeighborObject[['received']] <-
-          self$`received`$toJSON()
       }
       if (!is.null(self$`estimated_value`)) {
         NeighborObject[['estimated_value']] <-
           self$`estimated_value`$toJSON()
       }
+      if (!is.null(self$`id`)) {
+        NeighborObject[['id']] <-
+          self$`id`
+      }
+      if (!is.null(self$`labels`)) {
+        NeighborObject[['labels']] <-
+          self$`labels`
+      }
       if (!is.null(self$`no_txs`)) {
         NeighborObject[['no_txs']] <-
           self$`no_txs`
+      }
+      if (!is.null(self$`node_type`)) {
+        NeighborObject[['node_type']] <-
+          self$`node_type`
+      }
+      if (!is.null(self$`received`)) {
+        NeighborObject[['received']] <-
+          self$`received`$toJSON()
       }
 
       NeighborObject
     },
     fromJSON = function(NeighborJson) {
       NeighborObject <- jsonlite::fromJSON(NeighborJson)
-      if (!is.null(NeighborObject$`id`)) {
-        self$`id` <- NeighborObject$`id`
-      }
-      if (!is.null(NeighborObject$`node_type`)) {
-        self$`node_type` <- NeighborObject$`node_type`
-      }
-      if (!is.null(NeighborObject$`labels`)) {
-        self$`labels` <- ApiClient$new()$deserializeObj(NeighborObject$`labels`, "array[character]", loadNamespace("openapi"))
-      }
       if (!is.null(NeighborObject$`balance`)) {
         balanceObject <- Values$new()
         balanceObject$fromJSON(jsonlite::toJSON(NeighborObject$balance, auto_unbox = TRUE, digits = NA))
         self$`balance` <- balanceObject
-      }
-      if (!is.null(NeighborObject$`received`)) {
-        receivedObject <- Values$new()
-        receivedObject$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
-        self$`received` <- receivedObject
       }
       if (!is.null(NeighborObject$`estimated_value`)) {
         estimated_valueObject <- Values$new()
         estimated_valueObject$fromJSON(jsonlite::toJSON(NeighborObject$estimated_value, auto_unbox = TRUE, digits = NA))
         self$`estimated_value` <- estimated_valueObject
       }
+      if (!is.null(NeighborObject$`id`)) {
+        self$`id` <- NeighborObject$`id`
+      }
+      if (!is.null(NeighborObject$`labels`)) {
+        self$`labels` <- ApiClient$new()$deserializeObj(NeighborObject$`labels`, "array[character]", loadNamespace("openapi"))
+      }
       if (!is.null(NeighborObject$`no_txs`)) {
         self$`no_txs` <- NeighborObject$`no_txs`
+      }
+      if (!is.null(NeighborObject$`node_type`)) {
+        self$`node_type` <- NeighborObject$`node_type`
+      }
+      if (!is.null(NeighborObject$`received`)) {
+        receivedObject <- Values$new()
+        receivedObject$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
+        self$`received` <- receivedObject
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`id`)) {
-        sprintf(
-        '"id":
-          "%s"
-                ',
-        self$`id`
-        )},
-        if (!is.null(self$`node_type`)) {
-        sprintf(
-        '"node_type":
-          "%s"
-                ',
-        self$`node_type`
-        )},
-        if (!is.null(self$`labels`)) {
-        sprintf(
-        '"labels":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`labels`, function(x) paste0('"', x, '"'))), collapse=",")
-        )},
         if (!is.null(self$`balance`)) {
         sprintf(
         '"balance":
         %s
         ',
         jsonlite::toJSON(self$`balance`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`received`)) {
-        sprintf(
-        '"received":
-        %s
-        ',
-        jsonlite::toJSON(self$`received`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
         if (!is.null(self$`estimated_value`)) {
         sprintf(
@@ -182,12 +154,40 @@ Neighbor <- R6::R6Class(
         ',
         jsonlite::toJSON(self$`estimated_value`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
+        if (!is.null(self$`id`)) {
+        sprintf(
+        '"id":
+          "%s"
+                ',
+        self$`id`
+        )},
+        if (!is.null(self$`labels`)) {
+        sprintf(
+        '"labels":
+           [%s]
+        ',
+        paste(unlist(lapply(self$`labels`, function(x) paste0('"', x, '"'))), collapse=",")
+        )},
         if (!is.null(self$`no_txs`)) {
         sprintf(
         '"no_txs":
           %d
                 ',
         self$`no_txs`
+        )},
+        if (!is.null(self$`node_type`)) {
+        sprintf(
+        '"node_type":
+          "%s"
+                ',
+        self$`node_type`
+        )},
+        if (!is.null(self$`received`)) {
+        sprintf(
+        '"received":
+        %s
+        ',
+        jsonlite::toJSON(self$`received`$toJSON(), auto_unbox=TRUE, digits = NA)
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -195,13 +195,13 @@ Neighbor <- R6::R6Class(
     },
     fromJSONString = function(NeighborJson) {
       NeighborObject <- jsonlite::fromJSON(NeighborJson)
-      self$`id` <- NeighborObject$`id`
-      self$`node_type` <- NeighborObject$`node_type`
-      self$`labels` <- ApiClient$new()$deserializeObj(NeighborObject$`labels`, "array[character]", loadNamespace("openapi"))
       self$`balance` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$balance, auto_unbox = TRUE, digits = NA))
-      self$`received` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
       self$`estimated_value` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$estimated_value, auto_unbox = TRUE, digits = NA))
+      self$`id` <- NeighborObject$`id`
+      self$`labels` <- ApiClient$new()$deserializeObj(NeighborObject$`labels`, "array[character]", loadNamespace("openapi"))
       self$`no_txs` <- NeighborObject$`no_txs`
+      self$`node_type` <- NeighborObject$`node_type`
+      self$`received` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
       self
     }
   )

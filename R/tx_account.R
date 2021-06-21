@@ -15,11 +15,11 @@
 #'
 #' @field currency_type  character 
 #'
-#' @field tx_hash  character 
-#'
 #' @field height  integer 
 #'
 #' @field timestamp  integer 
+#'
+#' @field tx_hash  character 
 #'
 #' @field values  \link{Values} 
 #'
@@ -30,21 +30,17 @@ TxAccount <- R6::R6Class(
   'TxAccount',
   public = list(
     `currency_type` = NULL,
-    `tx_hash` = NULL,
     `height` = NULL,
     `timestamp` = NULL,
+    `tx_hash` = NULL,
     `values` = NULL,
     initialize = function(
-        `currency_type`, `tx_hash`, `height`, `timestamp`, `values`, ...
+        `currency_type`, `height`, `timestamp`, `tx_hash`, `values`, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`currency_type`)) {
         stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
         self$`currency_type` <- `currency_type`
-      }
-      if (!missing(`tx_hash`)) {
-        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
-        self$`tx_hash` <- `tx_hash`
       }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
@@ -53,6 +49,10 @@ TxAccount <- R6::R6Class(
       if (!missing(`timestamp`)) {
         stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
+      }
+      if (!missing(`tx_hash`)) {
+        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
+        self$`tx_hash` <- `tx_hash`
       }
       if (!missing(`values`)) {
         stopifnot(R6::is.R6(`values`))
@@ -65,10 +65,6 @@ TxAccount <- R6::R6Class(
         TxAccountObject[['currency_type']] <-
           self$`currency_type`
       }
-      if (!is.null(self$`tx_hash`)) {
-        TxAccountObject[['tx_hash']] <-
-          self$`tx_hash`
-      }
       if (!is.null(self$`height`)) {
         TxAccountObject[['height']] <-
           self$`height`
@@ -76,6 +72,10 @@ TxAccount <- R6::R6Class(
       if (!is.null(self$`timestamp`)) {
         TxAccountObject[['timestamp']] <-
           self$`timestamp`
+      }
+      if (!is.null(self$`tx_hash`)) {
+        TxAccountObject[['tx_hash']] <-
+          self$`tx_hash`
       }
       if (!is.null(self$`values`)) {
         TxAccountObject[['values']] <-
@@ -89,14 +89,14 @@ TxAccount <- R6::R6Class(
       if (!is.null(TxAccountObject$`currency_type`)) {
         self$`currency_type` <- TxAccountObject$`currency_type`
       }
-      if (!is.null(TxAccountObject$`tx_hash`)) {
-        self$`tx_hash` <- TxAccountObject$`tx_hash`
-      }
       if (!is.null(TxAccountObject$`height`)) {
         self$`height` <- TxAccountObject$`height`
       }
       if (!is.null(TxAccountObject$`timestamp`)) {
         self$`timestamp` <- TxAccountObject$`timestamp`
+      }
+      if (!is.null(TxAccountObject$`tx_hash`)) {
+        self$`tx_hash` <- TxAccountObject$`tx_hash`
       }
       if (!is.null(TxAccountObject$`values`)) {
         valuesObject <- Values$new()
@@ -114,13 +114,6 @@ TxAccount <- R6::R6Class(
                 ',
         self$`currency_type`
         )},
-        if (!is.null(self$`tx_hash`)) {
-        sprintf(
-        '"tx_hash":
-          "%s"
-                ',
-        self$`tx_hash`
-        )},
         if (!is.null(self$`height`)) {
         sprintf(
         '"height":
@@ -134,6 +127,13 @@ TxAccount <- R6::R6Class(
           %d
                 ',
         self$`timestamp`
+        )},
+        if (!is.null(self$`tx_hash`)) {
+        sprintf(
+        '"tx_hash":
+          "%s"
+                ',
+        self$`tx_hash`
         )},
         if (!is.null(self$`values`)) {
         sprintf(
@@ -149,9 +149,9 @@ TxAccount <- R6::R6Class(
     fromJSONString = function(TxAccountJson) {
       TxAccountObject <- jsonlite::fromJSON(TxAccountJson)
       self$`currency_type` <- TxAccountObject$`currency_type`
-      self$`tx_hash` <- TxAccountObject$`tx_hash`
       self$`height` <- TxAccountObject$`height`
       self$`timestamp` <- TxAccountObject$`timestamp`
+      self$`tx_hash` <- TxAccountObject$`tx_hash`
       self$`values` <- Values$new()$fromJSON(jsonlite::toJSON(TxAccountObject$values, auto_unbox = TRUE, digits = NA))
       self
     }

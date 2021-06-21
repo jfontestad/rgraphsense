@@ -15,8 +15,6 @@
 #'
 #' @field currency_type  character 
 #'
-#' @field tx_hash  character 
-#'
 #' @field no_inputs  integer 
 #'
 #' @field no_outputs  integer 
@@ -25,6 +23,8 @@
 #'
 #' @field total_output  \link{Values} 
 #'
+#' @field tx_hash  character 
+#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -32,22 +32,18 @@ BlockTxUtxo <- R6::R6Class(
   'BlockTxUtxo',
   public = list(
     `currency_type` = NULL,
-    `tx_hash` = NULL,
     `no_inputs` = NULL,
     `no_outputs` = NULL,
     `total_input` = NULL,
     `total_output` = NULL,
+    `tx_hash` = NULL,
     initialize = function(
-        `currency_type`, `tx_hash`, `no_inputs`, `no_outputs`, `total_input`, `total_output`, ...
+        `currency_type`, `no_inputs`, `no_outputs`, `total_input`, `total_output`, `tx_hash`, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`currency_type`)) {
         stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
         self$`currency_type` <- `currency_type`
-      }
-      if (!missing(`tx_hash`)) {
-        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
-        self$`tx_hash` <- `tx_hash`
       }
       if (!missing(`no_inputs`)) {
         stopifnot(is.numeric(`no_inputs`), length(`no_inputs`) == 1)
@@ -65,16 +61,16 @@ BlockTxUtxo <- R6::R6Class(
         stopifnot(R6::is.R6(`total_output`))
         self$`total_output` <- `total_output`
       }
+      if (!missing(`tx_hash`)) {
+        stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
+        self$`tx_hash` <- `tx_hash`
+      }
     },
     toJSON = function() {
       BlockTxUtxoObject <- list()
       if (!is.null(self$`currency_type`)) {
         BlockTxUtxoObject[['currency_type']] <-
           self$`currency_type`
-      }
-      if (!is.null(self$`tx_hash`)) {
-        BlockTxUtxoObject[['tx_hash']] <-
-          self$`tx_hash`
       }
       if (!is.null(self$`no_inputs`)) {
         BlockTxUtxoObject[['no_inputs']] <-
@@ -92,6 +88,10 @@ BlockTxUtxo <- R6::R6Class(
         BlockTxUtxoObject[['total_output']] <-
           self$`total_output`$toJSON()
       }
+      if (!is.null(self$`tx_hash`)) {
+        BlockTxUtxoObject[['tx_hash']] <-
+          self$`tx_hash`
+      }
 
       BlockTxUtxoObject
     },
@@ -99,9 +99,6 @@ BlockTxUtxo <- R6::R6Class(
       BlockTxUtxoObject <- jsonlite::fromJSON(BlockTxUtxoJson)
       if (!is.null(BlockTxUtxoObject$`currency_type`)) {
         self$`currency_type` <- BlockTxUtxoObject$`currency_type`
-      }
-      if (!is.null(BlockTxUtxoObject$`tx_hash`)) {
-        self$`tx_hash` <- BlockTxUtxoObject$`tx_hash`
       }
       if (!is.null(BlockTxUtxoObject$`no_inputs`)) {
         self$`no_inputs` <- BlockTxUtxoObject$`no_inputs`
@@ -119,6 +116,9 @@ BlockTxUtxo <- R6::R6Class(
         total_outputObject$fromJSON(jsonlite::toJSON(BlockTxUtxoObject$total_output, auto_unbox = TRUE, digits = NA))
         self$`total_output` <- total_outputObject
       }
+      if (!is.null(BlockTxUtxoObject$`tx_hash`)) {
+        self$`tx_hash` <- BlockTxUtxoObject$`tx_hash`
+      }
       self
     },
     toJSONString = function() {
@@ -129,13 +129,6 @@ BlockTxUtxo <- R6::R6Class(
           "%s"
                 ',
         self$`currency_type`
-        )},
-        if (!is.null(self$`tx_hash`)) {
-        sprintf(
-        '"tx_hash":
-          "%s"
-                ',
-        self$`tx_hash`
         )},
         if (!is.null(self$`no_inputs`)) {
         sprintf(
@@ -164,6 +157,13 @@ BlockTxUtxo <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`total_output`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`tx_hash`)) {
+        sprintf(
+        '"tx_hash":
+          "%s"
+                ',
+        self$`tx_hash`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -172,11 +172,11 @@ BlockTxUtxo <- R6::R6Class(
     fromJSONString = function(BlockTxUtxoJson) {
       BlockTxUtxoObject <- jsonlite::fromJSON(BlockTxUtxoJson)
       self$`currency_type` <- BlockTxUtxoObject$`currency_type`
-      self$`tx_hash` <- BlockTxUtxoObject$`tx_hash`
       self$`no_inputs` <- BlockTxUtxoObject$`no_inputs`
       self$`no_outputs` <- BlockTxUtxoObject$`no_outputs`
       self$`total_input` <- Values$new()$fromJSON(jsonlite::toJSON(BlockTxUtxoObject$total_input, auto_unbox = TRUE, digits = NA))
       self$`total_output` <- Values$new()$fromJSON(jsonlite::toJSON(BlockTxUtxoObject$total_output, auto_unbox = TRUE, digits = NA))
+      self$`tx_hash` <- BlockTxUtxoObject$`tx_hash`
       self
     }
   )

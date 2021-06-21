@@ -13,9 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field next_page  character [optional]
-#'
 #' @field neighbors  list( \link{Neighbor} ) [optional]
+#'
+#' @field next_page  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,60 +23,60 @@
 Neighbors <- R6::R6Class(
   'Neighbors',
   public = list(
-    `next_page` = NULL,
     `neighbors` = NULL,
+    `next_page` = NULL,
     initialize = function(
-        `next_page`=NULL, `neighbors`=NULL, ...
+        `neighbors`=NULL, `next_page`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`next_page`)) {
-        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
-        self$`next_page` <- `next_page`
-      }
       if (!is.null(`neighbors`)) {
         stopifnot(is.vector(`neighbors`), length(`neighbors`) != 0)
         sapply(`neighbors`, function(x) stopifnot(R6::is.R6(x)))
         self$`neighbors` <- `neighbors`
       }
+      if (!is.null(`next_page`)) {
+        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
+        self$`next_page` <- `next_page`
+      }
     },
     toJSON = function() {
       NeighborsObject <- list()
-      if (!is.null(self$`next_page`)) {
-        NeighborsObject[['next_page']] <-
-          self$`next_page`
-      }
       if (!is.null(self$`neighbors`)) {
         NeighborsObject[['neighbors']] <-
           lapply(self$`neighbors`, function(x) x$toJSON())
+      }
+      if (!is.null(self$`next_page`)) {
+        NeighborsObject[['next_page']] <-
+          self$`next_page`
       }
 
       NeighborsObject
     },
     fromJSON = function(NeighborsJson) {
       NeighborsObject <- jsonlite::fromJSON(NeighborsJson)
-      if (!is.null(NeighborsObject$`next_page`)) {
-        self$`next_page` <- NeighborsObject$`next_page`
-      }
       if (!is.null(NeighborsObject$`neighbors`)) {
         self$`neighbors` <- ApiClient$new()$deserializeObj(NeighborsObject$`neighbors`, "array[Neighbor]", loadNamespace("openapi"))
+      }
+      if (!is.null(NeighborsObject$`next_page`)) {
+        self$`next_page` <- NeighborsObject$`next_page`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`next_page`)) {
-        sprintf(
-        '"next_page":
-          "%s"
-                ',
-        self$`next_page`
-        )},
         if (!is.null(self$`neighbors`)) {
         sprintf(
         '"neighbors":
         [%s]
 ',
         paste(sapply(self$`neighbors`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
+        if (!is.null(self$`next_page`)) {
+        sprintf(
+        '"next_page":
+          "%s"
+                ',
+        self$`next_page`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -84,8 +84,8 @@ Neighbors <- R6::R6Class(
     },
     fromJSONString = function(NeighborsJson) {
       NeighborsObject <- jsonlite::fromJSON(NeighborsJson)
-      self$`next_page` <- NeighborsObject$`next_page`
       self$`neighbors` <- ApiClient$new()$deserializeObj(NeighborsObject$`neighbors`, "array[Neighbor]", loadNamespace("openapi"))
+      self$`next_page` <- NeighborsObject$`next_page`
       self
     }
   )

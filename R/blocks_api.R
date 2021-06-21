@@ -99,6 +99,9 @@
 #' #Get a block by its height
 #' api.instance <- BlocksApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$GetBlock(var.currency, var.height)
 #'
 #'
@@ -110,6 +113,9 @@
 #'
 #' #Get block transactions (100 per page)
 #' api.instance <- BlocksApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListBlockTxs(var.currency, var.height)
 #'
@@ -123,6 +129,9 @@
 #' #Get block transactions as CSV
 #' api.instance <- BlocksApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListBlockTxsCsv(var.currency, var.height)
 #'
 #'
@@ -134,6 +143,9 @@
 #'
 #' #Get all blocks
 #' api.instance <- BlocksApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListBlocks(var.currency, page=var.page)
 #'
@@ -191,6 +203,10 @@ BlocksApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "height", "\\}"), URLencode(as.character(`height`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -252,6 +268,10 @@ BlocksApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "height", "\\}"), URLencode(as.character(`height`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -313,6 +333,10 @@ BlocksApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "height", "\\}"), URLencode(as.character(`height`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -368,6 +392,10 @@ BlocksApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

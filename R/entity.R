@@ -13,17 +13,15 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field entity  integer 
-#'
 #' @field balance  \link{Values} 
+#'
+#' @field entity  integer 
 #'
 #' @field first_tx  \link{TxSummary} 
 #'
-#' @field last_tx  \link{TxSummary} 
-#'
 #' @field in_degree  integer 
 #'
-#' @field out_degree  integer 
+#' @field last_tx  \link{TxSummary} 
 #'
 #' @field no_addresses  integer 
 #'
@@ -31,11 +29,13 @@
 #'
 #' @field no_outgoing_txs  integer 
 #'
+#' @field out_degree  integer 
+#'
+#' @field tags  \link{Tags} [optional]
+#'
 #' @field total_received  \link{Values} 
 #'
 #' @field total_spent  \link{Values} 
-#'
-#' @field tags  \link{Tags} [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -43,45 +43,41 @@
 Entity <- R6::R6Class(
   'Entity',
   public = list(
-    `entity` = NULL,
     `balance` = NULL,
+    `entity` = NULL,
     `first_tx` = NULL,
-    `last_tx` = NULL,
     `in_degree` = NULL,
-    `out_degree` = NULL,
+    `last_tx` = NULL,
     `no_addresses` = NULL,
     `no_incoming_txs` = NULL,
     `no_outgoing_txs` = NULL,
+    `out_degree` = NULL,
+    `tags` = NULL,
     `total_received` = NULL,
     `total_spent` = NULL,
-    `tags` = NULL,
     initialize = function(
-        `entity`, `balance`, `first_tx`, `last_tx`, `in_degree`, `out_degree`, `no_addresses`, `no_incoming_txs`, `no_outgoing_txs`, `total_received`, `total_spent`, `tags`=NULL, ...
+        `balance`, `entity`, `first_tx`, `in_degree`, `last_tx`, `no_addresses`, `no_incoming_txs`, `no_outgoing_txs`, `out_degree`, `total_received`, `total_spent`, `tags`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`entity`)) {
-        stopifnot(is.numeric(`entity`), length(`entity`) == 1)
-        self$`entity` <- `entity`
-      }
       if (!missing(`balance`)) {
         stopifnot(R6::is.R6(`balance`))
         self$`balance` <- `balance`
+      }
+      if (!missing(`entity`)) {
+        stopifnot(is.numeric(`entity`), length(`entity`) == 1)
+        self$`entity` <- `entity`
       }
       if (!missing(`first_tx`)) {
         stopifnot(R6::is.R6(`first_tx`))
         self$`first_tx` <- `first_tx`
       }
-      if (!missing(`last_tx`)) {
-        stopifnot(R6::is.R6(`last_tx`))
-        self$`last_tx` <- `last_tx`
-      }
       if (!missing(`in_degree`)) {
         stopifnot(is.numeric(`in_degree`), length(`in_degree`) == 1)
         self$`in_degree` <- `in_degree`
       }
-      if (!missing(`out_degree`)) {
-        stopifnot(is.numeric(`out_degree`), length(`out_degree`) == 1)
-        self$`out_degree` <- `out_degree`
+      if (!missing(`last_tx`)) {
+        stopifnot(R6::is.R6(`last_tx`))
+        self$`last_tx` <- `last_tx`
       }
       if (!missing(`no_addresses`)) {
         stopifnot(is.numeric(`no_addresses`), length(`no_addresses`) == 1)
@@ -94,6 +90,10 @@ Entity <- R6::R6Class(
       if (!missing(`no_outgoing_txs`)) {
         stopifnot(is.numeric(`no_outgoing_txs`), length(`no_outgoing_txs`) == 1)
         self$`no_outgoing_txs` <- `no_outgoing_txs`
+      }
+      if (!missing(`out_degree`)) {
+        stopifnot(is.numeric(`out_degree`), length(`out_degree`) == 1)
+        self$`out_degree` <- `out_degree`
       }
       if (!missing(`total_received`)) {
         stopifnot(R6::is.R6(`total_received`))
@@ -110,29 +110,25 @@ Entity <- R6::R6Class(
     },
     toJSON = function() {
       EntityObject <- list()
-      if (!is.null(self$`entity`)) {
-        EntityObject[['entity']] <-
-          self$`entity`
-      }
       if (!is.null(self$`balance`)) {
         EntityObject[['balance']] <-
           self$`balance`$toJSON()
+      }
+      if (!is.null(self$`entity`)) {
+        EntityObject[['entity']] <-
+          self$`entity`
       }
       if (!is.null(self$`first_tx`)) {
         EntityObject[['first_tx']] <-
           self$`first_tx`$toJSON()
       }
-      if (!is.null(self$`last_tx`)) {
-        EntityObject[['last_tx']] <-
-          self$`last_tx`$toJSON()
-      }
       if (!is.null(self$`in_degree`)) {
         EntityObject[['in_degree']] <-
           self$`in_degree`
       }
-      if (!is.null(self$`out_degree`)) {
-        EntityObject[['out_degree']] <-
-          self$`out_degree`
+      if (!is.null(self$`last_tx`)) {
+        EntityObject[['last_tx']] <-
+          self$`last_tx`$toJSON()
       }
       if (!is.null(self$`no_addresses`)) {
         EntityObject[['no_addresses']] <-
@@ -146,6 +142,14 @@ Entity <- R6::R6Class(
         EntityObject[['no_outgoing_txs']] <-
           self$`no_outgoing_txs`
       }
+      if (!is.null(self$`out_degree`)) {
+        EntityObject[['out_degree']] <-
+          self$`out_degree`
+      }
+      if (!is.null(self$`tags`)) {
+        EntityObject[['tags']] <-
+          self$`tags`$toJSON()
+      }
       if (!is.null(self$`total_received`)) {
         EntityObject[['total_received']] <-
           self$`total_received`$toJSON()
@@ -154,38 +158,31 @@ Entity <- R6::R6Class(
         EntityObject[['total_spent']] <-
           self$`total_spent`$toJSON()
       }
-      if (!is.null(self$`tags`)) {
-        EntityObject[['tags']] <-
-          self$`tags`$toJSON()
-      }
 
       EntityObject
     },
     fromJSON = function(EntityJson) {
       EntityObject <- jsonlite::fromJSON(EntityJson)
-      if (!is.null(EntityObject$`entity`)) {
-        self$`entity` <- EntityObject$`entity`
-      }
       if (!is.null(EntityObject$`balance`)) {
         balanceObject <- Values$new()
         balanceObject$fromJSON(jsonlite::toJSON(EntityObject$balance, auto_unbox = TRUE, digits = NA))
         self$`balance` <- balanceObject
+      }
+      if (!is.null(EntityObject$`entity`)) {
+        self$`entity` <- EntityObject$`entity`
       }
       if (!is.null(EntityObject$`first_tx`)) {
         first_txObject <- TxSummary$new()
         first_txObject$fromJSON(jsonlite::toJSON(EntityObject$first_tx, auto_unbox = TRUE, digits = NA))
         self$`first_tx` <- first_txObject
       }
+      if (!is.null(EntityObject$`in_degree`)) {
+        self$`in_degree` <- EntityObject$`in_degree`
+      }
       if (!is.null(EntityObject$`last_tx`)) {
         last_txObject <- TxSummary$new()
         last_txObject$fromJSON(jsonlite::toJSON(EntityObject$last_tx, auto_unbox = TRUE, digits = NA))
         self$`last_tx` <- last_txObject
-      }
-      if (!is.null(EntityObject$`in_degree`)) {
-        self$`in_degree` <- EntityObject$`in_degree`
-      }
-      if (!is.null(EntityObject$`out_degree`)) {
-        self$`out_degree` <- EntityObject$`out_degree`
       }
       if (!is.null(EntityObject$`no_addresses`)) {
         self$`no_addresses` <- EntityObject$`no_addresses`
@@ -195,6 +192,14 @@ Entity <- R6::R6Class(
       }
       if (!is.null(EntityObject$`no_outgoing_txs`)) {
         self$`no_outgoing_txs` <- EntityObject$`no_outgoing_txs`
+      }
+      if (!is.null(EntityObject$`out_degree`)) {
+        self$`out_degree` <- EntityObject$`out_degree`
+      }
+      if (!is.null(EntityObject$`tags`)) {
+        tagsObject <- Tags$new()
+        tagsObject$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
+        self$`tags` <- tagsObject
       }
       if (!is.null(EntityObject$`total_received`)) {
         total_receivedObject <- Values$new()
@@ -206,28 +211,23 @@ Entity <- R6::R6Class(
         total_spentObject$fromJSON(jsonlite::toJSON(EntityObject$total_spent, auto_unbox = TRUE, digits = NA))
         self$`total_spent` <- total_spentObject
       }
-      if (!is.null(EntityObject$`tags`)) {
-        tagsObject <- Tags$new()
-        tagsObject$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
-        self$`tags` <- tagsObject
-      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`entity`)) {
-        sprintf(
-        '"entity":
-          %d
-                ',
-        self$`entity`
-        )},
         if (!is.null(self$`balance`)) {
         sprintf(
         '"balance":
         %s
         ',
         jsonlite::toJSON(self$`balance`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`entity`)) {
+        sprintf(
+        '"entity":
+          %d
+                ',
+        self$`entity`
         )},
         if (!is.null(self$`first_tx`)) {
         sprintf(
@@ -236,13 +236,6 @@ Entity <- R6::R6Class(
         ',
         jsonlite::toJSON(self$`first_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
-        if (!is.null(self$`last_tx`)) {
-        sprintf(
-        '"last_tx":
-        %s
-        ',
-        jsonlite::toJSON(self$`last_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
         if (!is.null(self$`in_degree`)) {
         sprintf(
         '"in_degree":
@@ -250,12 +243,12 @@ Entity <- R6::R6Class(
                 ',
         self$`in_degree`
         )},
-        if (!is.null(self$`out_degree`)) {
+        if (!is.null(self$`last_tx`)) {
         sprintf(
-        '"out_degree":
-          %d
-                ',
-        self$`out_degree`
+        '"last_tx":
+        %s
+        ',
+        jsonlite::toJSON(self$`last_tx`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
         if (!is.null(self$`no_addresses`)) {
         sprintf(
@@ -278,6 +271,20 @@ Entity <- R6::R6Class(
                 ',
         self$`no_outgoing_txs`
         )},
+        if (!is.null(self$`out_degree`)) {
+        sprintf(
+        '"out_degree":
+          %d
+                ',
+        self$`out_degree`
+        )},
+        if (!is.null(self$`tags`)) {
+        sprintf(
+        '"tags":
+        %s
+        ',
+        jsonlite::toJSON(self$`tags`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
         if (!is.null(self$`total_received`)) {
         sprintf(
         '"total_received":
@@ -291,13 +298,6 @@ Entity <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`total_spent`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`tags`)) {
-        sprintf(
-        '"tags":
-        %s
-        ',
-        jsonlite::toJSON(self$`tags`$toJSON(), auto_unbox=TRUE, digits = NA)
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -305,18 +305,18 @@ Entity <- R6::R6Class(
     },
     fromJSONString = function(EntityJson) {
       EntityObject <- jsonlite::fromJSON(EntityJson)
-      self$`entity` <- EntityObject$`entity`
       self$`balance` <- Values$new()$fromJSON(jsonlite::toJSON(EntityObject$balance, auto_unbox = TRUE, digits = NA))
+      self$`entity` <- EntityObject$`entity`
       self$`first_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(EntityObject$first_tx, auto_unbox = TRUE, digits = NA))
-      self$`last_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(EntityObject$last_tx, auto_unbox = TRUE, digits = NA))
       self$`in_degree` <- EntityObject$`in_degree`
-      self$`out_degree` <- EntityObject$`out_degree`
+      self$`last_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(EntityObject$last_tx, auto_unbox = TRUE, digits = NA))
       self$`no_addresses` <- EntityObject$`no_addresses`
       self$`no_incoming_txs` <- EntityObject$`no_incoming_txs`
       self$`no_outgoing_txs` <- EntityObject$`no_outgoing_txs`
+      self$`out_degree` <- EntityObject$`out_degree`
+      self$`tags` <- Tags$new()$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
       self$`total_received` <- Values$new()$fromJSON(jsonlite::toJSON(EntityObject$total_received, auto_unbox = TRUE, digits = NA))
       self$`total_spent` <- Values$new()$fromJSON(jsonlite::toJSON(EntityObject$total_spent, auto_unbox = TRUE, digits = NA))
-      self$`tags` <- Tags$new()$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
       self
     }
   )

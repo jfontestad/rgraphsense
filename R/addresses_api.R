@@ -255,6 +255,9 @@
 #' #Get an address, optionally with tags
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
 #'
 #'
@@ -269,6 +272,9 @@
 #' #Get the entity of an address
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 #'
 #'
@@ -282,6 +288,9 @@
 #' #Get transactions between two addresses
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor)
 #'
 #'
@@ -294,6 +303,9 @@
 #'
 #' #Get transactions between two addresses as CSV
 #' api.instance <- AddressesApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressLinksCsv(var.currency, var.address, var.neighbor)
 #'
@@ -311,6 +323,9 @@
 #' #Get an addresses' neighbors in the address graph
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 #'
 #'
@@ -324,6 +339,9 @@
 #'
 #' #Get an addresses' neighbors in the address graph as CSV
 #' api.instance <- AddressesApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressNeighborsCsv(var.currency, var.address, var.direction, include.labels=var.include.labels)
 #'
@@ -339,6 +357,9 @@
 #' #Get all transactions an address has been involved in
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 #'
 #'
@@ -350,6 +371,9 @@
 #'
 #' #Get all transactions an address has been involved in as CSV
 #' api.instance <- AddressesApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressTxsCsv(var.currency, var.address)
 #'
@@ -365,6 +389,9 @@
 #' #Get addresses
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListAddresses(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
 #'
 #'
@@ -376,6 +403,9 @@
 #'
 #' #Get addresses as CSV
 #' api.instance <- AddressesApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressesCsv(var.currency, var.ids)
 #'
@@ -389,6 +419,9 @@
 #' #Get attribution tags for a given address
 #' api.instance <- AddressesApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$ListTagsByAddress(var.currency, var.address)
 #'
 #'
@@ -400,6 +433,9 @@
 #'
 #' #Get attribution tags for a given address
 #' api.instance <- AddressesApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTagsByAddressCsv(var.currency, var.address)
 #'
@@ -459,6 +495,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -524,6 +564,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -591,6 +635,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -658,6 +706,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -731,6 +783,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -800,6 +856,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -865,6 +925,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -926,6 +990,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -985,6 +1053,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1044,6 +1116,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1105,6 +1181,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1166,6 +1246,10 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

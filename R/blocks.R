@@ -13,9 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field next_page  character [optional]
-#'
 #' @field blocks  list( \link{Block} ) [optional]
+#'
+#' @field next_page  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,60 +23,60 @@
 Blocks <- R6::R6Class(
   'Blocks',
   public = list(
-    `next_page` = NULL,
     `blocks` = NULL,
+    `next_page` = NULL,
     initialize = function(
-        `next_page`=NULL, `blocks`=NULL, ...
+        `blocks`=NULL, `next_page`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`next_page`)) {
-        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
-        self$`next_page` <- `next_page`
-      }
       if (!is.null(`blocks`)) {
         stopifnot(is.vector(`blocks`), length(`blocks`) != 0)
         sapply(`blocks`, function(x) stopifnot(R6::is.R6(x)))
         self$`blocks` <- `blocks`
       }
+      if (!is.null(`next_page`)) {
+        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
+        self$`next_page` <- `next_page`
+      }
     },
     toJSON = function() {
       BlocksObject <- list()
-      if (!is.null(self$`next_page`)) {
-        BlocksObject[['next_page']] <-
-          self$`next_page`
-      }
       if (!is.null(self$`blocks`)) {
         BlocksObject[['blocks']] <-
           lapply(self$`blocks`, function(x) x$toJSON())
+      }
+      if (!is.null(self$`next_page`)) {
+        BlocksObject[['next_page']] <-
+          self$`next_page`
       }
 
       BlocksObject
     },
     fromJSON = function(BlocksJson) {
       BlocksObject <- jsonlite::fromJSON(BlocksJson)
-      if (!is.null(BlocksObject$`next_page`)) {
-        self$`next_page` <- BlocksObject$`next_page`
-      }
       if (!is.null(BlocksObject$`blocks`)) {
         self$`blocks` <- ApiClient$new()$deserializeObj(BlocksObject$`blocks`, "array[Block]", loadNamespace("openapi"))
+      }
+      if (!is.null(BlocksObject$`next_page`)) {
+        self$`next_page` <- BlocksObject$`next_page`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`next_page`)) {
-        sprintf(
-        '"next_page":
-          "%s"
-                ',
-        self$`next_page`
-        )},
         if (!is.null(self$`blocks`)) {
         sprintf(
         '"blocks":
         [%s]
 ',
         paste(sapply(self$`blocks`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
+        if (!is.null(self$`next_page`)) {
+        sprintf(
+        '"next_page":
+          "%s"
+                ',
+        self$`next_page`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -84,8 +84,8 @@ Blocks <- R6::R6Class(
     },
     fromJSONString = function(BlocksJson) {
       BlocksObject <- jsonlite::fromJSON(BlocksJson)
-      self$`next_page` <- BlocksObject$`next_page`
       self$`blocks` <- ApiClient$new()$deserializeObj(BlocksObject$`blocks`, "array[Block]", loadNamespace("openapi"))
+      self$`next_page` <- BlocksObject$`next_page`
       self
     }
   )

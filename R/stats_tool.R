@@ -13,15 +13,15 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field visible_name  character [optional]
-#'
 #' @field id  character [optional]
 #'
-#' @field version  character [optional]
+#' @field responsible_for  list( character ) [optional]
 #'
 #' @field titanium_replayable  character [optional]
 #'
-#' @field responsible_for  list( character ) [optional]
+#' @field version  character [optional]
+#'
+#' @field visible_name  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -29,89 +29,82 @@
 StatsTool <- R6::R6Class(
   'StatsTool',
   public = list(
-    `visible_name` = NULL,
     `id` = NULL,
-    `version` = NULL,
-    `titanium_replayable` = NULL,
     `responsible_for` = NULL,
+    `titanium_replayable` = NULL,
+    `version` = NULL,
+    `visible_name` = NULL,
     initialize = function(
-        `visible_name`=NULL, `id`=NULL, `version`=NULL, `titanium_replayable`=NULL, `responsible_for`=NULL, ...
+        `id`=NULL, `responsible_for`=NULL, `titanium_replayable`=NULL, `version`=NULL, `visible_name`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`visible_name`)) {
-        stopifnot(is.character(`visible_name`), length(`visible_name`) == 1)
-        self$`visible_name` <- `visible_name`
-      }
       if (!is.null(`id`)) {
         stopifnot(is.character(`id`), length(`id`) == 1)
         self$`id` <- `id`
-      }
-      if (!is.null(`version`)) {
-        stopifnot(is.character(`version`), length(`version`) == 1)
-        self$`version` <- `version`
-      }
-      if (!is.null(`titanium_replayable`)) {
-        self$`titanium_replayable` <- `titanium_replayable`
       }
       if (!is.null(`responsible_for`)) {
         stopifnot(is.vector(`responsible_for`), length(`responsible_for`) != 0)
         sapply(`responsible_for`, function(x) stopifnot(is.character(x)))
         self$`responsible_for` <- `responsible_for`
       }
+      if (!is.null(`titanium_replayable`)) {
+        self$`titanium_replayable` <- `titanium_replayable`
+      }
+      if (!is.null(`version`)) {
+        stopifnot(is.character(`version`), length(`version`) == 1)
+        self$`version` <- `version`
+      }
+      if (!is.null(`visible_name`)) {
+        stopifnot(is.character(`visible_name`), length(`visible_name`) == 1)
+        self$`visible_name` <- `visible_name`
+      }
     },
     toJSON = function() {
       StatsToolObject <- list()
-      if (!is.null(self$`visible_name`)) {
-        StatsToolObject[['visible_name']] <-
-          self$`visible_name`
-      }
       if (!is.null(self$`id`)) {
         StatsToolObject[['id']] <-
           self$`id`
       }
-      if (!is.null(self$`version`)) {
-        StatsToolObject[['version']] <-
-          self$`version`
+      if (!is.null(self$`responsible_for`)) {
+        StatsToolObject[['responsible_for']] <-
+          self$`responsible_for`
       }
       if (!is.null(self$`titanium_replayable`)) {
         StatsToolObject[['titanium_replayable']] <-
           self$`titanium_replayable`
       }
-      if (!is.null(self$`responsible_for`)) {
-        StatsToolObject[['responsible_for']] <-
-          self$`responsible_for`
+      if (!is.null(self$`version`)) {
+        StatsToolObject[['version']] <-
+          self$`version`
+      }
+      if (!is.null(self$`visible_name`)) {
+        StatsToolObject[['visible_name']] <-
+          self$`visible_name`
       }
 
       StatsToolObject
     },
     fromJSON = function(StatsToolJson) {
       StatsToolObject <- jsonlite::fromJSON(StatsToolJson)
-      if (!is.null(StatsToolObject$`visible_name`)) {
-        self$`visible_name` <- StatsToolObject$`visible_name`
-      }
       if (!is.null(StatsToolObject$`id`)) {
         self$`id` <- StatsToolObject$`id`
       }
-      if (!is.null(StatsToolObject$`version`)) {
-        self$`version` <- StatsToolObject$`version`
+      if (!is.null(StatsToolObject$`responsible_for`)) {
+        self$`responsible_for` <- ApiClient$new()$deserializeObj(StatsToolObject$`responsible_for`, "array[character]", loadNamespace("openapi"))
       }
       if (!is.null(StatsToolObject$`titanium_replayable`)) {
         self$`titanium_replayable` <- StatsToolObject$`titanium_replayable`
       }
-      if (!is.null(StatsToolObject$`responsible_for`)) {
-        self$`responsible_for` <- ApiClient$new()$deserializeObj(StatsToolObject$`responsible_for`, "array[character]", loadNamespace("openapi"))
+      if (!is.null(StatsToolObject$`version`)) {
+        self$`version` <- StatsToolObject$`version`
+      }
+      if (!is.null(StatsToolObject$`visible_name`)) {
+        self$`visible_name` <- StatsToolObject$`visible_name`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`visible_name`)) {
-        sprintf(
-        '"visible_name":
-          "%s"
-                ',
-        self$`visible_name`
-        )},
         if (!is.null(self$`id`)) {
         sprintf(
         '"id":
@@ -119,12 +112,12 @@ StatsTool <- R6::R6Class(
                 ',
         self$`id`
         )},
-        if (!is.null(self$`version`)) {
+        if (!is.null(self$`responsible_for`)) {
         sprintf(
-        '"version":
-          "%s"
-                ',
-        self$`version`
+        '"responsible_for":
+           [%s]
+        ',
+        paste(unlist(lapply(self$`responsible_for`, function(x) paste0('"', x, '"'))), collapse=",")
         )},
         if (!is.null(self$`titanium_replayable`)) {
         sprintf(
@@ -133,12 +126,19 @@ StatsTool <- R6::R6Class(
                 ',
         self$`titanium_replayable`
         )},
-        if (!is.null(self$`responsible_for`)) {
+        if (!is.null(self$`version`)) {
         sprintf(
-        '"responsible_for":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`responsible_for`, function(x) paste0('"', x, '"'))), collapse=",")
+        '"version":
+          "%s"
+                ',
+        self$`version`
+        )},
+        if (!is.null(self$`visible_name`)) {
+        sprintf(
+        '"visible_name":
+          "%s"
+                ',
+        self$`visible_name`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -146,11 +146,11 @@ StatsTool <- R6::R6Class(
     },
     fromJSONString = function(StatsToolJson) {
       StatsToolObject <- jsonlite::fromJSON(StatsToolJson)
-      self$`visible_name` <- StatsToolObject$`visible_name`
       self$`id` <- StatsToolObject$`id`
-      self$`version` <- StatsToolObject$`version`
-      self$`titanium_replayable` <- StatsToolObject$`titanium_replayable`
       self$`responsible_for` <- ApiClient$new()$deserializeObj(StatsToolObject$`responsible_for`, "array[character]", loadNamespace("openapi"))
+      self$`titanium_replayable` <- StatsToolObject$`titanium_replayable`
+      self$`version` <- StatsToolObject$`version`
+      self$`visible_name` <- StatsToolObject$`visible_name`
       self
     }
   )

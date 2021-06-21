@@ -64,6 +64,9 @@
 #' #Returns details of a specific transaction identified by its hash.
 #' api.instance <- TxsApi$new()
 #'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+#'
 #' result <- api.instance$GetTx(var.currency, var.tx.hash)
 #'
 #'
@@ -75,6 +78,9 @@
 #'
 #' #Returns transactions
 #' api.instance <- TxsApi$new()
+#'
+#' #Configure API key authorization: api_key
+#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTxs(var.currency, page=var.page)
 #'
@@ -132,6 +138,10 @@ TxsApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "tx_hash", "\\}"), URLencode(as.character(`tx.hash`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -187,6 +197,10 @@ TxsApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
+      # API key authentication
+      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
+        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

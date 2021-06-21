@@ -13,9 +13,9 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field next_page  character [optional]
-#'
 #' @field addresses  list( \link{Address} ) [optional]
+#'
+#' @field next_page  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,60 +23,60 @@
 EntityAddresses <- R6::R6Class(
   'EntityAddresses',
   public = list(
-    `next_page` = NULL,
     `addresses` = NULL,
+    `next_page` = NULL,
     initialize = function(
-        `next_page`=NULL, `addresses`=NULL, ...
+        `addresses`=NULL, `next_page`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`next_page`)) {
-        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
-        self$`next_page` <- `next_page`
-      }
       if (!is.null(`addresses`)) {
         stopifnot(is.vector(`addresses`), length(`addresses`) != 0)
         sapply(`addresses`, function(x) stopifnot(R6::is.R6(x)))
         self$`addresses` <- `addresses`
       }
+      if (!is.null(`next_page`)) {
+        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
+        self$`next_page` <- `next_page`
+      }
     },
     toJSON = function() {
       EntityAddressesObject <- list()
-      if (!is.null(self$`next_page`)) {
-        EntityAddressesObject[['next_page']] <-
-          self$`next_page`
-      }
       if (!is.null(self$`addresses`)) {
         EntityAddressesObject[['addresses']] <-
           lapply(self$`addresses`, function(x) x$toJSON())
+      }
+      if (!is.null(self$`next_page`)) {
+        EntityAddressesObject[['next_page']] <-
+          self$`next_page`
       }
 
       EntityAddressesObject
     },
     fromJSON = function(EntityAddressesJson) {
       EntityAddressesObject <- jsonlite::fromJSON(EntityAddressesJson)
-      if (!is.null(EntityAddressesObject$`next_page`)) {
-        self$`next_page` <- EntityAddressesObject$`next_page`
-      }
       if (!is.null(EntityAddressesObject$`addresses`)) {
         self$`addresses` <- ApiClient$new()$deserializeObj(EntityAddressesObject$`addresses`, "array[Address]", loadNamespace("openapi"))
+      }
+      if (!is.null(EntityAddressesObject$`next_page`)) {
+        self$`next_page` <- EntityAddressesObject$`next_page`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`next_page`)) {
-        sprintf(
-        '"next_page":
-          "%s"
-                ',
-        self$`next_page`
-        )},
         if (!is.null(self$`addresses`)) {
         sprintf(
         '"addresses":
         [%s]
 ',
         paste(sapply(self$`addresses`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        )},
+        if (!is.null(self$`next_page`)) {
+        sprintf(
+        '"next_page":
+          "%s"
+                ',
+        self$`next_page`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -84,8 +84,8 @@ EntityAddresses <- R6::R6Class(
     },
     fromJSONString = function(EntityAddressesJson) {
       EntityAddressesObject <- jsonlite::fromJSON(EntityAddressesJson)
-      self$`next_page` <- EntityAddressesObject$`next_page`
       self$`addresses` <- ApiClient$new()$deserializeObj(EntityAddressesObject$`addresses`, "array[Address]", loadNamespace("openapi"))
+      self$`next_page` <- EntityAddressesObject$`next_page`
       self
     }
   )

@@ -52,7 +52,7 @@ library(openapi)
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://openapi_server:9000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -154,7 +154,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
- All endpoints do not require authorization.
+
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: Authorization
+- **Location**: HTTP header
 
 
 

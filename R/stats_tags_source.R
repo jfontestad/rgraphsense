@@ -13,13 +13,13 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field visible_name  character [optional]
-#'
 #' @field id  character [optional]
+#'
+#' @field report_uuid  character [optional]
 #'
 #' @field version  character [optional]
 #'
-#' @field report_uuid  character [optional]
+#' @field visible_name  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -27,83 +27,83 @@
 StatsTagsSource <- R6::R6Class(
   'StatsTagsSource',
   public = list(
-    `visible_name` = NULL,
     `id` = NULL,
-    `version` = NULL,
     `report_uuid` = NULL,
+    `version` = NULL,
+    `visible_name` = NULL,
     initialize = function(
-        `visible_name`=NULL, `id`=NULL, `version`=NULL, `report_uuid`=NULL, ...
+        `id`=NULL, `report_uuid`=NULL, `version`=NULL, `visible_name`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`visible_name`)) {
-        stopifnot(is.character(`visible_name`), length(`visible_name`) == 1)
-        self$`visible_name` <- `visible_name`
-      }
       if (!is.null(`id`)) {
         stopifnot(is.character(`id`), length(`id`) == 1)
         self$`id` <- `id`
-      }
-      if (!is.null(`version`)) {
-        stopifnot(is.character(`version`), length(`version`) == 1)
-        self$`version` <- `version`
       }
       if (!is.null(`report_uuid`)) {
         stopifnot(is.character(`report_uuid`), length(`report_uuid`) == 1)
         self$`report_uuid` <- `report_uuid`
       }
+      if (!is.null(`version`)) {
+        stopifnot(is.character(`version`), length(`version`) == 1)
+        self$`version` <- `version`
+      }
+      if (!is.null(`visible_name`)) {
+        stopifnot(is.character(`visible_name`), length(`visible_name`) == 1)
+        self$`visible_name` <- `visible_name`
+      }
     },
     toJSON = function() {
       StatsTagsSourceObject <- list()
-      if (!is.null(self$`visible_name`)) {
-        StatsTagsSourceObject[['visible_name']] <-
-          self$`visible_name`
-      }
       if (!is.null(self$`id`)) {
         StatsTagsSourceObject[['id']] <-
           self$`id`
+      }
+      if (!is.null(self$`report_uuid`)) {
+        StatsTagsSourceObject[['report_uuid']] <-
+          self$`report_uuid`
       }
       if (!is.null(self$`version`)) {
         StatsTagsSourceObject[['version']] <-
           self$`version`
       }
-      if (!is.null(self$`report_uuid`)) {
-        StatsTagsSourceObject[['report_uuid']] <-
-          self$`report_uuid`
+      if (!is.null(self$`visible_name`)) {
+        StatsTagsSourceObject[['visible_name']] <-
+          self$`visible_name`
       }
 
       StatsTagsSourceObject
     },
     fromJSON = function(StatsTagsSourceJson) {
       StatsTagsSourceObject <- jsonlite::fromJSON(StatsTagsSourceJson)
-      if (!is.null(StatsTagsSourceObject$`visible_name`)) {
-        self$`visible_name` <- StatsTagsSourceObject$`visible_name`
-      }
       if (!is.null(StatsTagsSourceObject$`id`)) {
         self$`id` <- StatsTagsSourceObject$`id`
+      }
+      if (!is.null(StatsTagsSourceObject$`report_uuid`)) {
+        self$`report_uuid` <- StatsTagsSourceObject$`report_uuid`
       }
       if (!is.null(StatsTagsSourceObject$`version`)) {
         self$`version` <- StatsTagsSourceObject$`version`
       }
-      if (!is.null(StatsTagsSourceObject$`report_uuid`)) {
-        self$`report_uuid` <- StatsTagsSourceObject$`report_uuid`
+      if (!is.null(StatsTagsSourceObject$`visible_name`)) {
+        self$`visible_name` <- StatsTagsSourceObject$`visible_name`
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`visible_name`)) {
-        sprintf(
-        '"visible_name":
-          "%s"
-                ',
-        self$`visible_name`
-        )},
         if (!is.null(self$`id`)) {
         sprintf(
         '"id":
           "%s"
                 ',
         self$`id`
+        )},
+        if (!is.null(self$`report_uuid`)) {
+        sprintf(
+        '"report_uuid":
+          "%s"
+                ',
+        self$`report_uuid`
         )},
         if (!is.null(self$`version`)) {
         sprintf(
@@ -112,12 +112,12 @@ StatsTagsSource <- R6::R6Class(
                 ',
         self$`version`
         )},
-        if (!is.null(self$`report_uuid`)) {
+        if (!is.null(self$`visible_name`)) {
         sprintf(
-        '"report_uuid":
+        '"visible_name":
           "%s"
                 ',
-        self$`report_uuid`
+        self$`visible_name`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -125,10 +125,10 @@ StatsTagsSource <- R6::R6Class(
     },
     fromJSONString = function(StatsTagsSourceJson) {
       StatsTagsSourceObject <- jsonlite::fromJSON(StatsTagsSourceJson)
-      self$`visible_name` <- StatsTagsSourceObject$`visible_name`
       self$`id` <- StatsTagsSourceObject$`id`
-      self$`version` <- StatsTagsSourceObject$`version`
       self$`report_uuid` <- StatsTagsSourceObject$`report_uuid`
+      self$`version` <- StatsTagsSourceObject$`version`
+      self$`visible_name` <- StatsTagsSourceObject$`visible_name`
       self
     }
   )
