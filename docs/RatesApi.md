@@ -1,6 +1,6 @@
 # RatesApi
 
-All URIs are relative to *http://openapi_server:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,7 @@ var.height <- 1 # integer | The block height
 
 #Returns exchange rate for a given height
 api.instance <- RatesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetExchangeRates(var.currency, var.height)

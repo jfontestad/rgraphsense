@@ -1,6 +1,6 @@
 # TxsApi
 
-All URIs are relative to *http://openapi_server:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,6 +22,7 @@ var.tx.hash <- 'ab188013' # character | The transaction hash
 
 #Returns details of a specific transaction identified by its hash.
 api.instance <- TxsApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetTx(var.currency, var.tx.hash)
@@ -67,6 +68,7 @@ var.page <- 'page_example' # character | Resumption token for retrieving the nex
 
 #Returns transactions
 api.instance <- TxsApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTxs(var.currency, page=var.page)

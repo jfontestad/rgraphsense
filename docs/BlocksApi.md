@@ -1,6 +1,6 @@
 # BlocksApi
 
-All URIs are relative to *http://openapi_server:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -24,6 +24,7 @@ var.height <- 1 # integer | The block height
 
 #Get a block by its height
 api.instance <- BlocksApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetBlock(var.currency, var.height)
@@ -69,6 +70,7 @@ var.height <- 1 # integer | The block height
 
 #Get block transactions (100 per page)
 api.instance <- BlocksApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListBlockTxs(var.currency, var.height)
@@ -114,6 +116,7 @@ var.height <- 1 # integer | The block height
 
 #Get block transactions as CSV
 api.instance <- BlocksApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListBlockTxsCsv(var.currency, var.height)
@@ -159,6 +162,7 @@ var.page <- 'page_example' # character | Resumption token for retrieving the nex
 
 #Get all blocks
 api.instance <- BlocksApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListBlocks(var.currency, page=var.page)

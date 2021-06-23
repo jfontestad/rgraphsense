@@ -1,6 +1,6 @@
 # EntitiesApi
 
-All URIs are relative to *http://openapi_server:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -32,6 +32,7 @@ var.tag.coherence <- FALSE # character | Whether to calculate coherence of addre
 
 #Get an entity, optionally with tags
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
@@ -81,6 +82,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get entities
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntities(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
@@ -128,6 +130,7 @@ var.ids <- list("inner_example") # array[character] | Set of comma separated IDs
 
 #Get entities as CSV
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntitiesCsv(var.currency, var.ids)
@@ -175,6 +178,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's addresses
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntityAddresses(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
@@ -222,6 +226,7 @@ var.entity <- 67065 # integer | The entity ID
 
 #Get an entity's addresses as CSV
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntityAddressesCsv(var.currency, var.entity)
@@ -272,6 +277,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's neighbors in the entity graph
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, ids=var.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
@@ -324,6 +330,7 @@ var.include.labels <- FALSE # character | Whether labels of tags should be inclu
 
 #Get an entity's neighbors in the entity graph as CSV
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListEntityNeighborsCsv(var.currency, var.entity, var.direction, include.labels=var.include.labels)
@@ -372,6 +379,7 @@ var.tag.coherence <- FALSE # character | Whether to calculate coherence of addre
 
 #Get tags for a given entity
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTagsByEntity(var.currency, var.entity, tag.coherence=var.tag.coherence)
@@ -419,6 +427,7 @@ var.level <- 'address' # character | Whether tags on the address or entity level
 
 #Get address or entity tags for a given entity as CSV
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$ListTagsByEntityByLevelCsv(var.currency, var.entity, var.level)
@@ -471,6 +480,7 @@ var.skip.num.addresses <- 56 # integer | Skip entities containing more addresses
 
 #Search deeply for matching neighbors
 api.instance <- EntitiesApi$new()
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 result <- api.instance$SearchEntityNeighbors(var.currency, var.entity, var.direction, var.key, var.value, var.depth, breadth=var.breadth, skip.num.addresses=var.skip.num.addresses)

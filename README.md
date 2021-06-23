@@ -52,7 +52,7 @@ library(openapi)
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://openapi_server:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
