@@ -4,8 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**eur** | **numeric** |  | [optional] 
-**usd** | **numeric** |  | [optional] 
+**fiat_values** | [**array[Rate]**](rate.md) |  | [optional] 
 **value** | **integer** |  | [optional] 
 
 

@@ -39,7 +39,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } currency character
-#' \item \emph{ @param } ids list( character )
+#' \item \emph{ @param } ids list( integer )
 #' \item \emph{ @param } page character
 #' \item \emph{ @param } pagesize integer
 #' \item \emph{ @returnType } \link{Entities} \cr
@@ -59,7 +59,7 @@
 #'
 #' \itemize{
 #' \item \emph{ @param } currency character
-#' \item \emph{ @param } ids list( character )
+#' \item \emph{ @param } ids list( integer )
 #'
 #'
 #' \item status code : 200 | OK
@@ -108,6 +108,43 @@
 #' }
 #' }
 #'
+#' \strong{ ListEntityLinks } \emph{ Get transactions between two entities }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } currency character
+#' \item \emph{ @param } entity integer
+#' \item \emph{ @param } neighbor integer
+#' \item \emph{ @returnType } \link{Links} \cr
+#'
+#'
+#' \item status code : 200 | OK
+#'
+#' \item return type : Links 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
+#' \strong{ ListEntityLinksCsv } \emph{ Get transactions between two entities as CSV }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } currency character
+#' \item \emph{ @param } entity integer
+#' \item \emph{ @param } neighbor integer
+#'
+#'
+#' \item status code : 200 | OK
+#'
+#' \item return type : character 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ ListEntityNeighbors } \emph{ Get an entity&#39;s neighbors in the entity graph }
 #' 
 #'
@@ -115,7 +152,7 @@
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } entity integer
 #' \item \emph{ @param } direction Enum < [in, out] > 
-#' \item \emph{ @param } ids list( character )
+#' \item \emph{ @param } ids list( integer )
 #' \item \emph{ @param } include.labels character
 #' \item \emph{ @param } page character
 #' \item \emph{ @param } pagesize integer
@@ -139,6 +176,43 @@
 #' \item \emph{ @param } entity integer
 #' \item \emph{ @param } direction Enum < [in, out] > 
 #' \item \emph{ @param } include.labels character
+#'
+#'
+#' \item status code : 200 | OK
+#'
+#' \item return type : character 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
+#' \strong{ ListEntityTxs } \emph{ Get all transactions an entity has been involved in }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } currency character
+#' \item \emph{ @param } entity integer
+#' \item \emph{ @param } page character
+#' \item \emph{ @param } pagesize integer
+#' \item \emph{ @returnType } \link{TxsAccount} \cr
+#'
+#'
+#' \item status code : 200 | OK
+#'
+#' \item return type : TxsAccount 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
+#' \strong{ ListEntityTxsCsv } \emph{ Get all transactions an entity has been involved in as CSV }
+#' 
+#'
+#' \itemize{
+#' \item \emph{ @param } currency character
+#' \item \emph{ @param } entity integer
 #'
 #'
 #' \item status code : 200 | OK
@@ -227,9 +301,6 @@
 #' #Get an entity, optionally with tags
 #' api.instance <- EntitiesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 #'
 #'
@@ -237,15 +308,12 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.ids <- ['ids_example'] # array[character] | Restrict result to given set of comma separated IDs
+#' var.ids <- [56] # array[integer] | Restrict result to given set of comma separated IDs
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
 #' #Get entities
 #' api.instance <- EntitiesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListEntities(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
 #'
@@ -254,13 +322,10 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.ids <- ['ids_example'] # array[character] | Set of comma separated IDs
+#' var.ids <- [56] # array[integer] | Set of comma separated IDs
 #'
 #' #Get entities as CSV
 #' api.instance <- EntitiesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListEntitiesCsv(var.currency, var.ids)
 #'
@@ -276,9 +341,6 @@
 #' #Get an entity's addresses
 #' api.instance <- EntitiesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListEntityAddresses(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
 #'
 #'
@@ -291,10 +353,33 @@
 #' #Get an entity's addresses as CSV
 #' api.instance <- EntitiesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListEntityAddressesCsv(var.currency, var.entity)
+#'
+#'
+#' ####################  ListEntityLinks  ####################
+#'
+#' library(openapi)
+#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.entity <- 67065 # integer | The entity ID
+#' var.neighbor <- 123456 # integer | Neighbor entity
+#'
+#' #Get transactions between two entities
+#' api.instance <- EntitiesApi$new()
+#'
+#' result <- api.instance$ListEntityLinks(var.currency, var.entity, var.neighbor)
+#'
+#'
+#' ####################  ListEntityLinksCsv  ####################
+#'
+#' library(openapi)
+#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.entity <- 67065 # integer | The entity ID
+#' var.neighbor <- 123456 # integer | Neighbor entity
+#'
+#' #Get transactions between two entities as CSV
+#' api.instance <- EntitiesApi$new()
+#'
+#' result <- api.instance$ListEntityLinksCsv(var.currency, var.entity, var.neighbor)
 #'
 #'
 #' ####################  ListEntityNeighbors  ####################
@@ -303,16 +388,13 @@
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
-#' var.ids <- ['ids_example'] # array[character] | Restrict result to given set of comma separated IDs
+#' var.ids <- [56] # array[integer] | Restrict result to given set of comma separated IDs
 #' var.include.labels <- FALSE # character | Whether labels of tags should be included
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
 #' #Get an entity's neighbors in the entity graph
 #' api.instance <- EntitiesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, ids=var.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 #'
@@ -328,10 +410,33 @@
 #' #Get an entity's neighbors in the entity graph as CSV
 #' api.instance <- EntitiesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListEntityNeighborsCsv(var.currency, var.entity, var.direction, include.labels=var.include.labels)
+#'
+#'
+#' ####################  ListEntityTxs  ####################
+#'
+#' library(openapi)
+#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.entity <- 67065 # integer | The entity ID
+#' var.page <- 'page_example' # character | Resumption token for retrieving the next page
+#' var.pagesize <- 10 # integer | Number of items returned in a single page
+#'
+#' #Get all transactions an entity has been involved in
+#' api.instance <- EntitiesApi$new()
+#'
+#' result <- api.instance$ListEntityTxs(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
+#'
+#'
+#' ####################  ListEntityTxsCsv  ####################
+#'
+#' library(openapi)
+#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.entity <- 67065 # integer | The entity ID
+#'
+#' #Get all transactions an entity has been involved in as CSV
+#' api.instance <- EntitiesApi$new()
+#'
+#' result <- api.instance$ListEntityTxsCsv(var.currency, var.entity)
 #'
 #'
 #' ####################  ListTagsByEntity  ####################
@@ -343,9 +448,6 @@
 #'
 #' #Get tags for a given entity
 #' api.instance <- EntitiesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTagsByEntity(var.currency, var.entity, tag.coherence=var.tag.coherence)
 #'
@@ -360,9 +462,6 @@
 #' #Get address or entity tags for a given entity as CSV
 #' api.instance <- EntitiesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListTagsByEntityByLevelCsv(var.currency, var.entity, var.level)
 #'
 #'
@@ -373,16 +472,13 @@
 #' var.entity <- 67065 # integer | The entity ID
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.key <- 'category' # character | Match neighbors against one and only one of these properties: - the category the entity belongs to - addresses the entity contains - entity ids - total_received: amount the entity received in total - balance: amount the entity holds finally
-#' var.value <- ['Miner'] # array[character] | If key is - category: comma separated list of category names - addresses: comma separated list of address IDs - entities: comma separated list of entity IDs - total_received/balance: comma separated tuple of (currency, min, max)
+#' var.value <- ['Miner'] # array[character] | If key is - category: comma separated list of category names - addresses: comma separated list of address IDs - entities: comma separated list of entity IDs - total_received/balance: comma separated tuple of (currency, min, max) where currency is 'value' for the cryptocurrency value or an ISO currency code
 #' var.depth <- 2 # integer | How many hops should the transaction graph be searched
 #' var.breadth <- 16 # integer | How many siblings of each neighbor should be tried
 #' var.skip.num.addresses <- 56 # integer | Skip entities containing more addresses
 #'
 #' #Search deeply for matching neighbors
 #' api.instance <- EntitiesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$SearchEntityNeighbors(var.currency, var.entity, var.direction, var.key, var.value, var.depth, breadth=var.breadth, skip.num.addresses=var.skip.num.addresses)
 #'
@@ -444,10 +540,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -507,10 +599,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -570,10 +658,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -639,10 +723,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -704,10 +784,140 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "GET",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "character", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
+    },
+    ListEntityLinks = function(currency, entity, neighbor, ...){
+      apiResponse <- self$ListEntityLinksWithHttpInfo(currency, entity, neighbor, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    ListEntityLinksWithHttpInfo = function(currency, entity, neighbor, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`currency`)) {
+        stop("Missing required parameter `currency`.")
+      }
+
+      if (missing(`entity`)) {
+        stop("Missing required parameter `entity`.")
+      }
+
+      if (missing(`neighbor`)) {
+        stop("Missing required parameter `neighbor`.")
+      }
+
+      queryParams['neighbor'] <- neighbor
+
+      body <- NULL
+      urlPath <- "/{currency}/entities/{entity}/links"
+      if (!missing(`currency`)) {
+        urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
+      }
+
+      if (!missing(`entity`)) {
+        urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
+      }
+
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "GET",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "Links", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
+      }
+    },
+    ListEntityLinksCsv = function(currency, entity, neighbor, ...){
+      apiResponse <- self$ListEntityLinksCsvWithHttpInfo(currency, entity, neighbor, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    ListEntityLinksCsvWithHttpInfo = function(currency, entity, neighbor, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`currency`)) {
+        stop("Missing required parameter `currency`.")
+      }
+
+      if (missing(`entity`)) {
+        stop("Missing required parameter `entity`.")
+      }
+
+      if (missing(`neighbor`)) {
+        stop("Missing required parameter `neighbor`.")
+      }
+
+      queryParams['neighbor'] <- neighbor
+
+      body <- NULL
+      urlPath <- "/{currency}/entities/{entity}/links.csv"
+      if (!missing(`currency`)) {
+        urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
+      }
+
+      if (!missing(`entity`)) {
+        urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
+      }
+
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -783,10 +993,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -856,10 +1062,132 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "GET",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "character", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
       }
+    },
+    ListEntityTxs = function(currency, entity, page=NULL, pagesize=NULL, ...){
+      apiResponse <- self$ListEntityTxsWithHttpInfo(currency, entity, page, pagesize, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    ListEntityTxsWithHttpInfo = function(currency, entity, page=NULL, pagesize=NULL, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`currency`)) {
+        stop("Missing required parameter `currency`.")
+      }
+
+      if (missing(`entity`)) {
+        stop("Missing required parameter `entity`.")
+      }
+
+      queryParams['page'] <- page
+
+      queryParams['pagesize'] <- pagesize
+
+      body <- NULL
+      urlPath <- "/{currency}/entities/{entity}/txs"
+      if (!missing(`currency`)) {
+        urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
+      }
+
+      if (!missing(`entity`)) {
+        urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
+      }
+
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "GET",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "TxsAccount", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
+      }
+    },
+    ListEntityTxsCsv = function(currency, entity, ...){
+      apiResponse <- self$ListEntityTxsCsvWithHttpInfo(currency, entity, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    ListEntityTxsCsvWithHttpInfo = function(currency, entity, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`currency`)) {
+        stop("Missing required parameter `currency`.")
+      }
+
+      if (missing(`entity`)) {
+        stop("Missing required parameter `entity`.")
+      }
+
+      body <- NULL
+      urlPath <- "/{currency}/entities/{entity}/txs.csv"
+      if (!missing(`currency`)) {
+        urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
+      }
+
+      if (!missing(`entity`)) {
+        urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
+      }
+
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -923,10 +1251,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -994,10 +1318,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1087,10 +1407,6 @@ EntitiesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "entity", "\\}"), URLencode(as.character(`entity`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

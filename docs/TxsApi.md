@@ -1,6 +1,6 @@
 # TxsApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,9 +22,7 @@ var.tx.hash <- 'ab188013' # character | The transaction hash
 
 #Returns details of a specific transaction identified by its hash.
 api.instance <- TxsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$GetTx(var.currency, var.tx.hash)
 dput(result)
 ```
@@ -42,7 +40,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -68,9 +66,7 @@ var.page <- 'page_example' # character | Resumption token for retrieving the nex
 
 #Returns transactions
 api.instance <- TxsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListTxs(var.currency, page=var.page)
 dput(result)
 ```
@@ -88,7 +84,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 

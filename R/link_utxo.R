@@ -13,8 +13,6 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field currency_type  character 
-#'
 #' @field height  integer 
 #'
 #' @field input_value  \link{Values} 
@@ -25,26 +23,24 @@
 #'
 #' @field tx_hash  character 
 #'
+#' @field tx_type  character 
+#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 LinkUtxo <- R6::R6Class(
   'LinkUtxo',
   public = list(
-    `currency_type` = NULL,
     `height` = NULL,
     `input_value` = NULL,
     `output_value` = NULL,
     `timestamp` = NULL,
     `tx_hash` = NULL,
+    `tx_type` = NULL,
     initialize = function(
-        `currency_type`, `height`, `input_value`, `output_value`, `timestamp`, `tx_hash`, ...
+        `height`, `input_value`, `output_value`, `timestamp`, `tx_hash`, `tx_type`, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`currency_type`)) {
-        stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
-        self$`currency_type` <- `currency_type`
-      }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
         self$`height` <- `height`
@@ -65,13 +61,13 @@ LinkUtxo <- R6::R6Class(
         stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
         self$`tx_hash` <- `tx_hash`
       }
+      if (!missing(`tx_type`)) {
+        stopifnot(is.character(`tx_type`), length(`tx_type`) == 1)
+        self$`tx_type` <- `tx_type`
+      }
     },
     toJSON = function() {
       LinkUtxoObject <- list()
-      if (!is.null(self$`currency_type`)) {
-        LinkUtxoObject[['currency_type']] <-
-          self$`currency_type`
-      }
       if (!is.null(self$`height`)) {
         LinkUtxoObject[['height']] <-
           self$`height`
@@ -92,14 +88,15 @@ LinkUtxo <- R6::R6Class(
         LinkUtxoObject[['tx_hash']] <-
           self$`tx_hash`
       }
+      if (!is.null(self$`tx_type`)) {
+        LinkUtxoObject[['tx_type']] <-
+          self$`tx_type`
+      }
 
       LinkUtxoObject
     },
     fromJSON = function(LinkUtxoJson) {
       LinkUtxoObject <- jsonlite::fromJSON(LinkUtxoJson)
-      if (!is.null(LinkUtxoObject$`currency_type`)) {
-        self$`currency_type` <- LinkUtxoObject$`currency_type`
-      }
       if (!is.null(LinkUtxoObject$`height`)) {
         self$`height` <- LinkUtxoObject$`height`
       }
@@ -119,17 +116,13 @@ LinkUtxo <- R6::R6Class(
       if (!is.null(LinkUtxoObject$`tx_hash`)) {
         self$`tx_hash` <- LinkUtxoObject$`tx_hash`
       }
+      if (!is.null(LinkUtxoObject$`tx_type`)) {
+        self$`tx_type` <- LinkUtxoObject$`tx_type`
+      }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`currency_type`)) {
-        sprintf(
-        '"currency_type":
-          "%s"
-                ',
-        self$`currency_type`
-        )},
         if (!is.null(self$`height`)) {
         sprintf(
         '"height":
@@ -164,6 +157,13 @@ LinkUtxo <- R6::R6Class(
           "%s"
                 ',
         self$`tx_hash`
+        )},
+        if (!is.null(self$`tx_type`)) {
+        sprintf(
+        '"tx_type":
+          "%s"
+                ',
+        self$`tx_type`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -171,12 +171,12 @@ LinkUtxo <- R6::R6Class(
     },
     fromJSONString = function(LinkUtxoJson) {
       LinkUtxoObject <- jsonlite::fromJSON(LinkUtxoJson)
-      self$`currency_type` <- LinkUtxoObject$`currency_type`
       self$`height` <- LinkUtxoObject$`height`
       self$`input_value` <- Values$new()$fromJSON(jsonlite::toJSON(LinkUtxoObject$input_value, auto_unbox = TRUE, digits = NA))
       self$`output_value` <- Values$new()$fromJSON(jsonlite::toJSON(LinkUtxoObject$output_value, auto_unbox = TRUE, digits = NA))
       self$`timestamp` <- LinkUtxoObject$`timestamp`
       self$`tx_hash` <- LinkUtxoObject$`tx_hash`
+      self$`tx_type` <- LinkUtxoObject$`tx_type`
       self
     }
   )

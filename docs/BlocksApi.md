@@ -1,11 +1,11 @@
 # BlocksApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetBlock**](BlocksApi.md#GetBlock) | **GET** /{currency}/blocks/{height} | Get a block by its height
-[**ListBlockTxs**](BlocksApi.md#ListBlockTxs) | **GET** /{currency}/blocks/{height}/txs | Get block transactions (100 per page)
+[**ListBlockTxs**](BlocksApi.md#ListBlockTxs) | **GET** /{currency}/blocks/{height}/txs | Get block transactions
 [**ListBlockTxsCsv**](BlocksApi.md#ListBlockTxsCsv) | **GET** /{currency}/blocks/{height}/txs.csv | Get block transactions as CSV
 [**ListBlocks**](BlocksApi.md#ListBlocks) | **GET** /{currency}/blocks | Get all blocks
 
@@ -24,9 +24,7 @@ var.height <- 1 # integer | The block height
 
 #Get a block by its height
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$GetBlock(var.currency, var.height)
 dput(result)
 ```
@@ -44,7 +42,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -57,9 +55,9 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **ListBlockTxs**
-> array[BlockTx] ListBlockTxs(currency, height)
+> array[Tx] ListBlockTxs(currency, height)
 
-Get block transactions (100 per page)
+Get block transactions
 
 ### Example
 ```R
@@ -68,11 +66,9 @@ library(openapi)
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 var.height <- 1 # integer | The block height
 
-#Get block transactions (100 per page)
+#Get block transactions
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListBlockTxs(var.currency, var.height)
 dput(result)
 ```
@@ -86,11 +82,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**array[BlockTx]**](block_tx.md)
+[**array[Tx]**](tx.md)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -116,9 +112,7 @@ var.height <- 1 # integer | The block height
 
 #Get block transactions as CSV
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListBlockTxsCsv(var.currency, var.height)
 dput(result)
 ```
@@ -136,7 +130,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -162,9 +156,7 @@ var.page <- 'page_example' # character | Resumption token for retrieving the nex
 
 #Get all blocks
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListBlocks(var.currency, page=var.page)
 dput(result)
 ```
@@ -182,7 +174,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 

@@ -15,7 +15,7 @@
 #'
 #' @field height  integer [optional]
 #'
-#' @field rates  \link{RatesRates} [optional]
+#' @field rates  list( \link{Rate} ) [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -34,7 +34,8 @@ Rates <- R6::R6Class(
         self$`height` <- `height`
       }
       if (!is.null(`rates`)) {
-        stopifnot(R6::is.R6(`rates`))
+        stopifnot(is.vector(`rates`), length(`rates`) != 0)
+        sapply(`rates`, function(x) stopifnot(R6::is.R6(x)))
         self$`rates` <- `rates`
       }
     },
@@ -46,7 +47,7 @@ Rates <- R6::R6Class(
       }
       if (!is.null(self$`rates`)) {
         RatesObject[['rates']] <-
-          self$`rates`$toJSON()
+          lapply(self$`rates`, function(x) x$toJSON())
       }
 
       RatesObject
@@ -57,9 +58,7 @@ Rates <- R6::R6Class(
         self$`height` <- RatesObject$`height`
       }
       if (!is.null(RatesObject$`rates`)) {
-        ratesObject <- RatesRates$new()
-        ratesObject$fromJSON(jsonlite::toJSON(RatesObject$rates, auto_unbox = TRUE, digits = NA))
-        self$`rates` <- ratesObject
+        self$`rates` <- ApiClient$new()$deserializeObj(RatesObject$`rates`, "array[Rate]", loadNamespace("openapi"))
       }
       self
     },
@@ -75,9 +74,9 @@ Rates <- R6::R6Class(
         if (!is.null(self$`rates`)) {
         sprintf(
         '"rates":
-        %s
-        ',
-        jsonlite::toJSON(self$`rates`$toJSON(), auto_unbox=TRUE, digits = NA)
+        [%s]
+',
+        paste(sapply(self$`rates`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -86,7 +85,7 @@ Rates <- R6::R6Class(
     fromJSONString = function(RatesJson) {
       RatesObject <- jsonlite::fromJSON(RatesJson)
       self$`height` <- RatesObject$`height`
-      self$`rates` <- RatesRates$new()$fromJSON(jsonlite::toJSON(RatesObject$rates, auto_unbox = TRUE, digits = NA))
+      self$`rates` <- ApiClient$new()$deserializeObj(RatesObject$`rates`, "array[Rate]", loadNamespace("openapi"))
       self
     }
   )

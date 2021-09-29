@@ -15,8 +15,6 @@
 #'
 #' @field balance  \link{Values} 
 #'
-#' @field estimated_value  \link{Values} 
-#'
 #' @field id  character 
 #'
 #' @field labels  list( character ) [optional]
@@ -27,6 +25,8 @@
 #'
 #' @field received  \link{Values} 
 #'
+#' @field value  \link{Values} 
+#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -34,23 +34,19 @@ Neighbor <- R6::R6Class(
   'Neighbor',
   public = list(
     `balance` = NULL,
-    `estimated_value` = NULL,
     `id` = NULL,
     `labels` = NULL,
     `no_txs` = NULL,
     `node_type` = NULL,
     `received` = NULL,
+    `value` = NULL,
     initialize = function(
-        `balance`, `estimated_value`, `id`, `no_txs`, `node_type`, `received`, `labels`=NULL, ...
+        `balance`, `id`, `no_txs`, `node_type`, `received`, `value`, `labels`=NULL, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`balance`)) {
         stopifnot(R6::is.R6(`balance`))
         self$`balance` <- `balance`
-      }
-      if (!missing(`estimated_value`)) {
-        stopifnot(R6::is.R6(`estimated_value`))
-        self$`estimated_value` <- `estimated_value`
       }
       if (!missing(`id`)) {
         stopifnot(is.character(`id`), length(`id`) == 1)
@@ -68,6 +64,10 @@ Neighbor <- R6::R6Class(
         stopifnot(R6::is.R6(`received`))
         self$`received` <- `received`
       }
+      if (!missing(`value`)) {
+        stopifnot(R6::is.R6(`value`))
+        self$`value` <- `value`
+      }
       if (!is.null(`labels`)) {
         stopifnot(is.vector(`labels`), length(`labels`) != 0)
         sapply(`labels`, function(x) stopifnot(is.character(x)))
@@ -79,10 +79,6 @@ Neighbor <- R6::R6Class(
       if (!is.null(self$`balance`)) {
         NeighborObject[['balance']] <-
           self$`balance`$toJSON()
-      }
-      if (!is.null(self$`estimated_value`)) {
-        NeighborObject[['estimated_value']] <-
-          self$`estimated_value`$toJSON()
       }
       if (!is.null(self$`id`)) {
         NeighborObject[['id']] <-
@@ -104,6 +100,10 @@ Neighbor <- R6::R6Class(
         NeighborObject[['received']] <-
           self$`received`$toJSON()
       }
+      if (!is.null(self$`value`)) {
+        NeighborObject[['value']] <-
+          self$`value`$toJSON()
+      }
 
       NeighborObject
     },
@@ -113,11 +113,6 @@ Neighbor <- R6::R6Class(
         balanceObject <- Values$new()
         balanceObject$fromJSON(jsonlite::toJSON(NeighborObject$balance, auto_unbox = TRUE, digits = NA))
         self$`balance` <- balanceObject
-      }
-      if (!is.null(NeighborObject$`estimated_value`)) {
-        estimated_valueObject <- Values$new()
-        estimated_valueObject$fromJSON(jsonlite::toJSON(NeighborObject$estimated_value, auto_unbox = TRUE, digits = NA))
-        self$`estimated_value` <- estimated_valueObject
       }
       if (!is.null(NeighborObject$`id`)) {
         self$`id` <- NeighborObject$`id`
@@ -136,6 +131,11 @@ Neighbor <- R6::R6Class(
         receivedObject$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
         self$`received` <- receivedObject
       }
+      if (!is.null(NeighborObject$`value`)) {
+        valueObject <- Values$new()
+        valueObject$fromJSON(jsonlite::toJSON(NeighborObject$value, auto_unbox = TRUE, digits = NA))
+        self$`value` <- valueObject
+      }
       self
     },
     toJSONString = function() {
@@ -146,13 +146,6 @@ Neighbor <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`balance`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`estimated_value`)) {
-        sprintf(
-        '"estimated_value":
-        %s
-        ',
-        jsonlite::toJSON(self$`estimated_value`$toJSON(), auto_unbox=TRUE, digits = NA)
         )},
         if (!is.null(self$`id`)) {
         sprintf(
@@ -188,6 +181,13 @@ Neighbor <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`received`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`value`)) {
+        sprintf(
+        '"value":
+        %s
+        ',
+        jsonlite::toJSON(self$`value`$toJSON(), auto_unbox=TRUE, digits = NA)
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -196,12 +196,12 @@ Neighbor <- R6::R6Class(
     fromJSONString = function(NeighborJson) {
       NeighborObject <- jsonlite::fromJSON(NeighborJson)
       self$`balance` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$balance, auto_unbox = TRUE, digits = NA))
-      self$`estimated_value` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$estimated_value, auto_unbox = TRUE, digits = NA))
       self$`id` <- NeighborObject$`id`
       self$`labels` <- ApiClient$new()$deserializeObj(NeighborObject$`labels`, "array[character]", loadNamespace("openapi"))
       self$`no_txs` <- NeighborObject$`no_txs`
       self$`node_type` <- NeighborObject$`node_type`
       self$`received` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$received, auto_unbox = TRUE, digits = NA))
+      self$`value` <- Values$new()$fromJSON(jsonlite::toJSON(NeighborObject$value, auto_unbox = TRUE, digits = NA))
       self
     }
   )

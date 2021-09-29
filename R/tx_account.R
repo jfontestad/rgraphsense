@@ -13,15 +13,15 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field currency_type  character 
-#'
 #' @field height  integer 
 #'
 #' @field timestamp  integer 
 #'
 #' @field tx_hash  character 
 #'
-#' @field values  \link{Values} 
+#' @field tx_type  character 
+#'
+#' @field value  \link{Values} 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -29,19 +29,15 @@
 TxAccount <- R6::R6Class(
   'TxAccount',
   public = list(
-    `currency_type` = NULL,
     `height` = NULL,
     `timestamp` = NULL,
     `tx_hash` = NULL,
-    `values` = NULL,
+    `tx_type` = NULL,
+    `value` = NULL,
     initialize = function(
-        `currency_type`, `height`, `timestamp`, `tx_hash`, `values`, ...
+        `height`, `timestamp`, `tx_hash`, `tx_type`, `value`, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`currency_type`)) {
-        stopifnot(is.character(`currency_type`), length(`currency_type`) == 1)
-        self$`currency_type` <- `currency_type`
-      }
       if (!missing(`height`)) {
         stopifnot(is.numeric(`height`), length(`height`) == 1)
         self$`height` <- `height`
@@ -54,17 +50,17 @@ TxAccount <- R6::R6Class(
         stopifnot(is.character(`tx_hash`), length(`tx_hash`) == 1)
         self$`tx_hash` <- `tx_hash`
       }
-      if (!missing(`values`)) {
-        stopifnot(R6::is.R6(`values`))
-        self$`values` <- `values`
+      if (!missing(`tx_type`)) {
+        stopifnot(is.character(`tx_type`), length(`tx_type`) == 1)
+        self$`tx_type` <- `tx_type`
+      }
+      if (!missing(`value`)) {
+        stopifnot(R6::is.R6(`value`))
+        self$`value` <- `value`
       }
     },
     toJSON = function() {
       TxAccountObject <- list()
-      if (!is.null(self$`currency_type`)) {
-        TxAccountObject[['currency_type']] <-
-          self$`currency_type`
-      }
       if (!is.null(self$`height`)) {
         TxAccountObject[['height']] <-
           self$`height`
@@ -77,18 +73,19 @@ TxAccount <- R6::R6Class(
         TxAccountObject[['tx_hash']] <-
           self$`tx_hash`
       }
-      if (!is.null(self$`values`)) {
-        TxAccountObject[['values']] <-
-          self$`values`$toJSON()
+      if (!is.null(self$`tx_type`)) {
+        TxAccountObject[['tx_type']] <-
+          self$`tx_type`
+      }
+      if (!is.null(self$`value`)) {
+        TxAccountObject[['value']] <-
+          self$`value`$toJSON()
       }
 
       TxAccountObject
     },
     fromJSON = function(TxAccountJson) {
       TxAccountObject <- jsonlite::fromJSON(TxAccountJson)
-      if (!is.null(TxAccountObject$`currency_type`)) {
-        self$`currency_type` <- TxAccountObject$`currency_type`
-      }
       if (!is.null(TxAccountObject$`height`)) {
         self$`height` <- TxAccountObject$`height`
       }
@@ -98,22 +95,18 @@ TxAccount <- R6::R6Class(
       if (!is.null(TxAccountObject$`tx_hash`)) {
         self$`tx_hash` <- TxAccountObject$`tx_hash`
       }
-      if (!is.null(TxAccountObject$`values`)) {
-        valuesObject <- Values$new()
-        valuesObject$fromJSON(jsonlite::toJSON(TxAccountObject$values, auto_unbox = TRUE, digits = NA))
-        self$`values` <- valuesObject
+      if (!is.null(TxAccountObject$`tx_type`)) {
+        self$`tx_type` <- TxAccountObject$`tx_type`
+      }
+      if (!is.null(TxAccountObject$`value`)) {
+        valueObject <- Values$new()
+        valueObject$fromJSON(jsonlite::toJSON(TxAccountObject$value, auto_unbox = TRUE, digits = NA))
+        self$`value` <- valueObject
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`currency_type`)) {
-        sprintf(
-        '"currency_type":
-          "%s"
-                ',
-        self$`currency_type`
-        )},
         if (!is.null(self$`height`)) {
         sprintf(
         '"height":
@@ -135,12 +128,19 @@ TxAccount <- R6::R6Class(
                 ',
         self$`tx_hash`
         )},
-        if (!is.null(self$`values`)) {
+        if (!is.null(self$`tx_type`)) {
         sprintf(
-        '"values":
+        '"tx_type":
+          "%s"
+                ',
+        self$`tx_type`
+        )},
+        if (!is.null(self$`value`)) {
+        sprintf(
+        '"value":
         %s
         ',
-        jsonlite::toJSON(self$`values`$toJSON(), auto_unbox=TRUE, digits = NA)
+        jsonlite::toJSON(self$`value`$toJSON(), auto_unbox=TRUE, digits = NA)
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -148,11 +148,11 @@ TxAccount <- R6::R6Class(
     },
     fromJSONString = function(TxAccountJson) {
       TxAccountObject <- jsonlite::fromJSON(TxAccountJson)
-      self$`currency_type` <- TxAccountObject$`currency_type`
       self$`height` <- TxAccountObject$`height`
       self$`timestamp` <- TxAccountObject$`timestamp`
       self$`tx_hash` <- TxAccountObject$`tx_hash`
-      self$`values` <- Values$new()$fromJSON(jsonlite::toJSON(TxAccountObject$values, auto_unbox = TRUE, digits = NA))
+      self$`tx_type` <- TxAccountObject$`tx_type`
+      self$`value` <- Values$new()$fromJSON(jsonlite::toJSON(TxAccountObject$value, auto_unbox = TRUE, digits = NA))
       self
     }
   )

@@ -52,7 +52,7 @@ library(openapi)
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -69,7 +69,7 @@ Class | Method | HTTP request | Description
 *AddressesApi* | [**ListTagsByAddress**](docs/AddressesApi.md#ListTagsByAddress) | **GET** /{currency}/addresses/{address}/tags | Get attribution tags for a given address
 *AddressesApi* | [**ListTagsByAddressCsv**](docs/AddressesApi.md#ListTagsByAddressCsv) | **GET** /{currency}/addresses/{address}/tags.csv | Get attribution tags for a given address
 *BlocksApi* | [**GetBlock**](docs/BlocksApi.md#GetBlock) | **GET** /{currency}/blocks/{height} | Get a block by its height
-*BlocksApi* | [**ListBlockTxs**](docs/BlocksApi.md#ListBlockTxs) | **GET** /{currency}/blocks/{height}/txs | Get block transactions (100 per page)
+*BlocksApi* | [**ListBlockTxs**](docs/BlocksApi.md#ListBlockTxs) | **GET** /{currency}/blocks/{height}/txs | Get block transactions
 *BlocksApi* | [**ListBlockTxsCsv**](docs/BlocksApi.md#ListBlockTxsCsv) | **GET** /{currency}/blocks/{height}/txs.csv | Get block transactions as CSV
 *BlocksApi* | [**ListBlocks**](docs/BlocksApi.md#ListBlocks) | **GET** /{currency}/blocks | Get all blocks
 *EntitiesApi* | [**GetEntity**](docs/EntitiesApi.md#GetEntity) | **GET** /{currency}/entities/{entity} | Get an entity, optionally with tags
@@ -77,8 +77,12 @@ Class | Method | HTTP request | Description
 *EntitiesApi* | [**ListEntitiesCsv**](docs/EntitiesApi.md#ListEntitiesCsv) | **GET** /{currency}/entities.csv | Get entities as CSV
 *EntitiesApi* | [**ListEntityAddresses**](docs/EntitiesApi.md#ListEntityAddresses) | **GET** /{currency}/entities/{entity}/addresses | Get an entity's addresses
 *EntitiesApi* | [**ListEntityAddressesCsv**](docs/EntitiesApi.md#ListEntityAddressesCsv) | **GET** /{currency}/entities/{entity}/addresses.csv | Get an entity's addresses as CSV
+*EntitiesApi* | [**ListEntityLinks**](docs/EntitiesApi.md#ListEntityLinks) | **GET** /{currency}/entities/{entity}/links | Get transactions between two entities
+*EntitiesApi* | [**ListEntityLinksCsv**](docs/EntitiesApi.md#ListEntityLinksCsv) | **GET** /{currency}/entities/{entity}/links.csv | Get transactions between two entities as CSV
 *EntitiesApi* | [**ListEntityNeighbors**](docs/EntitiesApi.md#ListEntityNeighbors) | **GET** /{currency}/entities/{entity}/neighbors | Get an entity's neighbors in the entity graph
 *EntitiesApi* | [**ListEntityNeighborsCsv**](docs/EntitiesApi.md#ListEntityNeighborsCsv) | **GET** /{currency}/entities/{entity}/neighbors.csv | Get an entity's neighbors in the entity graph as CSV
+*EntitiesApi* | [**ListEntityTxs**](docs/EntitiesApi.md#ListEntityTxs) | **GET** /{currency}/entities/{entity}/txs | Get all transactions an entity has been involved in
+*EntitiesApi* | [**ListEntityTxsCsv**](docs/EntitiesApi.md#ListEntityTxsCsv) | **GET** /{currency}/entities/{entity}/txs.csv | Get all transactions an entity has been involved in as CSV
 *EntitiesApi* | [**ListTagsByEntity**](docs/EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity
 *EntitiesApi* | [**ListTagsByEntityByLevelCsv**](docs/EntitiesApi.md#ListTagsByEntityByLevelCsv) | **GET** /{currency}/entities/{entity}/tags.csv | Get address or entity tags for a given entity as CSV
 *EntitiesApi* | [**SearchEntityNeighbors**](docs/EntitiesApi.md#SearchEntityNeighbors) | **GET** /{currency}/entities/{entity}/search | Search deeply for matching neighbors
@@ -97,13 +101,8 @@ Class | Method | HTTP request | Description
  - [Address](docs/Address.md)
  - [AddressTag](docs/AddressTag.md)
  - [AddressTagAllOf](docs/AddressTagAllOf.md)
- - [AddressTx](docs/AddressTx.md)
- - [AddressTxUtxo](docs/AddressTxUtxo.md)
- - [AddressTxs](docs/AddressTxs.md)
  - [Addresses](docs/Addresses.md)
  - [Block](docs/Block.md)
- - [BlockTx](docs/BlockTx.md)
- - [BlockTxUtxo](docs/BlockTxUtxo.md)
  - [Blocks](docs/Blocks.md)
  - [Concept](docs/Concept.md)
  - [CurrencyStats](docs/CurrencyStats.md)
@@ -114,10 +113,11 @@ Class | Method | HTTP request | Description
  - [EntityTagAllOf](docs/EntityTagAllOf.md)
  - [Link](docs/Link.md)
  - [LinkUtxo](docs/LinkUtxo.md)
+ - [Links](docs/Links.md)
  - [Neighbor](docs/Neighbor.md)
  - [Neighbors](docs/Neighbors.md)
+ - [Rate](docs/Rate.md)
  - [Rates](docs/Rates.md)
- - [RatesRates](docs/RatesRates.md)
  - [SearchResult](docs/SearchResult.md)
  - [SearchResultByCurrency](docs/SearchResultByCurrency.md)
  - [SearchResultLeaf](docs/SearchResultLeaf.md)
@@ -149,17 +149,13 @@ Class | Method | HTTP request | Description
  - [TxUtxo](docs/TxUtxo.md)
  - [TxValue](docs/TxValue.md)
  - [Txs](docs/Txs.md)
+ - [TxsAccount](docs/TxsAccount.md)
  - [Values](docs/Values.md)
 
 
 ## Documentation for Authorization
 
-
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: Authorization
-- **Location**: HTTP header
+ All endpoints do not require authorization.
 
 
 

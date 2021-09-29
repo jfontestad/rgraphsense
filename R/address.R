@@ -17,6 +17,8 @@
 #'
 #' @field balance  \link{Values} 
 #'
+#' @field entity  integer 
+#'
 #' @field first_tx  \link{TxSummary} 
 #'
 #' @field in_degree  integer 
@@ -43,6 +45,7 @@ Address <- R6::R6Class(
   public = list(
     `address` = NULL,
     `balance` = NULL,
+    `entity` = NULL,
     `first_tx` = NULL,
     `in_degree` = NULL,
     `last_tx` = NULL,
@@ -53,7 +56,7 @@ Address <- R6::R6Class(
     `total_received` = NULL,
     `total_spent` = NULL,
     initialize = function(
-        `address`, `balance`, `first_tx`, `in_degree`, `last_tx`, `no_incoming_txs`, `no_outgoing_txs`, `out_degree`, `total_received`, `total_spent`, `tags`=NULL, ...
+        `address`, `balance`, `entity`, `first_tx`, `in_degree`, `last_tx`, `no_incoming_txs`, `no_outgoing_txs`, `out_degree`, `total_received`, `total_spent`, `tags`=NULL, ...
     ) {
       local.optional.var <- list(...)
       if (!missing(`address`)) {
@@ -63,6 +66,10 @@ Address <- R6::R6Class(
       if (!missing(`balance`)) {
         stopifnot(R6::is.R6(`balance`))
         self$`balance` <- `balance`
+      }
+      if (!missing(`entity`)) {
+        stopifnot(is.numeric(`entity`), length(`entity`) == 1)
+        self$`entity` <- `entity`
       }
       if (!missing(`first_tx`)) {
         stopifnot(R6::is.R6(`first_tx`))
@@ -112,6 +119,10 @@ Address <- R6::R6Class(
         AddressObject[['balance']] <-
           self$`balance`$toJSON()
       }
+      if (!is.null(self$`entity`)) {
+        AddressObject[['entity']] <-
+          self$`entity`
+      }
       if (!is.null(self$`first_tx`)) {
         AddressObject[['first_tx']] <-
           self$`first_tx`$toJSON()
@@ -160,6 +171,9 @@ Address <- R6::R6Class(
         balanceObject <- Values$new()
         balanceObject$fromJSON(jsonlite::toJSON(AddressObject$balance, auto_unbox = TRUE, digits = NA))
         self$`balance` <- balanceObject
+      }
+      if (!is.null(AddressObject$`entity`)) {
+        self$`entity` <- AddressObject$`entity`
       }
       if (!is.null(AddressObject$`first_tx`)) {
         first_txObject <- TxSummary$new()
@@ -213,6 +227,13 @@ Address <- R6::R6Class(
         %s
         ',
         jsonlite::toJSON(self$`balance`$toJSON(), auto_unbox=TRUE, digits = NA)
+        )},
+        if (!is.null(self$`entity`)) {
+        sprintf(
+        '"entity":
+          %d
+                ',
+        self$`entity`
         )},
         if (!is.null(self$`first_tx`)) {
         sprintf(
@@ -285,6 +306,7 @@ Address <- R6::R6Class(
       AddressObject <- jsonlite::fromJSON(AddressJson)
       self$`address` <- AddressObject$`address`
       self$`balance` <- Values$new()$fromJSON(jsonlite::toJSON(AddressObject$balance, auto_unbox = TRUE, digits = NA))
+      self$`entity` <- AddressObject$`entity`
       self$`first_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(AddressObject$first_tx, auto_unbox = TRUE, digits = NA))
       self$`in_degree` <- AddressObject$`in_degree`
       self$`last_tx` <- TxSummary$new()$fromJSON(jsonlite::toJSON(AddressObject$last_tx, auto_unbox = TRUE, digits = NA))

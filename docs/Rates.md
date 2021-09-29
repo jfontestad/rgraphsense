@@ -5,6 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **height** | **integer** | Height | [optional] 
-**rates** | [**RatesRates**](rates_rates.md) |  | [optional] 
+**rates** | [**array[Rate]**](rate.md) |  | [optional] 
 
 

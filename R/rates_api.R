@@ -46,9 +46,6 @@
 #' #Returns exchange rate for a given height
 #' api.instance <- RatesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$GetExchangeRates(var.currency, var.height)
 #'
 #'
@@ -105,10 +102,6 @@ RatesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "height", "\\}"), URLencode(as.character(`height`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

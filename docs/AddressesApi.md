@@ -1,6 +1,6 @@
 # AddressesApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -28,14 +28,12 @@ Get an address, optionally with tags
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 var.include.tags <- FALSE # character | Whether tags should be included
 
 #Get an address, optionally with tags
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
 dput(result)
 ```
@@ -54,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -76,15 +74,13 @@ Get the entity of an address
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 var.include.tags <- FALSE # character | Whether tags should be included
 var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
 
 #Get the entity of an address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 dput(result)
 ```
@@ -104,7 +100,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -117,7 +113,7 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **ListAddressLinks**
-> array[Link] ListAddressLinks(currency, address, neighbor)
+> Links ListAddressLinks(currency, address, neighbor)
 
 Get transactions between two addresses
 
@@ -126,14 +122,12 @@ Get transactions between two addresses
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
-var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor address
+var.address <- 'addressA' # character | The cryptocurrency address
+var.neighbor <- 'addressE' # character | Neighbor address
 
 #Get transactions between two addresses
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor)
 dput(result)
 ```
@@ -148,11 +142,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**array[Link]**](link.md)
+[**Links**](links.md)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -174,14 +168,12 @@ Get transactions between two addresses as CSV
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
-var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor address
+var.address <- 'addressA' # character | The cryptocurrency address
+var.neighbor <- 'addressE' # character | Neighbor address
 
 #Get transactions between two addresses as CSV
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressLinksCsv(var.currency, var.address, var.neighbor)
 dput(result)
 ```
@@ -200,7 +192,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -222,7 +214,7 @@ Get an addresses' neighbors in the address graph
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.include.labels <- FALSE # character | Whether labels of tags should be included
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -230,9 +222,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an addresses' neighbors in the address graph
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -254,7 +244,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -276,15 +266,13 @@ Get an addresses' neighbors in the address graph as CSV
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.include.labels <- FALSE # character | Whether labels of tags should be included
 
 #Get an addresses' neighbors in the address graph as CSV
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressNeighborsCsv(var.currency, var.address, var.direction, include.labels=var.include.labels)
 dput(result)
 ```
@@ -304,7 +292,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -317,7 +305,7 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **ListAddressTxs**
-> AddressTxs ListAddressTxs(currency, address, page=var.page, pagesize=var.pagesize)
+> TxsAccount ListAddressTxs(currency, address, page=var.page, pagesize=var.pagesize)
 
 Get all transactions an address has been involved in
 
@@ -326,15 +314,13 @@ Get all transactions an address has been involved in
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an address has been involved in
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -350,11 +336,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AddressTxs**](address_txs.md)
+[**TxsAccount**](txs_account.md)
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -376,13 +362,11 @@ Get all transactions an address has been involved in as CSV
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 
 #Get all transactions an address has been involved in as CSV
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressTxsCsv(var.currency, var.address)
 dput(result)
 ```
@@ -400,7 +384,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -422,15 +406,13 @@ Get addresses
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.ids <- list("inner_example") # array[character] | Restrict result to given set of comma separated IDs
+var.ids <- list("inner_example") # array[character] | Restrict result to given set of comma separated addresses
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get addresses
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddresses(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -440,7 +422,7 @@ dput(result)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **ids** | list( **character** )| Restrict result to given set of comma separated IDs | [optional] 
+ **ids** | list( **character** )| Restrict result to given set of comma separated addresses | [optional] 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
@@ -450,7 +432,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -476,9 +458,7 @@ var.ids <- list("inner_example") # array[character] | Set of comma separated IDs
 
 #Get addresses as CSV
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListAddressesCsv(var.currency, var.ids)
 dput(result)
 ```
@@ -496,7 +476,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -518,13 +498,11 @@ Get attribution tags for a given address
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListTagsByAddress(var.currency, var.address)
 dput(result)
 ```
@@ -542,7 +520,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -564,13 +542,11 @@ Get attribution tags for a given address
 library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+var.address <- 'addressA' # character | The cryptocurrency address
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListTagsByAddressCsv(var.currency, var.address)
 dput(result)
 ```
@@ -588,7 +564,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 

@@ -1,6 +1,6 @@
 # TagsApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,9 +22,7 @@ var.taxonomy <- 'foo' # character | The taxonomy
 
 #Returns the supported concepts of a taxonomy
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListConcepts(var.taxonomy)
 dput(result)
 ```
@@ -41,7 +39,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -67,9 +65,7 @@ var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 
 #Returns address and entity tags associated with a given label
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListTags(var.label, currency=var.currency)
 dput(result)
 ```
@@ -87,7 +83,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 
@@ -111,9 +107,7 @@ library(openapi)
 
 #Returns the supported taxonomies
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
-# Configure API key authorization: api_key
-api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$ListTaxonomies()
 dput(result)
 ```
@@ -127,7 +121,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+No authorization required
 
 ### HTTP request headers
 

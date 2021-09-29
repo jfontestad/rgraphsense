@@ -60,12 +60,12 @@
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } address character
 #' \item \emph{ @param } neighbor character
-#' \item \emph{ @returnType } list( \link{link} ) \cr
+#' \item \emph{ @returnType } \link{Links} \cr
 #'
 #'
 #' \item status code : 200 | OK
 #'
-#' \item return type : array[Link] 
+#' \item return type : Links 
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -139,12 +139,12 @@
 #' \item \emph{ @param } address character
 #' \item \emph{ @param } page character
 #' \item \emph{ @param } pagesize integer
-#' \item \emph{ @returnType } \link{AddressTxs} \cr
+#' \item \emph{ @returnType } \link{TxsAccount} \cr
 #'
 #'
 #' \item status code : 200 | OK
 #'
-#' \item return type : AddressTxs 
+#' \item return type : TxsAccount 
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -249,14 +249,11 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.include.tags <- FALSE # character | Whether tags should be included
 #'
 #' #Get an address, optionally with tags
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
 #'
@@ -265,15 +262,12 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.include.tags <- FALSE # character | Whether tags should be included
 #' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
 #'
 #' #Get the entity of an address
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 #'
@@ -282,14 +276,11 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
-#' var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor address
+#' var.address <- 'addressA' # character | The cryptocurrency address
+#' var.neighbor <- 'addressE' # character | Neighbor address
 #'
 #' #Get transactions between two addresses
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor)
 #'
@@ -298,14 +289,11 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
-#' var.neighbor <- '17DfZja1713S3JRWA9jaebCKFM5anUh7GG' # character | Neighbor address
+#' var.address <- 'addressA' # character | The cryptocurrency address
+#' var.neighbor <- 'addressE' # character | Neighbor address
 #'
 #' #Get transactions between two addresses as CSV
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressLinksCsv(var.currency, var.address, var.neighbor)
 #'
@@ -314,7 +302,7 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.include.labels <- FALSE # character | Whether labels of tags should be included
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -323,9 +311,6 @@
 #' #Get an addresses' neighbors in the address graph
 #' api.instance <- AddressesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 #'
 #'
@@ -333,15 +318,12 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.include.labels <- FALSE # character | Whether labels of tags should be included
 #'
 #' #Get an addresses' neighbors in the address graph as CSV
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressNeighborsCsv(var.currency, var.address, var.direction, include.labels=var.include.labels)
 #'
@@ -350,15 +332,12 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
 #' #Get all transactions an address has been involved in
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 #'
@@ -367,13 +346,10 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #'
 #' #Get all transactions an address has been involved in as CSV
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddressTxsCsv(var.currency, var.address)
 #'
@@ -382,15 +358,12 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.ids <- ['ids_example'] # array[character] | Restrict result to given set of comma separated IDs
+#' var.ids <- ['ids_example'] # array[character] | Restrict result to given set of comma separated addresses
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
 #' #Get addresses
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListAddresses(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
 #'
@@ -404,9 +377,6 @@
 #' #Get addresses as CSV
 #' api.instance <- AddressesApi$new()
 #'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
-#'
 #' result <- api.instance$ListAddressesCsv(var.currency, var.ids)
 #'
 #'
@@ -414,13 +384,10 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #'
 #' #Get attribution tags for a given address
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTagsByAddress(var.currency, var.address)
 #'
@@ -429,13 +396,10 @@
 #'
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-#' var.address <- '1Archive1n2C579dMsAu3iC6tWzuQJz8dN' # character | The cryptocurrency address
+#' var.address <- 'addressA' # character | The cryptocurrency address
 #'
 #' #Get attribution tags for a given address
 #' api.instance <- AddressesApi$new()
-#'
-#' #Configure API key authorization: api_key
-#' api.instance$apiClient$apiKeys['Authorization'] <- 'TODO_YOUR_API_KEY';
 #'
 #' result <- api.instance$ListTagsByAddressCsv(var.currency, var.address)
 #'
@@ -495,10 +459,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -564,10 +524,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -635,10 +591,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -649,7 +601,7 @@ AddressesApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "array[Link]", loadNamespace("openapi")),
+          self$apiClient$deserialize(resp, "Links", loadNamespace("openapi")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -706,10 +658,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -783,10 +731,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -856,10 +800,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -925,10 +865,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -939,7 +875,7 @@ AddressesApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "AddressTxs", loadNamespace("openapi")),
+          self$apiClient$deserialize(resp, "TxsAccount", loadNamespace("openapi")),
           error = function(e){
              stop("Failed to deserialize response")
           }
@@ -990,10 +926,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1053,10 +985,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1116,10 +1044,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1181,10 +1105,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1246,10 +1166,6 @@ AddressesApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "address", "\\}"), URLencode(as.character(`address`), reserved = TRUE), urlPath)
       }
 
-      # API key authentication
-      if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
-        headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
-      }
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

@@ -13,9 +13,7 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field eur  numeric [optional]
-#'
-#' @field usd  numeric [optional]
+#' @field fiat_values  list( \link{Rate} ) [optional]
 #'
 #' @field value  integer [optional]
 #'
@@ -25,20 +23,16 @@
 Values <- R6::R6Class(
   'Values',
   public = list(
-    `eur` = NULL,
-    `usd` = NULL,
+    `fiat_values` = NULL,
     `value` = NULL,
     initialize = function(
-        `eur`=NULL, `usd`=NULL, `value`=NULL, ...
+        `fiat_values`=NULL, `value`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`eur`)) {
-        stopifnot(is.numeric(`eur`), length(`eur`) == 1)
-        self$`eur` <- `eur`
-      }
-      if (!is.null(`usd`)) {
-        stopifnot(is.numeric(`usd`), length(`usd`) == 1)
-        self$`usd` <- `usd`
+      if (!is.null(`fiat_values`)) {
+        stopifnot(is.vector(`fiat_values`), length(`fiat_values`) != 0)
+        sapply(`fiat_values`, function(x) stopifnot(R6::is.R6(x)))
+        self$`fiat_values` <- `fiat_values`
       }
       if (!is.null(`value`)) {
         stopifnot(is.numeric(`value`), length(`value`) == 1)
@@ -47,13 +41,9 @@ Values <- R6::R6Class(
     },
     toJSON = function() {
       ValuesObject <- list()
-      if (!is.null(self$`eur`)) {
-        ValuesObject[['eur']] <-
-          self$`eur`
-      }
-      if (!is.null(self$`usd`)) {
-        ValuesObject[['usd']] <-
-          self$`usd`
+      if (!is.null(self$`fiat_values`)) {
+        ValuesObject[['fiat_values']] <-
+          lapply(self$`fiat_values`, function(x) x$toJSON())
       }
       if (!is.null(self$`value`)) {
         ValuesObject[['value']] <-
@@ -64,11 +54,8 @@ Values <- R6::R6Class(
     },
     fromJSON = function(ValuesJson) {
       ValuesObject <- jsonlite::fromJSON(ValuesJson)
-      if (!is.null(ValuesObject$`eur`)) {
-        self$`eur` <- ValuesObject$`eur`
-      }
-      if (!is.null(ValuesObject$`usd`)) {
-        self$`usd` <- ValuesObject$`usd`
+      if (!is.null(ValuesObject$`fiat_values`)) {
+        self$`fiat_values` <- ApiClient$new()$deserializeObj(ValuesObject$`fiat_values`, "array[Rate]", loadNamespace("openapi"))
       }
       if (!is.null(ValuesObject$`value`)) {
         self$`value` <- ValuesObject$`value`
@@ -77,19 +64,12 @@ Values <- R6::R6Class(
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`eur`)) {
+        if (!is.null(self$`fiat_values`)) {
         sprintf(
-        '"eur":
-          %d
-                ',
-        self$`eur`
-        )},
-        if (!is.null(self$`usd`)) {
-        sprintf(
-        '"usd":
-          %d
-                ',
-        self$`usd`
+        '"fiat_values":
+        [%s]
+',
+        paste(sapply(self$`fiat_values`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
         if (!is.null(self$`value`)) {
         sprintf(
@@ -104,8 +84,7 @@ Values <- R6::R6Class(
     },
     fromJSONString = function(ValuesJson) {
       ValuesObject <- jsonlite::fromJSON(ValuesJson)
-      self$`eur` <- ValuesObject$`eur`
-      self$`usd` <- ValuesObject$`usd`
+      self$`fiat_values` <- ApiClient$new()$deserializeObj(ValuesObject$`fiat_values`, "array[Rate]", loadNamespace("openapi"))
       self$`value` <- ValuesObject$`value`
       self
     }
