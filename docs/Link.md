@@ -10,6 +10,8 @@ Name | Type | Description | Notes
 **timestamp** | **integer** | Timestamp | 
 **tx_hash** | **character** | Transaction hash | 
 **tx_type** | **character** |  | [default to &#39;account&#39;]
+**from_address** | **character** | Address | 
+**to_address** | **character** | Address | 
 **value** | [**Values**](values.md) |  | 
 
 

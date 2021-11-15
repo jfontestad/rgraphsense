@@ -1,6 +1,6 @@
 # GeneralApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,7 +20,7 @@ library(openapi)
 
 #Get statistics of supported currencies
 api.instance <- GeneralApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 result <- api.instance$GetStatistics()
 dput(result)
 ```
@@ -61,7 +61,9 @@ var.limit <- 10 # integer | Maximum number of search results
 
 #Returns matching addresses, transactions and labels
 api.instance <- GeneralApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$Search(var.q, currency=var.currency, limit=var.limit)
 dput(result)
 ```
@@ -80,7 +82,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

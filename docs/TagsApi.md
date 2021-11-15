@@ -1,6 +1,6 @@
 # TagsApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,7 +22,9 @@ var.taxonomy <- 'foo' # character | The taxonomy
 
 #Returns the supported concepts of a taxonomy
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListConcepts(var.taxonomy)
 dput(result)
 ```
@@ -39,7 +41,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -52,7 +54,7 @@ No authorization required
 | **200** | OK |  -  |
 
 # **ListTags**
-> array[Tags] ListTags(label, currency=var.currency)
+> Tags ListTags(label, currency=var.currency)
 
 Returns address and entity tags associated with a given label
 
@@ -65,7 +67,9 @@ var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 
 #Returns address and entity tags associated with a given label
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTags(var.label, currency=var.currency)
 dput(result)
 ```
@@ -79,11 +83,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**array[Tags]**](tags.md)
+[**Tags**](tags.md)
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -107,7 +111,9 @@ library(openapi)
 
 #Returns the supported taxonomies
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTaxonomies()
 dput(result)
 ```
@@ -121,7 +127,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

@@ -1,22 +1,15 @@
 # EntitiesApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetEntity**](EntitiesApi.md#GetEntity) | **GET** /{currency}/entities/{entity} | Get an entity, optionally with tags
-[**ListEntities**](EntitiesApi.md#ListEntities) | **GET** /{currency}/entities | Get entities
-[**ListEntitiesCsv**](EntitiesApi.md#ListEntitiesCsv) | **GET** /{currency}/entities.csv | Get entities as CSV
 [**ListEntityAddresses**](EntitiesApi.md#ListEntityAddresses) | **GET** /{currency}/entities/{entity}/addresses | Get an entity&#39;s addresses
-[**ListEntityAddressesCsv**](EntitiesApi.md#ListEntityAddressesCsv) | **GET** /{currency}/entities/{entity}/addresses.csv | Get an entity&#39;s addresses as CSV
 [**ListEntityLinks**](EntitiesApi.md#ListEntityLinks) | **GET** /{currency}/entities/{entity}/links | Get transactions between two entities
-[**ListEntityLinksCsv**](EntitiesApi.md#ListEntityLinksCsv) | **GET** /{currency}/entities/{entity}/links.csv | Get transactions between two entities as CSV
 [**ListEntityNeighbors**](EntitiesApi.md#ListEntityNeighbors) | **GET** /{currency}/entities/{entity}/neighbors | Get an entity&#39;s neighbors in the entity graph
-[**ListEntityNeighborsCsv**](EntitiesApi.md#ListEntityNeighborsCsv) | **GET** /{currency}/entities/{entity}/neighbors.csv | Get an entity&#39;s neighbors in the entity graph as CSV
 [**ListEntityTxs**](EntitiesApi.md#ListEntityTxs) | **GET** /{currency}/entities/{entity}/txs | Get all transactions an entity has been involved in
-[**ListEntityTxsCsv**](EntitiesApi.md#ListEntityTxsCsv) | **GET** /{currency}/entities/{entity}/txs.csv | Get all transactions an entity has been involved in as CSV
 [**ListTagsByEntity**](EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity
-[**ListTagsByEntityByLevelCsv**](EntitiesApi.md#ListTagsByEntityByLevelCsv) | **GET** /{currency}/entities/{entity}/tags.csv | Get address or entity tags for a given entity as CSV
 [**SearchEntityNeighbors**](EntitiesApi.md#SearchEntityNeighbors) | **GET** /{currency}/entities/{entity}/search | Search deeply for matching neighbors
 
 
@@ -31,12 +24,14 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
-var.include.tags <- FALSE # character | Whether tags should be included
+var.include.tags <- FALSE # character | Whether to include tags
 var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
 
 #Get an entity, optionally with tags
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
 dput(result)
 ```
@@ -47,7 +42,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
- **include.tags** | **character**| Whether tags should be included | [optional] [default to FALSE]
+ **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
  **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
 
 ### Return type
@@ -56,104 +51,12 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
-# **ListEntities**
-> Entities ListEntities(currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
-
-Get entities
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.ids <- list(123) # array[integer] | Restrict result to given set of comma separated IDs
-var.page <- 'page_example' # character | Resumption token for retrieving the next page
-var.pagesize <- 10 # integer | Number of items returned in a single page
-
-#Get entities
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntities(var.currency, ids=var.ids, page=var.page, pagesize=var.pagesize)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **ids** | list( **integer** )| Restrict result to given set of comma separated IDs | [optional] 
- **page** | **character**| Resumption token for retrieving the next page | [optional] 
- **pagesize** | **integer**| Number of items returned in a single page | [optional] 
-
-### Return type
-
-[**Entities**](entities.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
-# **ListEntitiesCsv**
-> character ListEntitiesCsv(currency, ids)
-
-Get entities as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.ids <- list(123) # array[integer] | Set of comma separated IDs
-
-#Get entities as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntitiesCsv(var.currency, var.ids)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **ids** | list( **integer** )| Set of comma separated IDs | 
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/csv
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -176,7 +79,9 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's addresses
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityAddresses(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -196,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -208,52 +113,8 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-# **ListEntityAddressesCsv**
-> character ListEntityAddressesCsv(currency, entity)
-
-Get an entity's addresses as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.entity <- 67065 # integer | The entity ID
-
-#Get an entity's addresses as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityAddressesCsv(var.currency, var.entity)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **entity** | **integer**| The entity ID | 
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/csv
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
 # **ListEntityLinks**
-> Links ListEntityLinks(currency, entity, neighbor)
+> Links ListEntityLinks(currency, entity, neighbor, page=var.page, pagesize=var.pagesize)
 
 Get transactions between two entities
 
@@ -264,11 +125,15 @@ library(openapi)
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.neighbor <- 123456 # integer | Neighbor entity
+var.page <- 'page_example' # character | Resumption token for retrieving the next page
+var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get transactions between two entities
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityLinks(var.currency, var.entity, var.neighbor)
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
+result <- api.instance$ListEntityLinks(var.currency, var.entity, var.neighbor, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
 
@@ -279,6 +144,8 @@ Name | Type | Description  | Notes
  **currency** | **character**| The cryptocurrency (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **neighbor** | **integer**| Neighbor entity | 
+ **page** | **character**| Resumption token for retrieving the next page | [optional] 
+ **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
 ### Return type
 
@@ -286,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -298,54 +165,8 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-# **ListEntityLinksCsv**
-> character ListEntityLinksCsv(currency, entity, neighbor)
-
-Get transactions between two entities as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.entity <- 67065 # integer | The entity ID
-var.neighbor <- 123456 # integer | Neighbor entity
-
-#Get transactions between two entities as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityLinksCsv(var.currency, var.entity, var.neighbor)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **entity** | **integer**| The entity ID | 
- **neighbor** | **integer**| Neighbor entity | 
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/csv
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
 # **ListEntityNeighbors**
-> Neighbors ListEntityNeighbors(currency, entity, direction, ids=var.ids, include.labels=FALSE, page=var.page, pagesize=var.pagesize)
+> Neighbors ListEntityNeighbors(currency, entity, direction, only.ids=var.only.ids, include.labels=FALSE, page=var.page, pagesize=var.pagesize)
 
 Get an entity's neighbors in the entity graph
 
@@ -356,15 +177,17 @@ library(openapi)
 var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.direction <- 'out' # character | Incoming or outgoing neighbors
-var.ids <- list(123) # array[integer] | Restrict result to given set of comma separated IDs
-var.include.labels <- FALSE # character | Whether labels of tags should be included
+var.only.ids <- list(123) # array[integer] | Restrict result to given set of comma separated IDs
+var.include.labels <- FALSE # character | Whether to include labels of tags
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's neighbors in the entity graph
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, ids=var.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
+result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, only.ids=var.only.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
 
@@ -375,8 +198,8 @@ Name | Type | Description  | Notes
  **currency** | **character**| The cryptocurrency (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
- **ids** | list( **integer** )| Restrict result to given set of comma separated IDs | [optional] 
- **include.labels** | **character**| Whether labels of tags should be included | [optional] [default to FALSE]
+ **only.ids** | list( **integer** )| Restrict result to given set of comma separated IDs | [optional] 
+ **include.labels** | **character**| Whether to include labels of tags | [optional] [default to FALSE]
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
@@ -386,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -398,56 +221,8 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-# **ListEntityNeighborsCsv**
-> character ListEntityNeighborsCsv(currency, entity, direction, include.labels=FALSE)
-
-Get an entity's neighbors in the entity graph as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.entity <- 67065 # integer | The entity ID
-var.direction <- 'out' # character | Incoming or outgoing neighbors
-var.include.labels <- FALSE # character | Whether labels of tags should be included
-
-#Get an entity's neighbors in the entity graph as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityNeighborsCsv(var.currency, var.entity, var.direction, include.labels=var.include.labels)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **entity** | **integer**| The entity ID | 
- **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
- **include.labels** | **character**| Whether labels of tags should be included | [optional] [default to FALSE]
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/csv
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
 # **ListEntityTxs**
-> TxsAccount ListEntityTxs(currency, entity, page=var.page, pagesize=var.pagesize)
+> AddressTxs ListEntityTxs(currency, entity, page=var.page, pagesize=var.pagesize)
 
 Get all transactions an entity has been involved in
 
@@ -462,7 +237,9 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an entity has been involved in
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityTxs(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
@@ -478,60 +255,16 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**TxsAccount**](txs_account.md)
+[**AddressTxs**](address_txs.md)
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
-# **ListEntityTxsCsv**
-> character ListEntityTxsCsv(currency, entity)
-
-Get all transactions an entity has been involved in as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.entity <- 67065 # integer | The entity ID
-
-#Get all transactions an entity has been involved in as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListEntityTxsCsv(var.currency, var.entity)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **entity** | **integer**| The entity ID | 
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/csv
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -553,7 +286,9 @@ var.tag.coherence <- FALSE # character | Whether to calculate coherence of addre
 
 #Get tags for a given entity
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTagsByEntity(var.currency, var.entity, tag.coherence=var.tag.coherence)
 dput(result)
 ```
@@ -572,7 +307,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -584,54 +319,8 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
 
-# **ListTagsByEntityByLevelCsv**
-> character ListTagsByEntityByLevelCsv(currency, entity, level)
-
-Get address or entity tags for a given entity as CSV
-
-### Example
-```R
-library(openapi)
-
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
-var.entity <- 67065 # integer | The entity ID
-var.level <- 'address' # character | Whether tags on the address or entity level are requested
-
-#Get address or entity tags for a given entity as CSV
-api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
-result <- api.instance$ListTagsByEntityByLevelCsv(var.currency, var.entity, var.level)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
- **entity** | **integer**| The entity ID | 
- **level** | Enum [address, entity] | Whether tags on the address or entity level are requested | 
-
-### Return type
-
-**character**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/csv
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | OK |  -  |
-
 # **SearchEntityNeighbors**
-> array[SearchResultLevel1] SearchEntityNeighbors(currency, entity, direction, key, value, depth, breadth=16, skip.num.addresses=var.skip.num.addresses)
+> SearchResultLevel1 SearchEntityNeighbors(currency, entity, direction, key, value, depth, breadth=16, skip.num.addresses=var.skip.num.addresses)
 
 Search deeply for matching neighbors
 
@@ -650,7 +339,9 @@ var.skip.num.addresses <- 56 # integer | Skip entities containing more addresses
 
 #Search deeply for matching neighbors
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$SearchEntityNeighbors(var.currency, var.entity, var.direction, var.key, var.value, var.depth, breadth=var.breadth, skip.num.addresses=var.skip.num.addresses)
 dput(result)
 ```
@@ -670,11 +361,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**array[SearchResultLevel1]**](search_result_level1.md)
+[**SearchResultLevel1**](search_result_level1.md)
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
