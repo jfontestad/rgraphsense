@@ -15,13 +15,9 @@
 #'
 #' @field currencies  list( \link{CurrencyStats} ) [optional]
 #'
-#' @field notes  list( \link{StatsNote} ) [optional]
+#' @field request_timestamp  character [optional]
 #'
-#' @field tags_source  \link{StatsTagsSource} [optional]
-#'
-#' @field tools  list( \link{StatsTool} ) [optional]
-#'
-#' @field version  \link{StatsVersion} [optional]
+#' @field version  character [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -30,12 +26,10 @@ Stats <- R6::R6Class(
   'Stats',
   public = list(
     `currencies` = NULL,
-    `notes` = NULL,
-    `tags_source` = NULL,
-    `tools` = NULL,
+    `request_timestamp` = NULL,
     `version` = NULL,
     initialize = function(
-        `currencies`=NULL, `notes`=NULL, `tags_source`=NULL, `tools`=NULL, `version`=NULL, ...
+        `currencies`=NULL, `request_timestamp`=NULL, `version`=NULL, ...
     ) {
       local.optional.var <- list(...)
       if (!is.null(`currencies`)) {
@@ -43,22 +37,12 @@ Stats <- R6::R6Class(
         sapply(`currencies`, function(x) stopifnot(R6::is.R6(x)))
         self$`currencies` <- `currencies`
       }
-      if (!is.null(`notes`)) {
-        stopifnot(is.vector(`notes`), length(`notes`) != 0)
-        sapply(`notes`, function(x) stopifnot(R6::is.R6(x)))
-        self$`notes` <- `notes`
-      }
-      if (!is.null(`tags_source`)) {
-        stopifnot(R6::is.R6(`tags_source`))
-        self$`tags_source` <- `tags_source`
-      }
-      if (!is.null(`tools`)) {
-        stopifnot(is.vector(`tools`), length(`tools`) != 0)
-        sapply(`tools`, function(x) stopifnot(R6::is.R6(x)))
-        self$`tools` <- `tools`
+      if (!is.null(`request_timestamp`)) {
+        stopifnot(is.character(`request_timestamp`), length(`request_timestamp`) == 1)
+        self$`request_timestamp` <- `request_timestamp`
       }
       if (!is.null(`version`)) {
-        stopifnot(R6::is.R6(`version`))
+        stopifnot(is.character(`version`), length(`version`) == 1)
         self$`version` <- `version`
       }
     },
@@ -68,21 +52,13 @@ Stats <- R6::R6Class(
         StatsObject[['currencies']] <-
           lapply(self$`currencies`, function(x) x$toJSON())
       }
-      if (!is.null(self$`notes`)) {
-        StatsObject[['notes']] <-
-          lapply(self$`notes`, function(x) x$toJSON())
-      }
-      if (!is.null(self$`tags_source`)) {
-        StatsObject[['tags_source']] <-
-          self$`tags_source`$toJSON()
-      }
-      if (!is.null(self$`tools`)) {
-        StatsObject[['tools']] <-
-          lapply(self$`tools`, function(x) x$toJSON())
+      if (!is.null(self$`request_timestamp`)) {
+        StatsObject[['request_timestamp']] <-
+          self$`request_timestamp`
       }
       if (!is.null(self$`version`)) {
         StatsObject[['version']] <-
-          self$`version`$toJSON()
+          self$`version`
       }
 
       StatsObject
@@ -92,21 +68,11 @@ Stats <- R6::R6Class(
       if (!is.null(StatsObject$`currencies`)) {
         self$`currencies` <- ApiClient$new()$deserializeObj(StatsObject$`currencies`, "array[CurrencyStats]", loadNamespace("openapi"))
       }
-      if (!is.null(StatsObject$`notes`)) {
-        self$`notes` <- ApiClient$new()$deserializeObj(StatsObject$`notes`, "array[StatsNote]", loadNamespace("openapi"))
-      }
-      if (!is.null(StatsObject$`tags_source`)) {
-        tags_sourceObject <- StatsTagsSource$new()
-        tags_sourceObject$fromJSON(jsonlite::toJSON(StatsObject$tags_source, auto_unbox = TRUE, digits = NA))
-        self$`tags_source` <- tags_sourceObject
-      }
-      if (!is.null(StatsObject$`tools`)) {
-        self$`tools` <- ApiClient$new()$deserializeObj(StatsObject$`tools`, "array[StatsTool]", loadNamespace("openapi"))
+      if (!is.null(StatsObject$`request_timestamp`)) {
+        self$`request_timestamp` <- StatsObject$`request_timestamp`
       }
       if (!is.null(StatsObject$`version`)) {
-        versionObject <- StatsVersion$new()
-        versionObject$fromJSON(jsonlite::toJSON(StatsObject$version, auto_unbox = TRUE, digits = NA))
-        self$`version` <- versionObject
+        self$`version` <- StatsObject$`version`
       }
       self
     },
@@ -119,33 +85,19 @@ Stats <- R6::R6Class(
 ',
         paste(sapply(self$`currencies`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
-        if (!is.null(self$`notes`)) {
+        if (!is.null(self$`request_timestamp`)) {
         sprintf(
-        '"notes":
-        [%s]
-',
-        paste(sapply(self$`notes`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        )},
-        if (!is.null(self$`tags_source`)) {
-        sprintf(
-        '"tags_source":
-        %s
-        ',
-        jsonlite::toJSON(self$`tags_source`$toJSON(), auto_unbox=TRUE, digits = NA)
-        )},
-        if (!is.null(self$`tools`)) {
-        sprintf(
-        '"tools":
-        [%s]
-',
-        paste(sapply(self$`tools`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
+        '"request_timestamp":
+          "%s"
+                ',
+        self$`request_timestamp`
         )},
         if (!is.null(self$`version`)) {
         sprintf(
         '"version":
-        %s
-        ',
-        jsonlite::toJSON(self$`version`$toJSON(), auto_unbox=TRUE, digits = NA)
+          "%s"
+                ',
+        self$`version`
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -154,10 +106,8 @@ Stats <- R6::R6Class(
     fromJSONString = function(StatsJson) {
       StatsObject <- jsonlite::fromJSON(StatsJson)
       self$`currencies` <- ApiClient$new()$deserializeObj(StatsObject$`currencies`, "array[CurrencyStats]", loadNamespace("openapi"))
-      self$`notes` <- ApiClient$new()$deserializeObj(StatsObject$`notes`, "array[StatsNote]", loadNamespace("openapi"))
-      self$`tags_source` <- StatsTagsSource$new()$fromJSON(jsonlite::toJSON(StatsObject$tags_source, auto_unbox = TRUE, digits = NA))
-      self$`tools` <- ApiClient$new()$deserializeObj(StatsObject$`tools`, "array[StatsTool]", loadNamespace("openapi"))
-      self$`version` <- StatsVersion$new()$fromJSON(jsonlite::toJSON(StatsObject$version, auto_unbox = TRUE, digits = NA))
+      self$`request_timestamp` <- StatsObject$`request_timestamp`
+      self$`version` <- StatsObject$`version`
       self
     }
   )

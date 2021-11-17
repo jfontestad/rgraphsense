@@ -58,7 +58,7 @@
 #' ####################  GetBlock  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.height <- 1 # integer | The block height
 #'
 #' #Get a block by its height
@@ -73,7 +73,7 @@
 #' ####################  ListBlockTxs  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.height <- 1 # integer | The block height
 #'
 #' #Get block transactions

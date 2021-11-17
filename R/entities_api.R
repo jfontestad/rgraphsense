@@ -169,7 +169,7 @@
 #' ####################  GetEntity  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.include.tags <- FALSE # character | Whether to include tags
 #' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
@@ -186,7 +186,7 @@
 #' ####################  ListEntityAddresses  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -203,7 +203,7 @@
 #' ####################  ListEntityLinks  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.neighbor <- 123456 # integer | Neighbor entity
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -221,7 +221,7 @@
 #' ####################  ListEntityNeighbors  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.only.ids <- [56] # array[integer] | Restrict result to given set of comma separated IDs
@@ -241,7 +241,7 @@
 #' ####################  ListEntityTxs  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -258,7 +258,7 @@
 #' ####################  ListTagsByEntity  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
 #'
@@ -274,7 +274,7 @@
 #' ####################  SearchEntityNeighbors  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.key <- 'category' # character | Match neighbors against one and only one of these properties: - the category the entity belongs to - addresses the entity contains - entity ids - total_received: amount the entity received in total - balance: amount the entity holds finally

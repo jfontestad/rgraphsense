@@ -13,8 +13,6 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field data_sources  list( \link{StatsLedger} ) [optional]
-#'
 #' @field name  character [optional]
 #'
 #' @field no_address_relations  integer [optional]
@@ -29,11 +27,7 @@
 #'
 #' @field no_txs  integer [optional]
 #'
-#' @field notes  list( character ) [optional]
-#'
 #' @field timestamp  integer [optional]
-#'
-#' @field tools  list( character ) [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -41,7 +35,6 @@
 CurrencyStats <- R6::R6Class(
   'CurrencyStats',
   public = list(
-    `data_sources` = NULL,
     `name` = NULL,
     `no_address_relations` = NULL,
     `no_addresses` = NULL,
@@ -49,18 +42,11 @@ CurrencyStats <- R6::R6Class(
     `no_entities` = NULL,
     `no_labels` = NULL,
     `no_txs` = NULL,
-    `notes` = NULL,
     `timestamp` = NULL,
-    `tools` = NULL,
     initialize = function(
-        `data_sources`=NULL, `name`=NULL, `no_address_relations`=NULL, `no_addresses`=NULL, `no_blocks`=NULL, `no_entities`=NULL, `no_labels`=NULL, `no_txs`=NULL, `notes`=NULL, `timestamp`=NULL, `tools`=NULL, ...
+        `name`=NULL, `no_address_relations`=NULL, `no_addresses`=NULL, `no_blocks`=NULL, `no_entities`=NULL, `no_labels`=NULL, `no_txs`=NULL, `timestamp`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!is.null(`data_sources`)) {
-        stopifnot(is.vector(`data_sources`), length(`data_sources`) != 0)
-        sapply(`data_sources`, function(x) stopifnot(R6::is.R6(x)))
-        self$`data_sources` <- `data_sources`
-      }
       if (!is.null(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
@@ -89,27 +75,13 @@ CurrencyStats <- R6::R6Class(
         stopifnot(is.numeric(`no_txs`), length(`no_txs`) == 1)
         self$`no_txs` <- `no_txs`
       }
-      if (!is.null(`notes`)) {
-        stopifnot(is.vector(`notes`), length(`notes`) != 0)
-        sapply(`notes`, function(x) stopifnot(is.character(x)))
-        self$`notes` <- `notes`
-      }
       if (!is.null(`timestamp`)) {
         stopifnot(is.numeric(`timestamp`), length(`timestamp`) == 1)
         self$`timestamp` <- `timestamp`
       }
-      if (!is.null(`tools`)) {
-        stopifnot(is.vector(`tools`), length(`tools`) != 0)
-        sapply(`tools`, function(x) stopifnot(is.character(x)))
-        self$`tools` <- `tools`
-      }
     },
     toJSON = function() {
       CurrencyStatsObject <- list()
-      if (!is.null(self$`data_sources`)) {
-        CurrencyStatsObject[['data_sources']] <-
-          lapply(self$`data_sources`, function(x) x$toJSON())
-      }
       if (!is.null(self$`name`)) {
         CurrencyStatsObject[['name']] <-
           self$`name`
@@ -138,26 +110,15 @@ CurrencyStats <- R6::R6Class(
         CurrencyStatsObject[['no_txs']] <-
           self$`no_txs`
       }
-      if (!is.null(self$`notes`)) {
-        CurrencyStatsObject[['notes']] <-
-          self$`notes`
-      }
       if (!is.null(self$`timestamp`)) {
         CurrencyStatsObject[['timestamp']] <-
           self$`timestamp`
-      }
-      if (!is.null(self$`tools`)) {
-        CurrencyStatsObject[['tools']] <-
-          self$`tools`
       }
 
       CurrencyStatsObject
     },
     fromJSON = function(CurrencyStatsJson) {
       CurrencyStatsObject <- jsonlite::fromJSON(CurrencyStatsJson)
-      if (!is.null(CurrencyStatsObject$`data_sources`)) {
-        self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
-      }
       if (!is.null(CurrencyStatsObject$`name`)) {
         self$`name` <- CurrencyStatsObject$`name`
       }
@@ -179,26 +140,13 @@ CurrencyStats <- R6::R6Class(
       if (!is.null(CurrencyStatsObject$`no_txs`)) {
         self$`no_txs` <- CurrencyStatsObject$`no_txs`
       }
-      if (!is.null(CurrencyStatsObject$`notes`)) {
-        self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
-      }
       if (!is.null(CurrencyStatsObject$`timestamp`)) {
         self$`timestamp` <- CurrencyStatsObject$`timestamp`
-      }
-      if (!is.null(CurrencyStatsObject$`tools`)) {
-        self$`tools` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`tools`, "array[character]", loadNamespace("openapi"))
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`data_sources`)) {
-        sprintf(
-        '"data_sources":
-        [%s]
-',
-        paste(sapply(self$`data_sources`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        )},
         if (!is.null(self$`name`)) {
         sprintf(
         '"name":
@@ -248,26 +196,12 @@ CurrencyStats <- R6::R6Class(
                 ',
         self$`no_txs`
         )},
-        if (!is.null(self$`notes`)) {
-        sprintf(
-        '"notes":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`notes`, function(x) paste0('"', x, '"'))), collapse=",")
-        )},
         if (!is.null(self$`timestamp`)) {
         sprintf(
         '"timestamp":
           %d
                 ',
         self$`timestamp`
-        )},
-        if (!is.null(self$`tools`)) {
-        sprintf(
-        '"tools":
-           [%s]
-        ',
-        paste(unlist(lapply(self$`tools`, function(x) paste0('"', x, '"'))), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -275,7 +209,6 @@ CurrencyStats <- R6::R6Class(
     },
     fromJSONString = function(CurrencyStatsJson) {
       CurrencyStatsObject <- jsonlite::fromJSON(CurrencyStatsJson)
-      self$`data_sources` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`data_sources`, "array[StatsLedger]", loadNamespace("openapi"))
       self$`name` <- CurrencyStatsObject$`name`
       self$`no_address_relations` <- CurrencyStatsObject$`no_address_relations`
       self$`no_addresses` <- CurrencyStatsObject$`no_addresses`
@@ -283,9 +216,7 @@ CurrencyStats <- R6::R6Class(
       self$`no_entities` <- CurrencyStatsObject$`no_entities`
       self$`no_labels` <- CurrencyStatsObject$`no_labels`
       self$`no_txs` <- CurrencyStatsObject$`no_txs`
-      self$`notes` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`notes`, "array[character]", loadNamespace("openapi"))
       self$`timestamp` <- CurrencyStatsObject$`timestamp`
-      self$`tools` <- ApiClient$new()$deserializeObj(CurrencyStatsObject$`tools`, "array[character]", loadNamespace("openapi"))
       self
     }
   )

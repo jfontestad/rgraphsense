@@ -17,7 +17,7 @@ Returns details of a specific transaction identified by its hash.
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.tx.hash <- 'ab188013' # character | The transaction hash
 var.include.io <- FALSE # character | Whether to include inputs/outputs of a transaction (UTXO only)
 
@@ -34,7 +34,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **tx.hash** | **character**| The transaction hash | 
  **include.io** | **character**| Whether to include inputs/outputs of a transaction (UTXO only) | [optional] [default to FALSE]
 
@@ -65,7 +65,7 @@ Returns input/output values of a specific transaction identified by its hash.
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.tx.hash <- 'ab188013' # character | The transaction hash
 var.io <- 'outputs' # character | Input or outpus values of a transaction
 
@@ -82,7 +82,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **tx.hash** | **character**| The transaction hash | 
  **io** | Enum [inputs, outputs] | Input or outpus values of a transaction | 
 

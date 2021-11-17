@@ -17,7 +17,7 @@ Get data as CSV in bulk
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.api <- 'blocks' # character | The api of the operation to execute in bulk
 var.operation <- 'get_block' # character | The operation to execute in bulk
 var.body <- {"height":[1,2,3]} # object | Map of the operation's parameter names to (arrays of) values
@@ -35,7 +35,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **api** | Enum [blocks, addresses, entities, txs, rates, tags] | The api of the operation to execute in bulk | 
  **operation** | Enum [get_block, list_block_txs, get_address, list_address_txs, list_tags_by_address, list_address_neighbors, get_address_entity, list_address_links, get_entity, list_tags_by_entity, list_entity_neighbors, list_entity_txs, list_entity_links, list_entity_addresses, get_tx, get_tx_io, get_exchange_rates] | The operation to execute in bulk | 
  **body** | **object**| Map of the operation&#39;s parameter names to (arrays of) values | 
@@ -67,7 +67,7 @@ Get data as JSON in bulk
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.api <- 'blocks' # character | The api of the operation to execute in bulk
 var.operation <- 'get_block' # character | The operation to execute in bulk
 var.body <- NULL # object | Map of the operation's parameter names to (arrays of) values
@@ -85,7 +85,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **api** | Enum [blocks, addresses, entities, txs, rates, tags] | The api of the operation to execute in bulk | 
  **operation** | Enum [get_block, list_block_txs, get_address, list_address_txs, list_tags_by_address, list_address_neighbors, get_address_entity, list_address_links, get_entity, list_tags_by_entity, list_entity_neighbors, list_entity_txs, list_entity_links, list_entity_addresses, get_tx, get_tx_io, get_exchange_rates] | The operation to execute in bulk | 
  **body** | **object**| Map of the operation&#39;s parameter names to (arrays of) values | 

@@ -40,7 +40,7 @@
 #' ####################  GetExchangeRates  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.height <- 1 # integer | The block height
 #'
 #' #Returns exchange rate for a given height

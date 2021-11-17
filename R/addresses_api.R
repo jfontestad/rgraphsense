@@ -142,7 +142,7 @@
 #' ####################  GetAddress  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.include.tags <- FALSE # character | Whether to include tags
 #'
@@ -158,7 +158,7 @@
 #' ####################  GetAddressEntity  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.include.tags <- FALSE # character | Whether to include tags
 #' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
@@ -175,7 +175,7 @@
 #' ####################  ListAddressLinks  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.neighbor <- 'addressE' # character | Neighbor address
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -193,7 +193,7 @@
 #' ####################  ListAddressNeighbors  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.include.labels <- FALSE # character | Whether to include labels of tags
@@ -212,7 +212,7 @@
 #' ####################  ListAddressTxs  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -229,7 +229,7 @@
 #' ####################  ListTagsByAddress  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #'
 #' #Get attribution tags for a given address

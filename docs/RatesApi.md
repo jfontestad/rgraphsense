@@ -16,7 +16,7 @@ Returns exchange rate for a given height
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.height <- 1 # integer | The block height
 
 #Returns exchange rate for a given height
@@ -32,7 +32,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **height** | **integer**| The block height | 
 
 ### Return type

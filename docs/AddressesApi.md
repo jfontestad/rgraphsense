@@ -21,7 +21,7 @@ Get an address, optionally with tags
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.include.tags <- FALSE # character | Whether to include tags
 
@@ -38,7 +38,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
 
@@ -69,7 +69,7 @@ Get the entity of an address
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.include.tags <- FALSE # character | Whether to include tags
 var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
@@ -87,7 +87,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
  **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
@@ -119,7 +119,7 @@ Get outgoing transactions between two addresses
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.neighbor <- 'addressE' # character | Neighbor address
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -138,7 +138,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **neighbor** | **character**| Neighbor address | 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
@@ -171,7 +171,7 @@ Get an addresses' neighbors in the address graph
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.include.labels <- FALSE # character | Whether to include labels of tags
@@ -191,7 +191,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
  **include.labels** | **character**| Whether to include labels of tags | [optional] [default to FALSE]
@@ -225,7 +225,7 @@ Get all transactions an address has been involved in
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -243,7 +243,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
@@ -275,7 +275,7 @@ Get attribution tags for a given address
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 
 #Get attribution tags for a given address
@@ -291,7 +291,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
 
 ### Return type

@@ -60,7 +60,7 @@
 #' ####################  GetTx  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.tx.hash <- 'ab188013' # character | The transaction hash
 #' var.include.io <- FALSE # character | Whether to include inputs/outputs of a transaction (UTXO only)
 #'
@@ -76,7 +76,7 @@
 #' ####################  GetTxIo  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.tx.hash <- 'ab188013' # character | The transaction hash
 #' var.io <- 'outputs' # character | Input or outpus values of a transaction
 #'

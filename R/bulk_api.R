@@ -61,7 +61,7 @@
 #' ####################  BulkCsv  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.api <- 'blocks' # character | The api of the operation to execute in bulk
 #' var.operation <- 'get_block' # character | The operation to execute in bulk
 #' var.body <- {"height":[1,2,3]} # object | Map of the operation's parameter names to (arrays of) values
@@ -78,7 +78,7 @@
 #' ####################  BulkJson  ####################
 #'
 #' library(openapi)
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.api <- 'blocks' # character | The api of the operation to execute in bulk
 #' var.operation <- 'get_block' # character | The operation to execute in bulk
 #' var.body <- NULL # object | Map of the operation's parameter names to (arrays of) values

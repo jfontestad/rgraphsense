@@ -22,7 +22,7 @@ Get an entity, optionally with tags
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.include.tags <- FALSE # character | Whether to include tags
 var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
@@ -40,7 +40,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
  **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
@@ -72,7 +72,7 @@ Get an entity's addresses
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -90,7 +90,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
@@ -122,7 +122,7 @@ Get transactions between two entities
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.neighbor <- 123456 # integer | Neighbor entity
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
@@ -141,7 +141,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **neighbor** | **integer**| Neighbor entity | 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
@@ -174,7 +174,7 @@ Get an entity's neighbors in the entity graph
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.only.ids <- list(123) # array[integer] | Restrict result to given set of comma separated IDs
@@ -195,7 +195,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
  **only.ids** | list( **integer** )| Restrict result to given set of comma separated IDs | [optional] 
@@ -230,7 +230,7 @@ Get all transactions an entity has been involved in
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
@@ -248,7 +248,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
@@ -280,7 +280,7 @@ Get tags for a given entity
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
 
@@ -297,7 +297,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
 
@@ -328,7 +328,7 @@ Search deeply for matching neighbors
 ```R
 library(openapi)
 
-var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.key <- 'category' # character | Match neighbors against one and only one of these properties: - the category the entity belongs to - addresses the entity contains - entity ids - total_received: amount the entity received in total - balance: amount the entity holds finally
@@ -350,7 +350,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **currency** | **character**| The cryptocurrency (e.g., btc) | 
+ **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
  **key** | Enum [category, addresses, entities, total_received, balance] | Match neighbors against one and only one of these properties: - the category the entity belongs to - addresses the entity contains - entity ids - total_received: amount the entity received in total - balance: amount the entity holds finally | 
