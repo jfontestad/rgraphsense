@@ -1,6 +1,6 @@
 # TxsApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -23,7 +23,7 @@ var.include.io <- FALSE # character | Whether to include inputs/outputs of a tra
 
 #Returns details of a specific transaction identified by its hash.
 api.instance <- TxsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetTx(var.currency, var.tx.hash, include.io=var.include.io)
@@ -71,7 +71,7 @@ var.io <- 'outputs' # character | Input or outpus values of a transaction
 
 #Returns input/output values of a specific transaction identified by its hash.
 api.instance <- TxsApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetTxIo(var.currency, var.tx.hash, var.io)

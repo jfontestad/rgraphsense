@@ -141,7 +141,7 @@ GeneralApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    Search = function(q, currency=NULL, limit=NULL, ...){
+    Search = function(q, currency=NULL, limit=10, ...){
       apiResponse <- self$SearchWithHttpInfo(q, currency, limit, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -155,7 +155,7 @@ GeneralApi <- R6::R6Class(
       }
     },
 
-    SearchWithHttpInfo = function(q, currency=NULL, limit=NULL, ...){
+    SearchWithHttpInfo = function(q, currency=NULL, limit=10, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()

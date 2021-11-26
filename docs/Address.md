@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **no_incoming_txs** | **integer** |  | 
 **no_outgoing_txs** | **integer** |  | 
 **out_degree** | **integer** |  | 
-**tags** | [**array[AddressTag]**](address_tag.md) | Tags | [optional] 
+**tags** | [**array[AddressTag]**](address_tag.md) | First page of tags of this address | [optional] 
 **total_received** | [**Values**](values.md) |  | 
 **total_spent** | [**Values**](values.md) |  | 
 

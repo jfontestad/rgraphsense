@@ -13,11 +13,11 @@
 #'
 #' @format An \code{R6Class} generator object
 #'
-#' @field address_tags  list( \link{AddressTag} ) 
-#'
 #' @field entity_tags  list( \link{EntityTag} ) 
 #'
-#' @field tag_coherence  numeric [optional]
+#' @field next_page  character [optional]
+#'
+#' @field address_tags  list( \link{AddressTag} ) 
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -25,67 +25,60 @@
 Tags <- R6::R6Class(
   'Tags',
   public = list(
-    `address_tags` = NULL,
     `entity_tags` = NULL,
-    `tag_coherence` = NULL,
+    `next_page` = NULL,
+    `address_tags` = NULL,
     initialize = function(
-        `address_tags`, `entity_tags`, `tag_coherence`=NULL, ...
+        `entity_tags`, `address_tags`, `next_page`=NULL, ...
     ) {
       local.optional.var <- list(...)
-      if (!missing(`address_tags`)) {
-        stopifnot(is.vector(`address_tags`), length(`address_tags`) != 0)
-        sapply(`address_tags`, function(x) stopifnot(R6::is.R6(x)))
-        self$`address_tags` <- `address_tags`
-      }
       if (!missing(`entity_tags`)) {
         stopifnot(is.vector(`entity_tags`), length(`entity_tags`) != 0)
         sapply(`entity_tags`, function(x) stopifnot(R6::is.R6(x)))
         self$`entity_tags` <- `entity_tags`
       }
-      if (!is.null(`tag_coherence`)) {
-        stopifnot(is.numeric(`tag_coherence`), length(`tag_coherence`) == 1)
-        self$`tag_coherence` <- `tag_coherence`
+      if (!missing(`address_tags`)) {
+        stopifnot(is.vector(`address_tags`), length(`address_tags`) != 0)
+        sapply(`address_tags`, function(x) stopifnot(R6::is.R6(x)))
+        self$`address_tags` <- `address_tags`
+      }
+      if (!is.null(`next_page`)) {
+        stopifnot(is.character(`next_page`), length(`next_page`) == 1)
+        self$`next_page` <- `next_page`
       }
     },
     toJSON = function() {
       TagsObject <- list()
-      if (!is.null(self$`address_tags`)) {
-        TagsObject[['address_tags']] <-
-          lapply(self$`address_tags`, function(x) x$toJSON())
-      }
       if (!is.null(self$`entity_tags`)) {
         TagsObject[['entity_tags']] <-
           lapply(self$`entity_tags`, function(x) x$toJSON())
       }
-      if (!is.null(self$`tag_coherence`)) {
-        TagsObject[['tag_coherence']] <-
-          self$`tag_coherence`
+      if (!is.null(self$`next_page`)) {
+        TagsObject[['next_page']] <-
+          self$`next_page`
+      }
+      if (!is.null(self$`address_tags`)) {
+        TagsObject[['address_tags']] <-
+          lapply(self$`address_tags`, function(x) x$toJSON())
       }
 
       TagsObject
     },
     fromJSON = function(TagsJson) {
       TagsObject <- jsonlite::fromJSON(TagsJson)
-      if (!is.null(TagsObject$`address_tags`)) {
-        self$`address_tags` <- ApiClient$new()$deserializeObj(TagsObject$`address_tags`, "array[AddressTag]", loadNamespace("openapi"))
-      }
       if (!is.null(TagsObject$`entity_tags`)) {
         self$`entity_tags` <- ApiClient$new()$deserializeObj(TagsObject$`entity_tags`, "array[EntityTag]", loadNamespace("openapi"))
       }
-      if (!is.null(TagsObject$`tag_coherence`)) {
-        self$`tag_coherence` <- TagsObject$`tag_coherence`
+      if (!is.null(TagsObject$`next_page`)) {
+        self$`next_page` <- TagsObject$`next_page`
+      }
+      if (!is.null(TagsObject$`address_tags`)) {
+        self$`address_tags` <- ApiClient$new()$deserializeObj(TagsObject$`address_tags`, "array[AddressTag]", loadNamespace("openapi"))
       }
       self
     },
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`address_tags`)) {
-        sprintf(
-        '"address_tags":
-        [%s]
-',
-        paste(sapply(self$`address_tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
-        )},
         if (!is.null(self$`entity_tags`)) {
         sprintf(
         '"entity_tags":
@@ -93,12 +86,19 @@ Tags <- R6::R6Class(
 ',
         paste(sapply(self$`entity_tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )},
-        if (!is.null(self$`tag_coherence`)) {
+        if (!is.null(self$`next_page`)) {
         sprintf(
-        '"tag_coherence":
-          %d
+        '"next_page":
+          "%s"
                 ',
-        self$`tag_coherence`
+        self$`next_page`
+        )},
+        if (!is.null(self$`address_tags`)) {
+        sprintf(
+        '"address_tags":
+        [%s]
+',
+        paste(sapply(self$`address_tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE, digits = NA)), collapse=",")
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -106,9 +106,9 @@ Tags <- R6::R6Class(
     },
     fromJSONString = function(TagsJson) {
       TagsObject <- jsonlite::fromJSON(TagsJson)
-      self$`address_tags` <- ApiClient$new()$deserializeObj(TagsObject$`address_tags`, "array[AddressTag]", loadNamespace("openapi"))
       self$`entity_tags` <- ApiClient$new()$deserializeObj(TagsObject$`entity_tags`, "array[EntityTag]", loadNamespace("openapi"))
-      self$`tag_coherence` <- TagsObject$`tag_coherence`
+      self$`next_page` <- TagsObject$`next_page`
+      self$`address_tags` <- ApiClient$new()$deserializeObj(TagsObject$`address_tags`, "array[AddressTag]", loadNamespace("openapi"))
       self
     }
   )

@@ -21,7 +21,6 @@
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } entity integer
 #' \item \emph{ @param } include.tags character
-#' \item \emph{ @param } tag.coherence character
 #' \item \emph{ @returnType } \link{Entity} \cr
 #'
 #'
@@ -118,13 +117,15 @@
 #' }
 #' }
 #'
-#' \strong{ ListTagsByEntity } \emph{ Get tags for a given entity }
+#' \strong{ ListTagsByEntity } \emph{ Get tags for a given entity for the given level }
 #' 
 #'
 #' \itemize{
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } entity integer
-#' \item \emph{ @param } tag.coherence character
+#' \item \emph{ @param } level Enum < [address, entity] > 
+#' \item \emph{ @param } page character
+#' \item \emph{ @param } pagesize integer
 #' \item \emph{ @returnType } \link{Tags} \cr
 #'
 #'
@@ -171,8 +172,7 @@
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
-#' var.include.tags <- FALSE # character | Whether to include tags
-#' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+#' var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 #'
 #' #Get an entity, optionally with tags
 #' api.instance <- EntitiesApi$new()
@@ -180,7 +180,7 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 #'
-#' result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
+#' result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags)
 #'
 #'
 #' ####################  ListEntityAddresses  ####################
@@ -225,7 +225,7 @@
 #' var.entity <- 67065 # integer | The entity ID
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
 #' var.only.ids <- [56] # array[integer] | Restrict result to given set of comma separated IDs
-#' var.include.labels <- FALSE # character | Whether to include labels of tags
+#' var.include.labels <- FALSE # character | Whether to include labels of first page of tags
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
@@ -260,15 +260,17 @@
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.entity <- 67065 # integer | The entity ID
-#' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+#' var.level <- 'address' # character | Whether tags on the address or entity level are requested
+#' var.page <- 'page_example' # character | Resumption token for retrieving the next page
+#' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
-#' #Get tags for a given entity
+#' #Get tags for a given entity for the given level
 #' api.instance <- EntitiesApi$new()
 #'
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 #'
-#' result <- api.instance$ListTagsByEntity(var.currency, var.entity, tag.coherence=var.tag.coherence)
+#' result <- api.instance$ListTagsByEntity(var.currency, var.entity, var.level, page=var.page, pagesize=var.pagesize)
 #'
 #'
 #' ####################  SearchEntityNeighbors  ####################
@@ -308,8 +310,8 @@ EntitiesApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    GetEntity = function(currency, entity, include.tags=FALSE, tag.coherence=FALSE, ...){
-      apiResponse <- self$GetEntityWithHttpInfo(currency, entity, include.tags, tag.coherence, ...)
+    GetEntity = function(currency, entity, include.tags=FALSE, ...){
+      apiResponse <- self$GetEntityWithHttpInfo(currency, entity, include.tags, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -322,7 +324,7 @@ EntitiesApi <- R6::R6Class(
       }
     },
 
-    GetEntityWithHttpInfo = function(currency, entity, include.tags=FALSE, tag.coherence=FALSE, ...){
+    GetEntityWithHttpInfo = function(currency, entity, include.tags=FALSE, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -336,8 +338,6 @@ EntitiesApi <- R6::R6Class(
       }
 
       queryParams['include_tags'] <- include.tags
-
-      queryParams['tag_coherence'] <- tag.coherence
 
       body <- NULL
       urlPath <- "/{currency}/entities/{entity}"
@@ -669,8 +669,8 @@ EntitiesApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    ListTagsByEntity = function(currency, entity, tag.coherence=FALSE, ...){
-      apiResponse <- self$ListTagsByEntityWithHttpInfo(currency, entity, tag.coherence, ...)
+    ListTagsByEntity = function(currency, entity, level, page=NULL, pagesize=NULL, ...){
+      apiResponse <- self$ListTagsByEntityWithHttpInfo(currency, entity, level, page, pagesize, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -683,7 +683,7 @@ EntitiesApi <- R6::R6Class(
       }
     },
 
-    ListTagsByEntityWithHttpInfo = function(currency, entity, tag.coherence=FALSE, ...){
+    ListTagsByEntityWithHttpInfo = function(currency, entity, level, page=NULL, pagesize=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -696,7 +696,15 @@ EntitiesApi <- R6::R6Class(
         stop("Missing required parameter `entity`.")
       }
 
-      queryParams['tag_coherence'] <- tag.coherence
+      if (missing(`level`)) {
+        stop("Missing required parameter `level`.")
+      }
+
+      queryParams['level'] <- level
+
+      queryParams['page'] <- page
+
+      queryParams['pagesize'] <- pagesize
 
       body <- NULL
       urlPath <- "/{currency}/entities/{entity}/tags"

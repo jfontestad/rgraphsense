@@ -31,7 +31,7 @@
 #'
 #' @field out_degree  integer 
 #'
-#' @field tags  \link{Tags} [optional]
+#' @field tags  \link{AddressAndEntityTags} [optional]
 #'
 #' @field total_received  \link{Values} 
 #'
@@ -197,7 +197,7 @@ Entity <- R6::R6Class(
         self$`out_degree` <- EntityObject$`out_degree`
       }
       if (!is.null(EntityObject$`tags`)) {
-        tagsObject <- Tags$new()
+        tagsObject <- AddressAndEntityTags$new()
         tagsObject$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
         self$`tags` <- tagsObject
       }
@@ -314,7 +314,7 @@ Entity <- R6::R6Class(
       self$`no_incoming_txs` <- EntityObject$`no_incoming_txs`
       self$`no_outgoing_txs` <- EntityObject$`no_outgoing_txs`
       self$`out_degree` <- EntityObject$`out_degree`
-      self$`tags` <- Tags$new()$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
+      self$`tags` <- AddressAndEntityTags$new()$fromJSON(jsonlite::toJSON(EntityObject$tags, auto_unbox = TRUE, digits = NA))
       self$`total_received` <- Values$new()$fromJSON(jsonlite::toJSON(EntityObject$total_received, auto_unbox = TRUE, digits = NA))
       self$`total_spent` <- Values$new()$fromJSON(jsonlite::toJSON(EntityObject$total_spent, auto_unbox = TRUE, digits = NA))
       self

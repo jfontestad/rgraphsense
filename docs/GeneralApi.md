@@ -1,6 +1,6 @@
 # GeneralApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -20,7 +20,7 @@ library(openapi)
 
 #Get statistics of supported currencies
 api.instance <- GeneralApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 result <- api.instance$GetStatistics()
 dput(result)
 ```
@@ -47,7 +47,7 @@ No authorization required
 | **200** | OK |  -  |
 
 # **Search**
-> SearchResult Search(q, currency=var.currency, limit=var.limit)
+> SearchResult Search(q, currency=var.currency, limit=10)
 
 Returns matching addresses, transactions and labels
 
@@ -61,7 +61,7 @@ var.limit <- 10 # integer | Maximum number of search results
 
 #Returns matching addresses, transactions and labels
 api.instance <- GeneralApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$Search(var.q, currency=var.currency, limit=var.limit)
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **q** | **character**| It can be (the beginning of) an address, a transaction or a label | 
  **currency** | **character**| The cryptocurrency (e.g., btc) | [optional] 
- **limit** | **integer**| Maximum number of search results | [optional] 
+ **limit** | **integer**| Maximum number of search results | [optional] [default to 10]
 
 ### Return type
 

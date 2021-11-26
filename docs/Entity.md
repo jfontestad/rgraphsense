@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **no_incoming_txs** | **integer** |  | 
 **no_outgoing_txs** | **integer** |  | 
 **out_degree** | **integer** |  | 
-**tags** | [**Tags**](tags.md) |  | [optional] 
+**tags** | [**AddressAndEntityTags**](address_and_entity_tags.md) |  | [optional] 
 **total_received** | [**Values**](values.md) |  | 
 **total_spent** | [**Values**](values.md) |  | 
 

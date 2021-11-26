@@ -1,6 +1,6 @@
 # EntitiesApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,12 +9,12 @@ Method | HTTP request | Description
 [**ListEntityLinks**](EntitiesApi.md#ListEntityLinks) | **GET** /{currency}/entities/{entity}/links | Get transactions between two entities
 [**ListEntityNeighbors**](EntitiesApi.md#ListEntityNeighbors) | **GET** /{currency}/entities/{entity}/neighbors | Get an entity&#39;s neighbors in the entity graph
 [**ListEntityTxs**](EntitiesApi.md#ListEntityTxs) | **GET** /{currency}/entities/{entity}/txs | Get all transactions an entity has been involved in
-[**ListTagsByEntity**](EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity
+[**ListTagsByEntity**](EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity for the given level
 [**SearchEntityNeighbors**](EntitiesApi.md#SearchEntityNeighbors) | **GET** /{currency}/entities/{entity}/search | Search deeply for matching neighbors
 
 
 # **GetEntity**
-> Entity GetEntity(currency, entity, include.tags=FALSE, tag.coherence=FALSE)
+> Entity GetEntity(currency, entity, include.tags=FALSE)
 
 Get an entity, optionally with tags
 
@@ -24,15 +24,14 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
-var.include.tags <- FALSE # character | Whether to include tags
-var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 
 #Get an entity, optionally with tags
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
-result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
+result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags)
 dput(result)
 ```
 
@@ -42,8 +41,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
- **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
- **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
+ **include.tags** | **character**| Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed. | [optional] [default to FALSE]
 
 ### Return type
 
@@ -79,7 +77,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's addresses
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityAddresses(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
@@ -130,7 +128,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get transactions between two entities
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityLinks(var.currency, var.entity, var.neighbor, page=var.page, pagesize=var.pagesize)
@@ -178,13 +176,13 @@ var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
 var.direction <- 'out' # character | Incoming or outgoing neighbors
 var.only.ids <- list(123) # array[integer] | Restrict result to given set of comma separated IDs
-var.include.labels <- FALSE # character | Whether to include labels of tags
+var.include.labels <- FALSE # character | Whether to include labels of first page of tags
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's neighbors in the entity graph
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, only.ids=var.only.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
@@ -199,7 +197,7 @@ Name | Type | Description  | Notes
  **entity** | **integer**| The entity ID | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
  **only.ids** | list( **integer** )| Restrict result to given set of comma separated IDs | [optional] 
- **include.labels** | **character**| Whether to include labels of tags | [optional] [default to FALSE]
+ **include.labels** | **character**| Whether to include labels of first page of tags | [optional] [default to FALSE]
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
@@ -237,7 +235,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an entity has been involved in
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityTxs(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
@@ -272,9 +270,9 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **ListTagsByEntity**
-> Tags ListTagsByEntity(currency, entity, tag.coherence=FALSE)
+> Tags ListTagsByEntity(currency, entity, level, page=var.page, pagesize=var.pagesize)
 
-Get tags for a given entity
+Get tags for a given entity for the given level
 
 ### Example
 ```R
@@ -282,14 +280,16 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.entity <- 67065 # integer | The entity ID
-var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+var.level <- 'address' # character | Whether tags on the address or entity level are requested
+var.page <- 'page_example' # character | Resumption token for retrieving the next page
+var.pagesize <- 10 # integer | Number of items returned in a single page
 
-#Get tags for a given entity
+#Get tags for a given entity for the given level
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
-result <- api.instance$ListTagsByEntity(var.currency, var.entity, tag.coherence=var.tag.coherence)
+result <- api.instance$ListTagsByEntity(var.currency, var.entity, var.level, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
 
@@ -299,7 +299,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **entity** | **integer**| The entity ID | 
- **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
+ **level** | Enum [address, entity] | Whether tags on the address or entity level are requested | 
+ **page** | **character**| Resumption token for retrieving the next page | [optional] 
+ **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
 ### Return type
 
@@ -339,7 +341,7 @@ var.skip.num.addresses <- 56 # integer | Skip entities containing more addresses
 
 #Search deeply for matching neighbors
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$SearchEntityNeighbors(var.currency, var.entity, var.direction, var.key, var.value, var.depth, breadth=var.breadth, skip.num.addresses=var.skip.num.addresses)

@@ -52,7 +52,7 @@ library(openapi)
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -64,20 +64,20 @@ Class | Method | HTTP request | Description
 *AddressesApi* | [**ListTagsByAddress**](docs/AddressesApi.md#ListTagsByAddress) | **GET** /{currency}/addresses/{address}/tags | Get attribution tags for a given address
 *BlocksApi* | [**GetBlock**](docs/BlocksApi.md#GetBlock) | **GET** /{currency}/blocks/{height} | Get a block by its height
 *BlocksApi* | [**ListBlockTxs**](docs/BlocksApi.md#ListBlockTxs) | **GET** /{currency}/blocks/{height}/txs | Get block transactions
-*BulkApi* | [**BulkCsv**](docs/BulkApi.md#BulkCsv) | **POST** /{currency}/bulk.csv/{api}/{operation} | Get data as CSV in bulk
-*BulkApi* | [**BulkJson**](docs/BulkApi.md#BulkJson) | **POST** /{currency}/bulk.json/{api}/{operation} | Get data as JSON in bulk
+*BulkApi* | [**BulkCsv**](docs/BulkApi.md#BulkCsv) | **POST** /{currency}/bulk.csv/{operation} | Get data as CSV in bulk
+*BulkApi* | [**BulkJson**](docs/BulkApi.md#BulkJson) | **POST** /{currency}/bulk.json/{operation} | Get data as JSON in bulk
 *EntitiesApi* | [**GetEntity**](docs/EntitiesApi.md#GetEntity) | **GET** /{currency}/entities/{entity} | Get an entity, optionally with tags
 *EntitiesApi* | [**ListEntityAddresses**](docs/EntitiesApi.md#ListEntityAddresses) | **GET** /{currency}/entities/{entity}/addresses | Get an entity's addresses
 *EntitiesApi* | [**ListEntityLinks**](docs/EntitiesApi.md#ListEntityLinks) | **GET** /{currency}/entities/{entity}/links | Get transactions between two entities
 *EntitiesApi* | [**ListEntityNeighbors**](docs/EntitiesApi.md#ListEntityNeighbors) | **GET** /{currency}/entities/{entity}/neighbors | Get an entity's neighbors in the entity graph
 *EntitiesApi* | [**ListEntityTxs**](docs/EntitiesApi.md#ListEntityTxs) | **GET** /{currency}/entities/{entity}/txs | Get all transactions an entity has been involved in
-*EntitiesApi* | [**ListTagsByEntity**](docs/EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity
+*EntitiesApi* | [**ListTagsByEntity**](docs/EntitiesApi.md#ListTagsByEntity) | **GET** /{currency}/entities/{entity}/tags | Get tags for a given entity for the given level
 *EntitiesApi* | [**SearchEntityNeighbors**](docs/EntitiesApi.md#SearchEntityNeighbors) | **GET** /{currency}/entities/{entity}/search | Search deeply for matching neighbors
 *GeneralApi* | [**GetStatistics**](docs/GeneralApi.md#GetStatistics) | **GET** /stats | Get statistics of supported currencies
 *GeneralApi* | [**Search**](docs/GeneralApi.md#Search) | **GET** /search | Returns matching addresses, transactions and labels
 *RatesApi* | [**GetExchangeRates**](docs/RatesApi.md#GetExchangeRates) | **GET** /{currency}/rates/{height} | Returns exchange rate for a given height
 *TagsApi* | [**ListConcepts**](docs/TagsApi.md#ListConcepts) | **GET** /tags/taxonomies/{taxonomy}/concepts | Returns the supported concepts of a taxonomy
-*TagsApi* | [**ListTags**](docs/TagsApi.md#ListTags) | **GET** /tags | Returns address and entity tags associated with a given label
+*TagsApi* | [**ListTags**](docs/TagsApi.md#ListTags) | **GET** /{currency}/tags | Returns address or entity tags associated with a given label
 *TagsApi* | [**ListTaxonomies**](docs/TagsApi.md#ListTaxonomies) | **GET** /tags/taxonomies | Returns the supported taxonomies
 *TxsApi* | [**GetTx**](docs/TxsApi.md#GetTx) | **GET** /{currency}/txs/{tx_hash} | Returns details of a specific transaction identified by its hash.
 *TxsApi* | [**GetTxIo**](docs/TxsApi.md#GetTxIo) | **GET** /{currency}/txs/{tx_hash}/{io} | Returns input/output values of a specific transaction identified by its hash.
@@ -86,8 +86,10 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Address](docs/Address.md)
+ - [AddressAndEntityTags](docs/AddressAndEntityTags.md)
  - [AddressTag](docs/AddressTag.md)
  - [AddressTagAllOf](docs/AddressTagAllOf.md)
+ - [AddressTags](docs/AddressTags.md)
  - [AddressTx](docs/AddressTx.md)
  - [AddressTxUtxo](docs/AddressTxUtxo.md)
  - [AddressTxs](docs/AddressTxs.md)
@@ -98,6 +100,7 @@ Class | Method | HTTP request | Description
  - [EntityAddresses](docs/EntityAddresses.md)
  - [EntityTag](docs/EntityTag.md)
  - [EntityTagAllOf](docs/EntityTagAllOf.md)
+ - [EntityTags](docs/EntityTags.md)
  - [Link](docs/Link.md)
  - [LinkUtxo](docs/LinkUtxo.md)
  - [Links](docs/Links.md)

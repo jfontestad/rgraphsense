@@ -40,7 +40,6 @@
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } address character
 #' \item \emph{ @param } include.tags character
-#' \item \emph{ @param } tag.coherence character
 #' \item \emph{ @returnType } \link{Entity} \cr
 #'
 #'
@@ -122,12 +121,14 @@
 #' \itemize{
 #' \item \emph{ @param } currency character
 #' \item \emph{ @param } address character
-#' \item \emph{ @returnType } list( \link{address_tag} ) \cr
+#' \item \emph{ @param } page character
+#' \item \emph{ @param } pagesize integer
+#' \item \emph{ @returnType } \link{AddressTags} \cr
 #'
 #'
 #' \item status code : 200 | OK
 #'
-#' \item return type : array[AddressTag] 
+#' \item return type : AddressTags 
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -144,7 +145,7 @@
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
-#' var.include.tags <- FALSE # character | Whether to include tags
+#' var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 #'
 #' #Get an address, optionally with tags
 #' api.instance <- AddressesApi$new()
@@ -160,8 +161,7 @@
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
-#' var.include.tags <- FALSE # character | Whether to include tags
-#' var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+#' var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 #'
 #' #Get the entity of an address
 #' api.instance <- AddressesApi$new()
@@ -169,7 +169,7 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 #'
-#' result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
+#' result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags)
 #'
 #'
 #' ####################  ListAddressLinks  ####################
@@ -196,7 +196,7 @@
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
 #' var.direction <- 'out' # character | Incoming or outgoing neighbors
-#' var.include.labels <- FALSE # character | Whether to include labels of tags
+#' var.include.labels <- FALSE # character | Whether to include labels of first page of tags
 #' var.page <- 'page_example' # character | Resumption token for retrieving the next page
 #' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
@@ -231,6 +231,8 @@
 #' library(openapi)
 #' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.address <- 'addressA' # character | The cryptocurrency address
+#' var.page <- 'page_example' # character | Resumption token for retrieving the next page
+#' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
 #' #Get attribution tags for a given address
 #' api.instance <- AddressesApi$new()
@@ -238,7 +240,7 @@
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 #'
-#' result <- api.instance$ListTagsByAddress(var.currency, var.address)
+#' result <- api.instance$ListTagsByAddress(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 #'
 #'
 #' }
@@ -324,8 +326,8 @@ AddressesApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    GetAddressEntity = function(currency, address, include.tags=FALSE, tag.coherence=FALSE, ...){
-      apiResponse <- self$GetAddressEntityWithHttpInfo(currency, address, include.tags, tag.coherence, ...)
+    GetAddressEntity = function(currency, address, include.tags=FALSE, ...){
+      apiResponse <- self$GetAddressEntityWithHttpInfo(currency, address, include.tags, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -338,7 +340,7 @@ AddressesApi <- R6::R6Class(
       }
     },
 
-    GetAddressEntityWithHttpInfo = function(currency, address, include.tags=FALSE, tag.coherence=FALSE, ...){
+    GetAddressEntityWithHttpInfo = function(currency, address, include.tags=FALSE, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -352,8 +354,6 @@ AddressesApi <- R6::R6Class(
       }
 
       queryParams['include_tags'] <- include.tags
-
-      queryParams['tag_coherence'] <- tag.coherence
 
       body <- NULL
       urlPath <- "/{currency}/addresses/{address}/entity"
@@ -614,8 +614,8 @@ AddressesApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    ListTagsByAddress = function(currency, address, ...){
-      apiResponse <- self$ListTagsByAddressWithHttpInfo(currency, address, ...)
+    ListTagsByAddress = function(currency, address, page=NULL, pagesize=NULL, ...){
+      apiResponse <- self$ListTagsByAddressWithHttpInfo(currency, address, page, pagesize, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -628,7 +628,7 @@ AddressesApi <- R6::R6Class(
       }
     },
 
-    ListTagsByAddressWithHttpInfo = function(currency, address, ...){
+    ListTagsByAddressWithHttpInfo = function(currency, address, page=NULL, pagesize=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -640,6 +640,10 @@ AddressesApi <- R6::R6Class(
       if (missing(`address`)) {
         stop("Missing required parameter `address`.")
       }
+
+      queryParams['page'] <- page
+
+      queryParams['pagesize'] <- pagesize
 
       body <- NULL
       urlPath <- "/{currency}/addresses/{address}/tags"
@@ -665,7 +669,7 @@ AddressesApi <- R6::R6Class(
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "array[AddressTag]", loadNamespace("openapi")),
+          self$apiClient$deserialize(resp, "AddressTags", loadNamespace("openapi")),
           error = function(e){
              stop("Failed to deserialize response")
           }

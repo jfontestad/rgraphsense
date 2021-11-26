@@ -4,8 +4,10 @@
 DESCRIPTION
 NAMESPACE
 R/address.R
+R/address_and_entity_tags.R
 R/address_tag.R
 R/address_tag_all_of.R
+R/address_tags.R
 R/address_tx.R
 R/address_tx_utxo.R
 R/address_txs.R
@@ -22,6 +24,7 @@ R/entity.R
 R/entity_addresses.R
 R/entity_tag.R
 R/entity_tag_all_of.R
+R/entity_tags.R
 R/general_api.R
 R/link.R
 R/link_utxo.R
@@ -60,8 +63,10 @@ R/txs_api.R
 R/values.R
 README.md
 docs/Address.md
+docs/AddressAndEntityTags.md
 docs/AddressTag.md
 docs/AddressTagAllOf.md
+docs/AddressTags.md
 docs/AddressTx.md
 docs/AddressTxUtxo.md
 docs/AddressTxs.md
@@ -76,6 +81,7 @@ docs/Entity.md
 docs/EntityAddresses.md
 docs/EntityTag.md
 docs/EntityTagAllOf.md
+docs/EntityTags.md
 docs/GeneralApi.md
 docs/Link.md
 docs/LinkUtxo.md
@@ -114,3 +120,6 @@ docs/TxsApi.md
 docs/Values.md
 git_push.sh
 tests/testthat.R
+tests/testthat/test_address_and_entity_tags.R
+tests/testthat/test_address_tags.R
+tests/testthat/test_entity_tags.R

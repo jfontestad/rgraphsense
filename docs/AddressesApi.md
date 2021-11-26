@@ -1,6 +1,6 @@
 # AddressesApi
 
-All URIs are relative to *https://api.graphsense.info*
+All URIs are relative to *http://graphsense-rest:9000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -23,11 +23,11 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
-var.include.tags <- FALSE # character | Whether to include tags
+var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 
 #Get an address, optionally with tags
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
@@ -40,7 +40,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
- **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
+ **include.tags** | **character**| Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed. | [optional] [default to FALSE]
 
 ### Return type
 
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **GetAddressEntity**
-> Entity GetAddressEntity(currency, address, include.tags=FALSE, tag.coherence=FALSE)
+> Entity GetAddressEntity(currency, address, include.tags=FALSE)
 
 Get the entity of an address
 
@@ -71,15 +71,14 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
-var.include.tags <- FALSE # character | Whether to include tags
-var.tag.coherence <- FALSE # character | Whether to calculate coherence of address tags
+var.include.tags <- FALSE # character | Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed.
 
 #Get the entity of an address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
-result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags, tag.coherence=var.tag.coherence)
+result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags)
 dput(result)
 ```
 
@@ -89,8 +88,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
- **include.tags** | **character**| Whether to include tags | [optional] [default to FALSE]
- **tag.coherence** | **character**| Whether to calculate coherence of address tags | [optional] [default to FALSE]
+ **include.tags** | **character**| Whether to include the first page of tags. Use the respective /tags endpoint to retrieve more if needed. | [optional] [default to FALSE]
 
 ### Return type
 
@@ -127,7 +125,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get outgoing transactions between two addresses
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor, page=var.page, pagesize=var.pagesize)
@@ -174,13 +172,13 @@ library(openapi)
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
 var.direction <- 'out' # character | Incoming or outgoing neighbors
-var.include.labels <- FALSE # character | Whether to include labels of tags
+var.include.labels <- FALSE # character | Whether to include labels of first page of tags
 var.page <- 'page_example' # character | Resumption token for retrieving the next page
 var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an addresses' neighbors in the address graph
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
@@ -194,7 +192,7 @@ Name | Type | Description  | Notes
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
  **direction** | Enum [in, out] | Incoming or outgoing neighbors | 
- **include.labels** | **character**| Whether to include labels of tags | [optional] [default to FALSE]
+ **include.labels** | **character**| Whether to include labels of first page of tags | [optional] [default to FALSE]
  **page** | **character**| Resumption token for retrieving the next page | [optional] 
  **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
@@ -232,7 +230,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an address has been involved in
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
@@ -267,7 +265,7 @@ Name | Type | Description  | Notes
 | **200** | OK |  -  |
 
 # **ListTagsByAddress**
-> array[AddressTag] ListTagsByAddress(currency, address)
+> AddressTags ListTagsByAddress(currency, address, page=var.page, pagesize=var.pagesize)
 
 Get attribution tags for a given address
 
@@ -277,13 +275,15 @@ library(openapi)
 
 var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 var.address <- 'addressA' # character | The cryptocurrency address
+var.page <- 'page_example' # character | Resumption token for retrieving the next page
+var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'https://api.graphsense.info';
+api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
-result <- api.instance$ListTagsByAddress(var.currency, var.address)
+result <- api.instance$ListTagsByAddress(var.currency, var.address, page=var.page, pagesize=var.pagesize)
 dput(result)
 ```
 
@@ -293,10 +293,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **currency** | **character**| The cryptocurrency code (e.g., btc) | 
  **address** | **character**| The cryptocurrency address | 
+ **page** | **character**| Resumption token for retrieving the next page | [optional] 
+ **pagesize** | **integer**| Number of items returned in a single page | [optional] 
 
 ### Return type
 
-[**array[AddressTag]**](address_tag.md)
+[**AddressTags**](address_tags.md)
 
 ### Authorization
 

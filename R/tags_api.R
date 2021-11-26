@@ -31,12 +31,15 @@
 #' }
 #' }
 #'
-#' \strong{ ListTags } \emph{ Returns address and entity tags associated with a given label }
+#' \strong{ ListTags } \emph{ Returns address or entity tags associated with a given label }
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } label character
 #' \item \emph{ @param } currency character
+#' \item \emph{ @param } label character
+#' \item \emph{ @param } level Enum < [address, entity] > 
+#' \item \emph{ @param } page character
+#' \item \emph{ @param } pagesize integer
 #' \item \emph{ @returnType } \link{Tags} \cr
 #'
 #'
@@ -87,16 +90,19 @@
 #' ####################  ListTags  ####################
 #'
 #' library(openapi)
+#' var.currency <- 'btc' # character | The cryptocurrency code (e.g., btc)
 #' var.label <- 'cimedy' # character | The label of an entity
-#' var.currency <- 'btc' # character | The cryptocurrency (e.g., btc)
+#' var.level <- 'address' # character | Whether tags on the address or entity level are requested
+#' var.page <- 'page_example' # character | Resumption token for retrieving the next page
+#' var.pagesize <- 10 # integer | Number of items returned in a single page
 #'
-#' #Returns address and entity tags associated with a given label
+#' #Returns address or entity tags associated with a given label
 #' api.instance <- TagsApi$new()
 #'
 #' #Configure API key authorization: api_key
 #' api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 #'
-#' result <- api.instance$ListTags(var.label, currency=var.currency)
+#' result <- api.instance$ListTags(var.currency, var.label, var.level, page=var.page, pagesize=var.pagesize)
 #'
 #'
 #' ####################  ListTaxonomies  ####################
@@ -185,8 +191,8 @@ TagsApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
-    ListTags = function(label, currency=NULL, ...){
-      apiResponse <- self$ListTagsWithHttpInfo(label, currency, ...)
+    ListTags = function(currency, label, level, page=NULL, pagesize=NULL, ...){
+      apiResponse <- self$ListTagsWithHttpInfo(currency, label, level, page, pagesize, ...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         apiResponse$content
@@ -199,21 +205,37 @@ TagsApi <- R6::R6Class(
       }
     },
 
-    ListTagsWithHttpInfo = function(label, currency=NULL, ...){
+    ListTagsWithHttpInfo = function(currency, label, level, page=NULL, pagesize=NULL, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
+
+      if (missing(`currency`)) {
+        stop("Missing required parameter `currency`.")
+      }
 
       if (missing(`label`)) {
         stop("Missing required parameter `label`.")
       }
 
-      queryParams['currency'] <- currency
+      if (missing(`level`)) {
+        stop("Missing required parameter `level`.")
+      }
 
       queryParams['label'] <- label
 
+      queryParams['level'] <- level
+
+      queryParams['page'] <- page
+
+      queryParams['pagesize'] <- pagesize
+
       body <- NULL
-      urlPath <- "/tags"
+      urlPath <- "/{currency}/tags"
+      if (!missing(`currency`)) {
+        urlPath <- gsub(paste0("\\{", "currency", "\\}"), URLencode(as.character(`currency`), reserved = TRUE), urlPath)
+      }
+
       # API key authentication
       if ("Authorization" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["Authorization"]) > 0) {
         headerParams['Authorization'] <- paste(unlist(self$apiClient$apiKeys["Authorization"]), collapse='')
