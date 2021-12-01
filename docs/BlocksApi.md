@@ -1,6 +1,6 @@
 # BlocksApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,7 +22,7 @@ var.height <- 1 # integer | The block height
 
 #Get a block by its height
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetBlock(var.currency, var.height)
@@ -68,7 +68,7 @@ var.height <- 1 # integer | The block height
 
 #Get block transactions
 api.instance <- BlocksApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListBlockTxs(var.currency, var.height)

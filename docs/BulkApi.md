@@ -1,6 +1,6 @@
 # BulkApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -24,7 +24,7 @@ var.body <- {"height":[1,2,3]} # object | Map of the operation's parameter names
 
 #Get data as CSV in bulk
 api.instance <- BulkApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$BulkCsv(var.currency, var.operation, var.num.pages, var.body)
@@ -74,7 +74,7 @@ var.body <- NULL # object | Map of the operation's parameter names to (arrays of
 
 #Get data as JSON in bulk
 api.instance <- BulkApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$BulkJson(var.currency, var.operation, var.num.pages, var.body)
