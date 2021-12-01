@@ -1,6 +1,6 @@
 # TagsApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -22,7 +22,7 @@ var.taxonomy <- 'foo' # character | The taxonomy
 
 #Returns the supported concepts of a taxonomy
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListConcepts(var.taxonomy)
@@ -70,7 +70,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Returns address or entity tags associated with a given label
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTags(var.currency, var.label, var.level, page=var.page, pagesize=var.pagesize)
@@ -117,7 +117,7 @@ library(openapi)
 
 #Returns the supported taxonomies
 api.instance <- TagsApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTaxonomies()

@@ -120,6 +120,3 @@ docs/TxsApi.md
 docs/Values.md
 git_push.sh
 tests/testthat.R
-tests/testthat/test_address_and_entity_tags.R
-tests/testthat/test_address_tags.R
-tests/testthat/test_entity_tags.R

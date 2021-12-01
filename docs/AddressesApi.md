@@ -1,6 +1,6 @@
 # AddressesApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -27,7 +27,7 @@ var.include.tags <- FALSE # character | Whether to include the first page of tag
 
 #Get an address, optionally with tags
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetAddress(var.currency, var.address, include.tags=var.include.tags)
@@ -75,7 +75,7 @@ var.include.tags <- FALSE # character | Whether to include the first page of tag
 
 #Get the entity of an address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetAddressEntity(var.currency, var.address, include.tags=var.include.tags)
@@ -125,7 +125,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get outgoing transactions between two addresses
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressLinks(var.currency, var.address, var.neighbor, page=var.page, pagesize=var.pagesize)
@@ -178,7 +178,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an addresses' neighbors in the address graph
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressNeighbors(var.currency, var.address, var.direction, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
@@ -230,7 +230,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an address has been involved in
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListAddressTxs(var.currency, var.address, page=var.page, pagesize=var.pagesize)
@@ -280,7 +280,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get attribution tags for a given address
 api.instance <- AddressesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTagsByAddress(var.currency, var.address, page=var.page, pagesize=var.pagesize)

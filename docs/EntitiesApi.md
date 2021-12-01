@@ -1,6 +1,6 @@
 # EntitiesApi
 
-All URIs are relative to *http://graphsense-rest:9000*
+All URIs are relative to *https://api.graphsense.info*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -28,7 +28,7 @@ var.include.tags <- FALSE # character | Whether to include the first page of tag
 
 #Get an entity, optionally with tags
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$GetEntity(var.currency, var.entity, include.tags=var.include.tags)
@@ -77,7 +77,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's addresses
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityAddresses(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
@@ -128,7 +128,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get transactions between two entities
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityLinks(var.currency, var.entity, var.neighbor, page=var.page, pagesize=var.pagesize)
@@ -182,7 +182,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get an entity's neighbors in the entity graph
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityNeighbors(var.currency, var.entity, var.direction, only.ids=var.only.ids, include.labels=var.include.labels, page=var.page, pagesize=var.pagesize)
@@ -235,7 +235,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get all transactions an entity has been involved in
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListEntityTxs(var.currency, var.entity, page=var.page, pagesize=var.pagesize)
@@ -286,7 +286,7 @@ var.pagesize <- 10 # integer | Number of items returned in a single page
 
 #Get tags for a given entity for the given level
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$ListTagsByEntity(var.currency, var.entity, var.level, page=var.page, pagesize=var.pagesize)
@@ -341,7 +341,7 @@ var.skip.num.addresses <- 56 # integer | Skip entities containing more addresses
 
 #Search deeply for matching neighbors
 api.instance <- EntitiesApi$new()
-api.instance$apiClient$basePath <- 'http://graphsense-rest:9000';
+api.instance$apiClient$basePath <- 'https://api.graphsense.info';
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['Authorization'] <- 'WRITE_YOUR_API_KEY_HERE';
 result <- api.instance$SearchEntityNeighbors(var.currency, var.entity, var.direction, var.key, var.value, var.depth, breadth=var.breadth, skip.num.addresses=var.skip.num.addresses)
